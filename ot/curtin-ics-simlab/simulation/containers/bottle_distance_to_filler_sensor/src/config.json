@@ -1,0 +1,24 @@
+{
+    "database": {
+        "table": "bottle_factory"
+    },
+    "inbound_connections": [
+        {
+            "type": "rtu",
+            "slave_id": 1,
+            "comm_port": "ttyS10"
+        }
+    ],
+    "registers": {
+        "coil": [],
+        "discrete_input": [],
+        "holding_register": [],
+        "input_register": [
+            {
+                "address": 21,
+                "count": 1,
+                "physical_value": "bottle_distance_to_filler_value"
+            }
+        ]
+    }
+}

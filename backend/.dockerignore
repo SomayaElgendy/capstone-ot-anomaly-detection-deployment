@@ -1,0 +1,8 @@
+.venv
+venv
+venv_broken
+venv_py311_wrong
+__pycache__
+*.pyc
+.git
+db.sqlite3-journal

@@ -1,0 +1,20 @@
+[
+  {
+    "predicted_attack": "modify_controller_tasking",
+    "classifier_confidence": 0.7709634900093079,
+    "network_anomaly_score": 0.631530225276947,
+    "process_anomaly_score": 0.8355602025985718,
+    "window_start_time": "2022-01-01T18:41:54.070",
+    "window_end_time": "2022-01-01T18:42:04.070",
+    "technique_id": "T0821"
+  },
+  {
+    "predicted_attack": "modify_controller_tasking",
+    "classifier_confidence": 0.7709634900093079,
+    "network_anomaly_score": 0.631530225276947,
+    "process_anomaly_score": 0.8355602025985718,
+    "window_start_time": "2022-01-01T18:41:54.070",
+    "window_end_time": "2022-01-01T18:42:04.070",
+    "technique_id": "T0821"
+  }
+]

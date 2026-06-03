@@ -1,0 +1,56 @@
+[
+  {
+    "predicted_attack": "modify_parameters",
+    "classifier_confidence": 0.836512565612793,
+    "network_anomaly_score": 0.7693709135055542,
+    "process_anomaly_score": 0.7627465724945068,
+    "window_start_time": "2022-01-01T22:50:16.989",
+    "window_end_time": "2022-01-01T22:50:26.989",
+    "technique_id": "T0836"
+  },
+  {
+    "predicted_attack": "modify_parameters",
+    "classifier_confidence": 0.41717568039894104,
+    "network_anomaly_score": 0.8928248286247253,
+    "process_anomaly_score": 0.8069141507148743,
+    "window_start_time": "2022-01-01T22:55:16.989",
+    "window_end_time": "2022-01-01T22:55:26.989",
+    "technique_id": "T0836"
+  },
+  {
+    "predicted_attack": "modify_parameters",
+    "classifier_confidence": 0.8555640578269958,
+    "network_anomaly_score": 0.7169700264930725,
+    "process_anomaly_score": 0.40873411297798157,
+    "window_start_time": "2022-01-01T22:57:16.989",
+    "window_end_time": "2022-01-01T22:57:26.989",
+    "technique_id": "T0836"
+  },
+  {
+    "predicted_attack": "modify_parameters",
+    "classifier_confidence": 0.836512565612793,
+    "network_anomaly_score": 0.7693709135055542,
+    "process_anomaly_score": 0.7627465724945068,
+    "window_start_time": "2022-01-01T22:50:16.989",
+    "window_end_time": "2022-01-01T22:50:26.989",
+    "technique_id": "T0836"
+  },
+  {
+    "predicted_attack": "modify_parameters",
+    "classifier_confidence": 0.41717568039894104,
+    "network_anomaly_score": 0.8928248286247253,
+    "process_anomaly_score": 0.8069141507148743,
+    "window_start_time": "2022-01-01T22:55:16.989",
+    "window_end_time": "2022-01-01T22:55:26.989",
+    "technique_id": "T0836"
+  },
+  {
+    "predicted_attack": "modify_parameters",
+    "classifier_confidence": 0.8555640578269958,
+    "network_anomaly_score": 0.7169700264930725,
+    "process_anomaly_score": 0.40873411297798157,
+    "window_start_time": "2022-01-01T22:57:16.989",
+    "window_end_time": "2022-01-01T22:57:26.989",
+    "technique_id": "T0836"
+  }
+]

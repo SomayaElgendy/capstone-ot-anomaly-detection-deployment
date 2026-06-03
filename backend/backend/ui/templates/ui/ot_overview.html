@@ -1,0 +1,340 @@
+{% extends "ui/base.html" %}
+{% block title %}OT Overview{% endblock %}
+
+{% block extra_css %}
+<style>
+  :root{
+    --stroke: rgba(201, 111, 111, 0);
+    --text:#e8eefc;
+  }
+  .wrap{
+    border:1px solid var(--stroke);
+    background: rgba(255,255,255,0.05);
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: 0 14px 40px rgba(0,0,0,0.45);
+  }
+  .kpi-grid{
+    display:grid;
+    grid-template-columns: repeat(4, minmax(180px, 1fr));
+    gap:14px;
+    margin-bottom: 14px;
+  }
+  @media (max-width: 1100px){ .kpi-grid{ grid-template-columns: repeat(2, minmax(180px, 1fr)); } }
+  @media (max-width: 560px){ .kpi-grid{ grid-template-columns: 1fr; } }
+
+  .card{
+  border:1px solid var(--stroke);
+  background: linear-gradient(135deg, rgba(59,130,246,0.22), rgba(255,255,255,0.05));
+  border-radius: 18px;
+  padding:16px;
+  box-shadow: 0 14px 40px rgba(0,0,0,0.45);
+  transition: transform .25s ease;
+  color: #f5f9ff;   /* ← ADD THIS */
+  }
+  .card:hover{ transform: translateY(-4px); }
+.k-title{
+  font-size:13px;
+  color: #cfe1ff;
+  opacity:.9;
+}
+
+.k-val{
+  font-size:34px;
+  font-weight:900;
+  margin-top:6px;
+  color: #ffffff;
+}
+
+.k-sub{
+  font-size:12px;
+  color: #9fb6d9;
+}
+
+
+  .grid{
+    display:grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 1100px){ .grid{ grid-template-columns: 1fr; } }
+
+  .panel{
+    border:1px solid var(--stroke);
+    background: rgba(255,255,255,0.04);
+    border-radius: 16px;
+    padding: 14px;
+  }
+  .panel h3{ margin:0 0 8px 0; font-size:16px; font-weight:850; }
+  .muted{ opacity:.75; font-size:13px; }
+
+  .table-wrap{
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    overflow:hidden;
+    background: rgba(0,0,0,0.22);
+  }
+  table{ width:100%; border-collapse:collapse; }
+  thead th{
+    background: rgba(255,255,255,0.06);
+    padding: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    font-size:13px;
+  }
+  tbody td{
+    padding: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size:13px;
+  }
+  .pill{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.06);
+    font-weight:750;
+    font-size:12px;
+  }
+  .ok{ border-color: rgba(34,197,94,0.55); }
+  .warn{ border-color: rgba(245,158,11,0.55); }
+  .bad{ border-color: rgba(239,68,68,0.55); }
+
+  .chart-box{
+    border:1px solid rgba(255,255,255,0.10);
+    border-radius: 14px;
+    padding: 12px;
+    background: rgba(0,0,0,0.20);
+    margin-top: 10px;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="wrap">
+  <div class="mb-2">
+    <h2 class="mb-1">OT Environment Overview</h2>
+    <div class="muted">Water sector telemetry & asset snapshot.</div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="card">
+      <div class="k-title">Total Assets</div>
+      <div class="k-val" id="kTotal">-</div>
+      <div class="k-sub" id="kBreakdown">PLCs - | HMIs - | Sensors -</div>
+    </div>
+    <div class="card">
+      <div class="k-title">Active Processes</div>
+      <div class="k-val" id="kProc">-</div>
+      <div class="k-sub">Treatment / Distribution / Storage</div>
+    </div>
+    <div class="card">
+      <div class="k-title">Current Risk</div>
+      <div class="k-val" id="kRisk">-</div>
+      <div class="k-sub">Based on latest stream</div>
+    </div>
+    <div class="card">
+      <div class="k-title">Last Update</div>
+      <div class="k-val" style="font-size:18px; margin-top:12px;" id="kTime">-</div>
+      <div class="k-sub">Auto-refresh every 5s</div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h3>Live Telemetry</h3>
+      <div class="muted">Key water-system tags (mock for now; wired to stream later).</div>
+
+      <div class="table-wrap mt-2">
+        <table>
+          <thead>
+            <tr>
+              <th>Tag</th>
+              <th>Value</th>
+              <th>Status</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody id="telemetryBody">
+            <tr><td colspan="4" class="muted">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>Trends</h3>
+      <div class="muted">Short window signals for operators.</div>
+
+      <div class="chart-box">
+        <div class="muted mb-2">Flow rate</div>
+        <canvas id="cFlow" height="140"></canvas>
+      </div>
+
+      <div class="chart-box">
+        <div class="muted mb-2">Tank level</div>
+        <canvas id="cTank" height="140"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+let flowChart=null, tankChart=null;
+
+function pillClass(status){
+  const s = (status || "").toLowerCase();
+  if (s.includes("bad") || s.includes("crit") || s.includes("high")) return "pill bad";
+  if (s.includes("warn") || s.includes("medium")) return "pill warn";
+  return "pill ok";
+}
+
+function initCharts(){
+  flowChart = new Chart(document.getElementById("cFlow"), {
+    type:"line",
+    data:{ labels:[], datasets:[{ label:"Flow", data:[] }]},
+    options:{ plugins:{legend:{display:false}}, scales:{ x:{ticks:{color:"#cfe1ff"}, grid:{color:"rgba(255,255,255,0.06)"}}, y:{ticks:{color:"#cfe1ff"}, grid:{color:"rgba(255,255,255,0.06)"}, beginAtZero:true } } }
+  });
+
+  tankChart = new Chart(document.getElementById("cTank"), {
+    type:"line",
+    data:{ labels:[], datasets:[{ label:"Tank", data:[] }]},
+    options:{ plugins:{legend:{display:false}}, scales:{ x:{ticks:{color:"#cfe1ff"}, grid:{color:"rgba(255,255,255,0.06)"}}, y:{ticks:{color:"#cfe1ff"}, grid:{color:"rgba(255,255,255,0.06)"}, beginAtZero:true } } }
+  });
+}
+
+async function loadOT(){
+  const res = await fetch("/ui-data/ot-state/");
+  const d = await res.json();
+
+  if (d.error) {
+    console.error(d.error);
+    return;
+  }
+
+  // --- KPI: static assets for now ---
+  document.getElementById("kTotal").innerText = 7;
+  document.getElementById("kBreakdown").innerText = "PLCs 2 | HMIs 3 | Sensors 2";
+
+  // --- Derived OT logic ---
+  const validationInvalid = d.validation && d.validation.valid === false;
+  const validationErrors = d.validation && typeof d.validation.error_count === "number"
+    ? d.validation.error_count
+    : 0;
+
+  const flowWhileClosed = !d.tank_output_valve && d.tank_output_flow > 0;
+  const outputOpenNoFlow = d.tank_output_valve && d.tank_output_flow <= 0;
+
+  // Process interpretation
+  const intakeActive = !!d.tank_input_valve;
+  const outputActive = !!d.tank_output_valve && d.tank_output_flow > 0;
+  const transportActive = !!d.conveyor_belt_engine;
+
+  let active = 0;
+  if (intakeActive) active += 1;
+  if (outputActive) active += 1;
+  if (transportActive) active += 1;
+
+  document.getElementById("kProc").innerText = active;
+
+  // --- Risk logic ---
+  // HIGH   = physically inconsistent process behavior
+  // MEDIUM = schema/data validation warning
+  // LOW    = no obvious issue from current snapshot
+  let risk = "LOW";
+
+  if (flowWhileClosed) {
+    risk = "HIGH";
+  } else if (outputOpenNoFlow || validationInvalid) {
+    risk = "MEDIUM";
+  }
+
+  document.getElementById("kRisk").innerText = risk;
+  const riskEl = document.getElementById("kRisk");
+  riskEl.style.color =
+    risk === "HIGH" ? "#ff6b6b" :
+    risk === "MEDIUM" ? "#fbbf24" :
+    "#22c55e";
+
+  document.getElementById("kTime").innerText =
+    new Date(d.timestamp_iso).toLocaleString();
+
+  // --- Telemetry table ---
+  const body = document.getElementById("telemetryBody");
+  body.innerHTML = "";
+
+  // More honest statuses:
+  // - Only flag true inconsistency
+  // - Otherwise use OK for informational/normal states
+  const tankStatus = "OK";
+  const bottleStatus = "OK";
+  const distanceStatus = "OK";
+
+  const inputValveStatus = "OK";
+
+  const outputValveStatus =
+    flowWhileClosed ? "BAD" :
+    outputOpenNoFlow ? "WARN" :
+    "OK";
+
+  const conveyorStatus = "OK";
+
+  const flowStatus =
+    flowWhileClosed ? "BAD" :
+    outputOpenNoFlow ? "WARN" :
+    "OK";
+
+  const validationStatus =
+    validationInvalid ? "WARN" : "OK";
+
+  const rows = [
+    { tag: "Tank Level", value: d.tank_level, unit: "L", status: tankStatus },
+    { tag: "Bottle Level", value: d.bottle_level, unit: "ml", status: bottleStatus },
+    { tag: "Distance to Filler", value: d.bottle_distance_to_filler, unit: "cm", status: distanceStatus },
+    { tag: "Input Valve", value: d.tank_input_valve ? "OPEN" : "CLOSED", unit: "", status: inputValveStatus },
+    { tag: "Output Valve", value: d.tank_output_valve ? "OPEN" : "CLOSED", unit: "", status: outputValveStatus },
+    { tag: "Conveyor", value: d.conveyor_belt_engine ? "RUNNING" : "STOPPED", unit: "", status: conveyorStatus },
+    { tag: "Flow", value: d.tank_output_flow, unit: "L/s", status: flowStatus },
+    { tag: "Schema Validation", value: validationInvalid ? `INVALID (${validationErrors})` : "VALID", unit: "", status: validationStatus },
+  ];
+
+  rows.forEach(t => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${t.tag}</td>
+      <td>${t.value} ${t.unit}</td>
+      <td><span class="${pillClass(t.status)}">${t.status}</span></td>
+      <td class="muted">${new Date(d.timestamp_iso).toLocaleTimeString()}</td>
+    `;
+    body.appendChild(tr);
+  });
+
+  // --- Charts ---
+  const label = new Date(d.timestamp_iso).toLocaleTimeString();
+
+  if (flowChart.data.labels.length > 20) {
+    flowChart.data.labels.shift();
+    flowChart.data.datasets[0].data.shift();
+  }
+
+  flowChart.data.labels.push(label);
+  flowChart.data.datasets[0].data.push(d.tank_output_flow);
+  flowChart.update();
+
+  if (tankChart.data.labels.length > 20) {
+    tankChart.data.labels.shift();
+    tankChart.data.datasets[0].data.shift();
+  }
+
+  tankChart.data.labels.push(label);
+  tankChart.data.datasets[0].data.push(d.tank_level);
+  tankChart.update();
+}
+
+initCharts();
+loadOT();
+setInterval(loadOT, 5000);
+</script>
+{% endblock %}

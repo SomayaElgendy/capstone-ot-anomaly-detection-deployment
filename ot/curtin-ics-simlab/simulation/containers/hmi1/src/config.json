@@ -1,0 +1,142 @@
+{
+    "inbound_connections": [
+        {
+            "type": "tcp",
+            "ip": "192.168.0.31",
+            "port": 502
+        }
+    ],
+    "outbound_connections": [
+        {
+            "type": "tcp",
+            "ip": "192.168.0.21",
+            "port": 502,
+            "id": "plc1_con"
+        },
+        {
+            "type": "tcp",
+            "ip": "192.168.0.22",
+            "port": 502,
+            "id": "plc2_con"
+        }
+    ],
+    "registers": {
+        "coil": [
+            {
+                "address": 102,
+                "count": 1,
+                "id": "tank_input_valve_state"
+            },
+            {
+                "address": 104,
+                "count": 1,
+                "id": "tank_output_valve_state"
+            },
+            {
+                "address": 106,
+                "count": 1,
+                "id": "conveyor_engine_state"
+            }
+        ],
+        "discrete_input": [],
+        "input_register": [
+            {
+                "address": 101,
+                "count": 1,
+                "id": "tank_level"
+            },
+            {
+                "address": 103,
+                "count": 1,
+                "id": "bottle_level"
+            },
+            {
+                "address": 105,
+                "count": 1,
+                "id": "bottle_distance_to_filler"
+            },
+            {
+                "address": 107,
+                "count": 1,
+                "id": "tank_output_flow_value"
+            },
+            {
+                "address": 200,
+                "count": 1,
+                "id": "plc1_mode"
+            },
+            {
+                "address": 100,
+                "count": 1,
+                "id": "plc2_mode"
+            }
+        ],
+        "holding_register": []
+    },
+    "monitors": [
+        {
+            "outbound_connection_id": "plc1_con",
+            "id": "tank_level",
+            "value_type": "input_register",
+            "slave_id": 1,
+            "address": 1,
+            "count": 1,
+            "interval": 0.5
+        },
+        {
+            "outbound_connection_id": "plc1_con",
+            "id": "tank_input_valve_state",
+            "value_type": "coil",
+            "slave_id": 1,
+            "address": 2,
+            "count": 1,
+            "interval": 0.5
+        },
+        {
+            "outbound_connection_id": "plc1_con",
+            "id": "tank_output_valve_state",
+            "value_type": "coil",
+            "slave_id": 1,
+            "address": 3,
+            "count": 1,
+            "interval": 0.5
+        },
+        {
+            "outbound_connection_id": "plc1_con",
+            "id": "tank_output_flow_value",
+            "value_type": "input_register",
+            "slave_id": 1,
+            "address": 4,
+            "count": 1,
+            "interval": 0.5
+        },
+        {
+            "outbound_connection_id": "plc2_con",
+            "id": "bottle_level",
+            "value_type": "input_register",
+            "slave_id": 1,
+            "address": 1,
+            "count": 1,
+            "interval": 0.5
+        },
+        {
+            "outbound_connection_id": "plc2_con",
+            "id": "bottle_distance_to_filler",
+            "value_type": "input_register",
+            "slave_id": 1,
+            "address": 2,
+            "count": 1,
+            "interval": 0.5
+        },
+        {
+            "outbound_connection_id": "plc2_con",
+            "id": "conveyor_engine_state",
+            "value_type": "coil",
+            "slave_id": 1,
+            "address": 3,
+            "count": 1,
+            "interval": 0.5
+        }
+    ],
+    "controllers": []
+}

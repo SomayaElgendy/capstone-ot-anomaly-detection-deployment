@@ -1,0 +1,21 @@
+{
+  "network_threshold": 0.6312291,
+  "process_threshold": 2.2686775,
+  "total_windows": 172,
+  "passed_to_stage2": 54,
+  "blocked": 118,
+  "tp": 4,
+  "fp": 50,
+  "fn": 4,
+  "tn": 114,
+  "accuracy": 0.6860465116239184,
+  "recall": 0.4999999999375,
+  "precision": 0.07407407407270233,
+  "f1": 0.12903225806243498,
+  "fpr": 0.3048780487786288,
+  "stage2_ready_dir": "outputs\\deployment_test\\stage2_ready",
+  "stage2_ready_windows": 54,
+  "alerts_path": "outputs\\deployment_test\\alerts.json",
+  "stage3_alerts_path": "outputs\\stage2\\alerts.json",
+  "alerts_count": 2
+}

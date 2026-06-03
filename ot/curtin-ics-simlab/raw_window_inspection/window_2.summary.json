@@ -1,0 +1,29 @@
+{
+  "window_id": 2,
+  "start_iso": "2026-06-02T21:13:06",
+  "duration_seconds": 10,
+  "process_rows": 57,
+  "network_rows": 0,
+  "process_fields": [
+    "_redis_id",
+    "_validation",
+    "bottle_distance_to_filler_value",
+    "bottle_level_value",
+    "conveyor_belt_engine_state",
+    "plc1_mode",
+    "plc2_mode",
+    "supply_pressure",
+    "tank_input_flow_value",
+    "tank_input_valve_position",
+    "tank_input_valve_state",
+    "tank_level_value",
+    "tank_output_flow_value",
+    "tank_output_valve_position",
+    "tank_output_valve_state",
+    "tank_pressure",
+    "timestamp",
+    "timestamp_iso",
+    "timestamp_unix_ms"
+  ],
+  "network_fields": []
+}

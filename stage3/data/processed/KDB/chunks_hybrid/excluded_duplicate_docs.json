@@ -1,0 +1,11 @@
+[
+  {
+    "doc_id": "epa_wws_ir__pdf_marker",
+    "doc_family_id": "epa_wws_ir",
+    "source_type": "pdf_marker",
+    "source_org": "epa",
+    "category": "water",
+    "reason": "duplicate_source_excluded_from_embedding",
+    "word_count": 7180
+  }
+]

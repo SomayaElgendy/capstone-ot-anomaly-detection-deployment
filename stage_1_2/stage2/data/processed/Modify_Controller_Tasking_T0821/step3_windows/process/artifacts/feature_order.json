@@ -1,0 +1,16 @@
+[
+  "bottle_distance_to_filler_value",
+  "bottle_level_value",
+  "conveyor_belt_engine_state",
+  "plc1_mode",
+  "plc2_mode",
+  "supply_pressure",
+  "tank_input_flow_value",
+  "tank_input_valve_position",
+  "tank_input_valve_state",
+  "tank_level_value",
+  "tank_output_flow_value",
+  "tank_output_valve_position",
+  "tank_output_valve_state",
+  "tank_pressure"
+]

@@ -1,0 +1,97 @@
+[
+  {
+    "predicted_attack": "mitm",
+    "classifier_confidence": 0.984,
+    "network_anomaly_score": 0.000289,
+    "process_anomaly_score": 0.000041,
+    "window_start_time": "2026-03-05T09:00:07",
+    "window_end_time": "2026-03-05T09:00:37",
+    "technique_id": "T0830",
+    "is_apt": false
+  },
+  {
+    "predicted_attack": "dos",
+    "classifier_confidence": 0.971,
+    "network_anomaly_score": 0.006812,
+    "process_anomaly_score": 0.000214,
+    "window_start_time": "2026-03-05T09:01:15",
+    "window_end_time": "2026-03-05T09:01:45",
+    "technique_id": "T0814",
+    "is_apt": false
+  },
+  {
+    "predicted_attack": "ip_scan",
+    "classifier_confidence": 0.943,
+    "network_anomaly_score": 0.002431,
+    "process_anomaly_score": 0.000033,
+    "window_start_time": "2026-03-05T09:02:00",
+    "window_end_time": "2026-03-05T09:02:30",
+    "technique_id": "T0842",
+    "is_apt": false
+  },
+  {
+    "predicted_attack": "command_injection",
+    "classifier_confidence": 0.957,
+    "network_anomaly_score": 0.004928,
+    "process_anomaly_score": 0.001923,
+    "window_start_time": "2026-03-05T09:03:12",
+    "window_end_time": "2026-03-05T09:03:42",
+    "technique_id": "T0807",
+    "is_apt": false
+  },
+  {
+    "predicted_attack": "ransomware",
+    "classifier_confidence": 0.989,
+    "network_anomaly_score": 0.008541,
+    "process_anomaly_score": 0.003112,
+    "window_start_time": "2026-03-05T09:04:05",
+    "window_end_time": "2026-03-05T09:04:35",
+    "technique_id": "T0828",
+    "is_apt": false
+  },
+  {
+    "predicted_attack": "sensor_manipulation",
+    "classifier_confidence": 0.936,
+    "network_anomaly_score": 0.000874,
+    "process_anomaly_score": 0.006782,
+    "window_start_time": "2026-03-05T09:05:10",
+    "window_end_time": "2026-03-05T09:05:40",
+    "technique_id": "T0836",
+    "is_apt": false
+  },
+  {
+    "predicted_attack": "plc_mode_anomaly",
+    "classifier_confidence": 0.928,
+    "network_anomaly_score": 0.001103,
+    "process_anomaly_score": 0.005417,
+    "window_start_time": "2026-03-05T09:06:18",
+    "window_end_time": "2026-03-05T09:06:48",
+    "technique_id": "T0858",
+    "is_apt": false
+  },
+  {
+    "predicted_attack": "apt_pattern_detected",
+    "classifier_confidence": 0.976,
+    "network_anomaly_score": 0.009214,
+    "process_anomaly_score": 0.004608,
+    "window_start_time": "2026-03-05T09:07:00",
+    "window_end_time": "2026-03-05T09:10:30",
+    "technique_id": "T0830",
+    "is_apt": true,
+    "apt_pattern": {
+      "pattern_name": "Multi-stage reconnaissance followed by MITM behavior",
+      "detected_sequence": [
+        "ip_scan",
+        "mitm",
+        "plc_mode_anomaly"
+      ],
+      "affected_components": [
+        "HMI",
+        "PLC",
+        "Network segment"
+      ],
+      "pattern_confidence": 0.914,
+      "summary": "APT tracker detected a suspicious multi-stage sequence across multiple alert windows."
+    }
+  }
+]

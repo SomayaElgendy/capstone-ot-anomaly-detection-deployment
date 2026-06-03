@@ -1,0 +1,36 @@
+{
+  "live": {
+    "live_start_iso": "2026-06-03T02:02:46",
+    "live_end_iso": "2026-06-03T02:02:56",
+    "live_window_seconds": 10,
+    "live_network_delay_seconds": 70,
+    "live_process_rows": 51,
+    "live_network_rows": 2,
+    "live_network_protocol_counts": {
+      "IPV4-TCP": 2
+    },
+    "live_network_top_pairs": {
+      "192.168.0.1 -> 192.168.0.200": 2
+    }
+  },
+  "step3_dataset": {
+    "dataset_window_id": 0,
+    "dataset_window_start_hms": "17:36:34.070",
+    "dataset_window_end_hms": "17:36:44.070",
+    "dataset_process_rows": 47,
+    "dataset_network_rows": 45,
+    "dataset_network_protocol_counts": {
+      "IPV4-TCP": 1,
+      "IPV4-ModbusTCP": 44
+    },
+    "dataset_network_top_pairs": {
+      "192.168.0.100 -> 192.168.0.21": 20,
+      "192.168.0.100 -> 192.168.0.22": 20,
+      "192.168.0.100 -> 192.168.0.200": 1,
+      "192.168.0.31 -> 192.168.0.22": 1,
+      "192.168.0.22 -> 192.168.0.21": 1
+    },
+    "dataset_network_raw_event_count_from_metadata": 45,
+    "dataset_process_raw_row_count_from_metadata": 47
+  }
+}

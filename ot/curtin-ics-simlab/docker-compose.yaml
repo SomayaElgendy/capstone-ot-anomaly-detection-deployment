@@ -1,0 +1,405 @@
+services:
+  ui:
+    build: /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/containers/ui
+    container_name: ui
+    privileged: true
+    ports:
+    - 8501:8501
+    - 1111
+    volumes:
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/physical_interactions.db:/src/physical_interactions.db
+    command:
+    - streamlit
+    - run
+    - ui.py
+    - --server.port=8501
+    - --server.address=0.0.0.0
+    networks:
+      vlan1:
+        ipv4_address: 192.168.0.111
+  hmi1:
+    build: /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/containers/hmi1
+    container_name: hmi1
+    privileged: true
+    command:
+    - python3
+    - -u
+    - hmi.py
+    volumes: []
+    networks:
+      vlan1:
+        ipv4_address: 192.168.0.31
+    ports:
+    - 1111
+    - 5020
+  hmi2:
+    build: /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/containers/hmi2
+    container_name: hmi2
+    privileged: true
+    command:
+    - python3
+    - -u
+    - hmi.py
+    volumes: []
+    networks:
+      vlan1:
+        ipv4_address: 192.168.0.32
+    ports:
+    - 1111
+    - 5020
+  hmi3:
+    build: /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/containers/hmi3
+    container_name: hmi3
+    privileged: true
+    command:
+    - python3
+    - -u
+    - hmi.py
+    volumes: []
+    networks:
+      vlan1:
+        ipv4_address: 192.168.0.33
+    ports:
+    - 1111
+    - 5020
+  plc1:
+    build: /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/containers/plc1
+    container_name: plc1
+    privileged: true
+    command:
+    - python3
+    - -u
+    - plc.py
+    volumes:
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/ttyS1:/src/ttyS1
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/ttyS3:/src/ttyS3
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/ttyS5:/src/ttyS5
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/ttyS13:/src/ttyS13
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/ttyS15:/src/ttyS15
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/ttyS17:/src/ttyS17
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/ttyS19:/src/ttyS19
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/ttyS21:/src/ttyS21
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/ttyS25:/src/ttyS25
+    networks:
+      vlan1:
+        ipv4_address: 192.168.0.21
+    ports:
+    - 1111
+    - 5020
+  plc2:
+    build: /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/containers/plc2
+    container_name: plc2
+    privileged: true
+    command:
+    - python3
+    - -u
+    - plc.py
+    volumes:
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/ttyS7:/src/ttyS7
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/ttyS9:/src/ttyS9
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/ttyS11:/src/ttyS11
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/ttyS27:/src/ttyS27
+    networks:
+      vlan1:
+        ipv4_address: 192.168.0.22
+    ports:
+    - 1111
+    - 5020
+  tank_level_sensor:
+    build: /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/containers/tank_level_sensor
+    container_name: tank_level_sensor
+    privileged: true
+    volumes:
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/physical_interactions.db:/src/physical_interactions.db
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/ttyS2:/src/ttyS2
+    command:
+    - python3
+    - -u
+    - sensor.py
+    networks:
+      vlan1:
+        ipv4_address: 192.168.0.11
+    ports:
+    - 1111
+    - 5020
+  bottle_level_sensor:
+    build: /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/containers/bottle_level_sensor
+    container_name: bottle_level_sensor
+    privileged: true
+    volumes:
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/physical_interactions.db:/src/physical_interactions.db
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/ttyS8:/src/ttyS8
+    command:
+    - python3
+    - -u
+    - sensor.py
+    networks:
+      vlan1:
+        ipv4_address: 192.168.0.12
+    ports:
+    - 1111
+    - 5020
+  bottle_distance_to_filler_sensor:
+    build: /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/containers/bottle_distance_to_filler_sensor
+    container_name: bottle_distance_to_filler_sensor
+    privileged: true
+    volumes:
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/physical_interactions.db:/src/physical_interactions.db
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/ttyS10:/src/ttyS10
+    command:
+    - python3
+    - -u
+    - sensor.py
+    networks:
+      vlan1:
+        ipv4_address: 192.168.0.13
+    ports:
+    - 1111
+    - 5020
+  tank_output_flow_sensor:
+    build: /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/containers/tank_output_flow_sensor
+    container_name: tank_output_flow_sensor
+    privileged: true
+    volumes:
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/physical_interactions.db:/src/physical_interactions.db
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/ttyS14:/src/ttyS14
+    command:
+    - python3
+    - -u
+    - sensor.py
+    networks:
+      vlan1:
+        ipv4_address: 192.168.0.17
+    ports:
+    - 1111
+    - 5020
+  tank_input_flow_sensor:
+    build: /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/containers/tank_input_flow_sensor
+    container_name: tank_input_flow_sensor
+    privileged: true
+    volumes:
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/physical_interactions.db:/src/physical_interactions.db
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/ttyS16:/src/ttyS16
+    command:
+    - python3
+    - -u
+    - sensor.py
+    networks:
+      vlan1:
+        ipv4_address: 192.168.0.18
+    ports:
+    - 1111
+    - 5020
+  tank_pressure_sensor:
+    build: /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/containers/tank_pressure_sensor
+    container_name: tank_pressure_sensor
+    privileged: true
+    volumes:
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/physical_interactions.db:/src/physical_interactions.db
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/ttyS18:/src/ttyS18
+    command:
+    - python3
+    - -u
+    - sensor.py
+    networks:
+      vlan1:
+        ipv4_address: 192.168.0.24
+    ports:
+    - 1111
+    - 5020
+  supply_pressure_sensor:
+    build: /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/containers/supply_pressure_sensor
+    container_name: supply_pressure_sensor
+    privileged: true
+    volumes:
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/physical_interactions.db:/src/physical_interactions.db
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/ttyS20:/src/ttyS20
+    command:
+    - python3
+    - -u
+    - sensor.py
+    networks:
+      vlan1:
+        ipv4_address: 192.168.0.25
+    ports:
+    - 1111
+    - 5020
+  input_valve_position_sensor:
+    build: /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/containers/input_valve_position_sensor
+    container_name: input_valve_position_sensor
+    privileged: true
+    volumes:
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/physical_interactions.db:/src/physical_interactions.db
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/ttyS22:/src/ttyS22
+    command:
+    - python3
+    - -u
+    - sensor.py
+    networks:
+      vlan1:
+        ipv4_address: 192.168.0.26
+    ports:
+    - 1111
+    - 5020
+  output_valve_position_sensor:
+    build: /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/containers/output_valve_position_sensor
+    container_name: output_valve_position_sensor
+    privileged: true
+    volumes:
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/physical_interactions.db:/src/physical_interactions.db
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/ttyS24:/src/ttyS24
+    command:
+    - python3
+    - -u
+    - sensor.py
+    networks:
+      vlan1:
+        ipv4_address: 192.168.0.29
+    ports:
+    - 1111
+    - 5020
+  plc1_mode_sensor:
+    build: /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/containers/plc1_mode_sensor
+    container_name: plc1_mode_sensor
+    privileged: true
+    volumes:
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/physical_interactions.db:/src/physical_interactions.db
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/ttyS26:/src/ttyS26
+    command:
+    - python3
+    - -u
+    - sensor.py
+    networks:
+      vlan1:
+        ipv4_address: 192.168.0.27
+    ports:
+    - 1111
+    - 5020
+  plc2_mode_sensor:
+    build: /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/containers/plc2_mode_sensor
+    container_name: plc2_mode_sensor
+    privileged: true
+    volumes:
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/physical_interactions.db:/src/physical_interactions.db
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/ttyS28:/src/ttyS28
+    command:
+    - python3
+    - -u
+    - sensor.py
+    networks:
+      vlan1:
+        ipv4_address: 192.168.0.28
+    ports:
+    - 1111
+    - 5020
+  tank_input_valve:
+    build: /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/containers/tank_input_valve
+    container_name: tank_input_valve
+    privileged: true
+    volumes:
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/physical_interactions.db:/src/physical_interactions.db
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/ttyS4:/src/ttyS4
+    command:
+    - python3
+    - -u
+    - actuator.py
+    networks:
+      vlan1:
+        ipv4_address: 192.168.0.14
+    ports:
+    - 1111
+    - 5020
+  tank_output_valve:
+    build: /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/containers/tank_output_valve
+    container_name: tank_output_valve
+    privileged: true
+    volumes:
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/physical_interactions.db:/src/physical_interactions.db
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/ttyS6:/src/ttyS6
+    command:
+    - python3
+    - -u
+    - actuator.py
+    networks:
+      vlan1:
+        ipv4_address: 192.168.0.15
+    ports:
+    - 1111
+    - 5020
+  conveyor_belt_engine:
+    build: /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/containers/conveyor_belt_engine
+    container_name: conveyor_belt_engine
+    privileged: true
+    volumes:
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/physical_interactions.db:/src/physical_interactions.db
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/ttyS12:/src/ttyS12
+    command:
+    - python3
+    - -u
+    - actuator.py
+    networks:
+      vlan1:
+        ipv4_address: 192.168.0.16
+    ports:
+    - 1111
+    - 5020
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    command: redis-server --appendonly yes --save 60 1 --save 300 10
+    ports:
+    - 6379:6379
+    volumes:
+    - redis_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test:
+      - CMD
+      - redis-cli
+      - ping
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      vlan1:
+        ipv4_address: 192.168.0.200
+  bottle_factory:
+    build: /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/containers/bottle_factory
+    container_name: bottle_factory
+    privileged: true
+    volumes:
+    - /home/somay/Final_Deployment/ot/curtin-ics-simlab/simulation/communications/physical_interactions.db:/src/physical_interactions.db
+    command:
+    - python3
+    - -u
+    - hil.py
+    depends_on:
+    - redis
+    networks:
+      vlan1:
+        ipv4_address: 192.168.0.100
+  network_telemetry:
+    build: /home/somay/Final_Deployment/ot/curtin-ics-simlab/services/network_telemetry
+    container_name: network_telemetry
+    privileged: true
+    network_mode: host
+    environment:
+    - REDIS_HOST=192.168.0.200
+    - REDIS_PORT=6379
+    - CAPTURE_CONTAINERS=veth*
+    - FLOW_WINDOW=1.0
+    restart: unless-stopped
+    depends_on:
+    - redis
+networks:
+  vlan1:
+    driver: bridge
+    name: ics_simlab
+    ipam:
+      config:
+      - subnet: 192.168.0.0/24
+    driver_opts:
+      com.docker.network.bridge.name: ics_simlab
+volumes:
+  redis_data:
+    driver: local

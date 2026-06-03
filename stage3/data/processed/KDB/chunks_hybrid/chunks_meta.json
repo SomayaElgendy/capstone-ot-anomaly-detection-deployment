@@ -1,0 +1,164 @@
+{
+  "total_docs_input": 18,
+  "total_docs_embedded": 17,
+  "total_duplicate_docs_excluded": 1,
+  "duplicate_docs_excluded": [
+    "epa_wws_ir__pdf_marker"
+  ],
+  "total_chunks_kept": 341,
+  "total_url_heavy_chunks_excluded": 27,
+  "ideal_range_words": [
+    80,
+    400
+  ],
+  "pdf_target": 200,
+  "html_target": 170,
+  "url_heavy_threshold": 3,
+  "methods": {
+    "pdf_marker": "pdf_heading_fixed",
+    "html": "html_recursive"
+  },
+  "doc_stats": [
+    {
+      "doc_id": "cisa_hmi__html",
+      "source_type": "html",
+      "chunk_method": "html_recursive",
+      "num_chunks_kept": 1,
+      "num_chunks_url_excluded": 0,
+      "avg_words_kept": 121.0
+    },
+    {
+      "doc_id": "cisa_ics_ir__pdf_marker",
+      "source_type": "pdf_marker",
+      "chunk_method": "pdf_heading_fixed",
+      "num_chunks_kept": 118,
+      "num_chunks_url_excluded": 1,
+      "avg_words_kept": 156.7
+    },
+    {
+      "doc_id": "cisa_irgc_pdf__pdf_marker",
+      "source_type": "pdf_marker",
+      "chunk_method": "pdf_heading_fixed",
+      "num_chunks_kept": 10,
+      "num_chunks_url_excluded": 7,
+      "avg_words_kept": 138.6
+    },
+    {
+      "doc_id": "cisa_ransomware_guide__html",
+      "source_type": "html",
+      "chunk_method": "html_recursive",
+      "num_chunks_kept": 53,
+      "num_chunks_url_excluded": 0,
+      "avg_words_kept": 167.1
+    },
+    {
+      "doc_id": "cisa_unitronics_1__html",
+      "source_type": "html",
+      "chunk_method": "html_recursive",
+      "num_chunks_kept": 5,
+      "num_chunks_url_excluded": 0,
+      "avg_words_kept": 163.8
+    },
+    {
+      "doc_id": "cisa_unitronics_2__html",
+      "source_type": "html",
+      "chunk_method": "html_recursive",
+      "num_chunks_kept": 4,
+      "num_chunks_url_excluded": 0,
+      "avg_words_kept": 156.8
+    },
+    {
+      "doc_id": "cisa_wws_ir__pdf_marker",
+      "source_type": "pdf_marker",
+      "chunk_method": "pdf_heading_fixed",
+      "num_chunks_kept": 37,
+      "num_chunks_url_excluded": 10,
+      "avg_words_kept": 144.3
+    },
+    {
+      "doc_id": "dragos_ot_ir__pdf_marker",
+      "source_type": "pdf_marker",
+      "chunk_method": "pdf_heading_fixed",
+      "num_chunks_kept": 93,
+      "num_chunks_url_excluded": 2,
+      "avg_words_kept": 145.2
+    },
+    {
+      "doc_id": "epa_assessments__html",
+      "source_type": "html",
+      "chunk_method": "html_recursive",
+      "num_chunks_kept": 2,
+      "num_chunks_url_excluded": 0,
+      "avg_words_kept": 170.0
+    },
+    {
+      "doc_id": "epa_exercises__html",
+      "source_type": "html",
+      "chunk_method": "html_recursive",
+      "num_chunks_kept": 3,
+      "num_chunks_url_excluded": 0,
+      "avg_words_kept": 198.0
+    },
+    {
+      "doc_id": "epa_planning__html",
+      "source_type": "html",
+      "chunk_method": "html_recursive",
+      "num_chunks_kept": 5,
+      "num_chunks_url_excluded": 0,
+      "avg_words_kept": 144.4
+    },
+    {
+      "doc_id": "t0821__html",
+      "source_type": "html",
+      "chunk_method": "html_recursive",
+      "num_chunks_kept": 2,
+      "num_chunks_url_excluded": 1,
+      "avg_words_kept": 171.5
+    },
+    {
+      "doc_id": "t0831__html",
+      "source_type": "html",
+      "chunk_method": "html_recursive",
+      "num_chunks_kept": 1,
+      "num_chunks_url_excluded": 1,
+      "avg_words_kept": 147.0
+    },
+    {
+      "doc_id": "t0836__html",
+      "source_type": "html",
+      "chunk_method": "html_recursive",
+      "num_chunks_kept": 2,
+      "num_chunks_url_excluded": 1,
+      "avg_words_kept": 191.5
+    },
+    {
+      "doc_id": "t0838__html",
+      "source_type": "html",
+      "chunk_method": "html_recursive",
+      "num_chunks_kept": 2,
+      "num_chunks_url_excluded": 1,
+      "avg_words_kept": 161.0
+    },
+    {
+      "doc_id": "t0858__html",
+      "source_type": "html",
+      "chunk_method": "html_recursive",
+      "num_chunks_kept": 2,
+      "num_chunks_url_excluded": 1,
+      "avg_words_kept": 133.0
+    },
+    {
+      "doc_id": "t0868__html",
+      "source_type": "html",
+      "chunk_method": "html_recursive",
+      "num_chunks_kept": 1,
+      "num_chunks_url_excluded": 2,
+      "avg_words_kept": 77.0
+    }
+  ],
+  "outputs": {
+    "embedded_chunks": "data\\processed\\KDB\\chunks_hybrid\\chunks.jsonl",
+    "excluded_url_heavy_chunks": "data\\processed\\KDB\\chunks_hybrid\\excluded_url_heavy_chunks.jsonl",
+    "excluded_duplicate_docs": "data\\processed\\KDB\\chunks_hybrid\\excluded_duplicate_docs.json"
+  }
+}

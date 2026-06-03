@@ -1,0 +1,262 @@
+{% extends "ui/base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<style>
+/* ===== HERO BADGE ===== */
+.badge-hero {
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:8px 14px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.12);
+  font-size:13px;
+  color:#cfe1ff;
+}
+.badge-hero .dot{
+  width:8px;height:8px;border-radius:50%;
+  background:#3b82f6;
+  box-shadow:0 0 0 6px rgba(59,130,246,.15);
+}
+
+/* ===== HERO TITLE ===== */
+.hero-title{
+  font-size:44px;
+  font-weight:800;
+  letter-spacing:-0.02em;
+  line-height:1.1;
+}
+.hero-sub{
+  font-size:18px;
+  opacity:.85;
+  max-width:900px;
+}
+
+/* ===== BUTTONS ===== */
+.btn-primary-custom{
+  background:linear-gradient(135deg,#3b82f6,#2563eb);
+  border:none;
+  padding:10px 18px;
+  border-radius:10px;
+  font-weight:600;
+}
+.btn-primary-custom:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 25px rgba(0,0,0,.4);
+}
+.btn-ghost{
+  border:1px solid rgba(255,255,255,.2);
+  background:rgba(255,255,255,.05);
+  padding:10px 18px;
+  border-radius:10px;
+  font-weight:600;
+}
+.btn-ghost:hover{
+  background:rgba(255,255,255,.08);
+}
+
+/* ===== FEATURE CARDS ===== */
+.feature-card{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:16px;
+  padding:20px;
+  transition:.3s ease;
+}
+.feature-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 20px 50px rgba(0,0,0,.5);
+}
+
+/* ===== SECTION TITLES ===== */
+.section-title{
+  font-size:20px;
+  font-weight:700;
+  margin-top:40px;
+  margin-bottom:20px;
+}
+
+/* ===== PIPELINE STEPS ===== */
+.step-box{
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:14px;
+  padding:16px;
+}
+.step-number{
+  width:30px;height:30px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:8px;
+  background:rgba(59,130,246,.2);
+  color:#cfe1ff;
+  font-weight:800;
+  margin-bottom:8px;
+}
+
+/* ===== ROLE CARDS ===== */
+.role-card{
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:14px;
+  padding:16px;
+}
+
+/* ===== FOOTER ===== */
+.home-footer{
+  margin-top:40px;
+  padding-top:20px;
+  border-top:1px solid rgba(255,255,255,.1);
+  font-size:12px;
+  opacity:.6;
+}
+</style>
+
+
+<div class="glass p-5 shadow">
+
+  <!-- HERO BADGE -->
+  <div class="badge-hero mb-3">
+    <span class="dot"></span>
+    Water-Sector OT SOC • Real-time anomaly detection + LLM incident response
+  </div>
+
+  <!-- HERO TITLE -->
+  <h1 class="hero-title">Water-Sector OT Threat Detection</h1>
+
+  <p class="hero-sub mt-3">
+    We monitor OT telemetry in water infrastructure and detect anomalies and adversial attacks in real-time,
+    then generate contextual incident response guidance using an LLM + knowledge base.
+  </p>
+
+  <!-- BUTTONS -->
+  <div class="d-flex gap-3 mt-4 flex-wrap">
+    <a class="btn btn-primary-custom" href="{% url 'ui:request_service' %}">
+      Request Service
+    </a>
+    <a class="btn btn-ghost text-light" href="{% url 'ui:login' %}">
+      Security Specialist Login
+    </a>
+  </div>
+
+  <hr class="my-5" style="opacity:.15">
+
+  <!-- FEATURE CARDS -->
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="feature-card">
+        <h5>📡 OT Telemetry</h5>
+        <p style="opacity:.8">
+          Continuous readings from water-sector OT devices (simulated ICS environment).
+        </p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="feature-card">
+        <h5>🧠 AI Detection</h5>
+        <p style="opacity:.8">
+          Preprocessing → anomaly detection → classifying & labeling via streaming services.
+        </p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="feature-card">
+        <h5>🤖 LLM Response</h5>
+        <p style="opacity:.8">
+          Context-aware incident response suggestions with explanation per alert.
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- HOW IT WORKS -->
+  <div class="section-title">How It Works</div>
+
+  <div class="row g-3">
+    <div class="col-md-3">
+      <div class="step-box">
+        <div class="step-number">1</div>
+        <strong>Telemetry Stream</strong>
+        <div style="opacity:.75;margin-top:5px">
+          ICS simulation publishes water-system signals.
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="step-box">
+        <div class="step-number">2</div>
+        <strong>Preprocessing</strong>
+        <div style="opacity:.75;margin-top:5px">
+          Feature extraction & normalization.
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="step-box">
+        <div class="step-number">3</div>
+        <strong>Detection + Labeling</strong>
+        <div style="opacity:.75;margin-top:5px">
+          Transformer-based anomaly scoring + classifying & labeling.
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="step-box">
+        <div class="step-number">4</div>
+        <strong>Incident Response</strong>
+        <div style="opacity:.75;margin-top:5px">
+          RAG-powered LLM generates response guidance.
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- WHO USES IT -->
+  <div class="section-title">Who Uses It</div>
+
+  <div class="row g-3">
+    <div class="col-md-4">
+      <div class="role-card">
+        <strong>Security Specialist</strong>
+        <div style="opacity:.75;margin-top:5px">
+          Monitors alerts, acknowledges incidents, consults LLM per alert.
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="role-card">
+        <strong>AI Engineer</strong>
+        <div style="opacity:.75;margin-top:5px">
+          Observes model health, embeddings, vector DB and pipeline metrics.
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="role-card">
+        <strong>Admin</strong>
+        <div style="opacity:.75;margin-top:5px">
+          Manages internal accounts and role-based access control.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="home-footer">
+    © Water OT SOC — Capstone Project • Internal Demo UI
+  </div>
+
+</div>
+
+{% endblock %}

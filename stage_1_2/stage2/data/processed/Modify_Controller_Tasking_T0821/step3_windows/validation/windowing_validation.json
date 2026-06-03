@@ -1,0 +1,33 @@
+{
+  "window_count": 427,
+  "window_starts_match": true,
+  "train_test_split_same_for_branches": true,
+  "label_rule": "attack-priority window labels; no first-row/last-row labeling",
+  "overlap_policy": "no overlap; windows advance by exactly 10 seconds",
+  "sample_window_ids_saved": [
+    0,
+    1,
+    2,
+    13,
+    14,
+    15,
+    16,
+    17
+  ],
+  "network_label_distribution": {
+    "0": 407,
+    "3": 20
+  },
+  "process_label_distribution": {
+    "0": 426,
+    "3": 1
+  },
+  "or_gate_label_distribution": {
+    "0": 406,
+    "3": 21
+  },
+  "max_network_rows_in_window": 48,
+  "max_process_rows_in_window": 48,
+  "network_windows_over_padded_size": 0,
+  "process_windows_over_padded_size": 0
+}

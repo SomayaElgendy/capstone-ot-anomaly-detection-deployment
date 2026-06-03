@@ -1,0 +1,29 @@
+{
+  "model_name": "BAAI/bge-base-en-v1.5",
+  "embedding_dim": 768,
+  "retrieval_method": "hybrid_bm25_bge_rrf",
+  "index_type": "IndexFlatIP",
+  "similarity_metric": "cosine using L2-normalized inner product",
+  "total_chunks": 341,
+  "batch_size": 64,
+  "embed_time_sec": 188.54,
+  "norm_mean": 1.0,
+  "norm_std": 0.0,
+  "index_path": "data\\processed\\KDB\\vector_store\\faiss.index",
+  "metadata_path": "data\\processed\\KDB\\vector_store\\chunk_metadata.json",
+  "chunks_source": "data\\processed\\KDB\\chunks_hybrid\\chunks.jsonl",
+  "meta_fields_stored": [
+    "chunk_id",
+    "doc_id",
+    "doc_family_id",
+    "source_type",
+    "source_org",
+    "category",
+    "priority",
+    "attack_classes",
+    "technique_id",
+    "chunk_method",
+    "chunk_index",
+    "word_count"
+  ]
+}

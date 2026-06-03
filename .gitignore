@@ -1,0 +1,43 @@
+# Secrets
+.env
+*.env
+
+# Python virtual environments
+venv/
+.venv/
+venv_broken/
+venv_py311_wrong/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Large Docker image exports
+*.tar
+*.tar.gz
+
+# Temporary files
+tmp/
+temp/
+
+# Stage 3 generated outputs
+stage3/outputs/
+
+# OT generated/runtime files
+ot/curtin-ics-simlab/.venv/
+ot/curtin-ics-simlab/simulation/communications/*.db
+ot/curtin-ics-simlab/**/__pycache__/
+ot/curtin-ics-simlab/**/*.pyc
+
+# Optional: ignore old backups
+*_backup*
+*_backup_*

@@ -1,0 +1,308 @@
+[
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.9382351040840149,
+    "network_anomaly_score": 1.7946116924285889,
+    "process_anomaly_score": 0.46662142872810364,
+    "window_start_time": "2022-01-01T23:23:39.728",
+    "window_end_time": "2022-01-01T23:23:49.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.7679637670516968,
+    "network_anomaly_score": 1.4872620105743408,
+    "process_anomaly_score": 0.36565956473350525,
+    "window_start_time": "2022-01-01T23:25:09.728",
+    "window_end_time": "2022-01-01T23:25:19.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.8602263927459717,
+    "network_anomaly_score": 1.9080464839935303,
+    "process_anomaly_score": 0.582599401473999,
+    "window_start_time": "2022-01-01T23:25:19.728",
+    "window_end_time": "2022-01-01T23:25:29.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.9247030019760132,
+    "network_anomaly_score": 1.8111388683319092,
+    "process_anomaly_score": 0.34450381994247437,
+    "window_start_time": "2022-01-01T23:25:29.728",
+    "window_end_time": "2022-01-01T23:25:39.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.8272404074668884,
+    "network_anomaly_score": 1.5621471405029297,
+    "process_anomaly_score": 0.37920963764190674,
+    "window_start_time": "2022-01-01T23:25:49.728",
+    "window_end_time": "2022-01-01T23:25:59.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.6544263362884521,
+    "network_anomaly_score": 1.561811089515686,
+    "process_anomaly_score": 0.6155129671096802,
+    "window_start_time": "2022-01-01T23:25:59.728",
+    "window_end_time": "2022-01-01T23:26:09.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.6174790859222412,
+    "network_anomaly_score": 1.9755162000656128,
+    "process_anomaly_score": 0.3868548572063446,
+    "window_start_time": "2022-01-01T23:26:59.728",
+    "window_end_time": "2022-01-01T23:27:09.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.8388063907623291,
+    "network_anomaly_score": 1.3188601732254028,
+    "process_anomaly_score": 2.9965696334838867,
+    "window_start_time": "2022-01-01T23:32:49.728",
+    "window_end_time": "2022-01-01T23:32:59.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.8774020075798035,
+    "network_anomaly_score": 1.992507815361023,
+    "process_anomaly_score": 3.786630868911743,
+    "window_start_time": "2022-01-01T23:32:59.728",
+    "window_end_time": "2022-01-01T23:33:09.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.7317996621131897,
+    "network_anomaly_score": 1.5769481658935547,
+    "process_anomaly_score": 2.1870625019073486,
+    "window_start_time": "2022-01-01T23:33:09.728",
+    "window_end_time": "2022-01-01T23:33:19.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.8995653390884399,
+    "network_anomaly_score": 1.4842171669006348,
+    "process_anomaly_score": 5.664290904998779,
+    "window_start_time": "2022-01-01T23:33:19.728",
+    "window_end_time": "2022-01-01T23:33:29.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.9065758585929871,
+    "network_anomaly_score": 1.6277883052825928,
+    "process_anomaly_score": 0.8634485006332397,
+    "window_start_time": "2022-01-01T23:33:29.728",
+    "window_end_time": "2022-01-01T23:33:39.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.9560092091560364,
+    "network_anomaly_score": 1.7627640962600708,
+    "process_anomaly_score": 0.40542078018188477,
+    "window_start_time": "2022-01-01T23:33:39.728",
+    "window_end_time": "2022-01-01T23:33:49.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.9545177221298218,
+    "network_anomaly_score": 1.5597532987594604,
+    "process_anomaly_score": 0.4044513404369354,
+    "window_start_time": "2022-01-01T23:39:29.728",
+    "window_end_time": "2022-01-01T23:39:39.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.9589486122131348,
+    "network_anomaly_score": 1.7485331296920776,
+    "process_anomaly_score": 0.36106064915657043,
+    "window_start_time": "2022-01-01T23:39:49.728",
+    "window_end_time": "2022-01-01T23:39:59.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.83892422914505,
+    "network_anomaly_score": 1.592794418334961,
+    "process_anomaly_score": 0.614495038986206,
+    "window_start_time": "2022-01-01T23:41:29.728",
+    "window_end_time": "2022-01-01T23:41:39.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.950131356716156,
+    "network_anomaly_score": 1.7319072484970093,
+    "process_anomaly_score": 0.5799176096916199,
+    "window_start_time": "2022-01-01T23:43:19.728",
+    "window_end_time": "2022-01-01T23:43:29.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.9382351040840149,
+    "network_anomaly_score": 1.7946116924285889,
+    "process_anomaly_score": 0.46662142872810364,
+    "window_start_time": "2022-01-01T23:23:39.728",
+    "window_end_time": "2022-01-01T23:23:49.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.7679637670516968,
+    "network_anomaly_score": 1.4872620105743408,
+    "process_anomaly_score": 0.36565956473350525,
+    "window_start_time": "2022-01-01T23:25:09.728",
+    "window_end_time": "2022-01-01T23:25:19.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.8602263927459717,
+    "network_anomaly_score": 1.9080464839935303,
+    "process_anomaly_score": 0.582599401473999,
+    "window_start_time": "2022-01-01T23:25:19.728",
+    "window_end_time": "2022-01-01T23:25:29.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.9247030019760132,
+    "network_anomaly_score": 1.8111388683319092,
+    "process_anomaly_score": 0.34450381994247437,
+    "window_start_time": "2022-01-01T23:25:29.728",
+    "window_end_time": "2022-01-01T23:25:39.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.8272404074668884,
+    "network_anomaly_score": 1.5621471405029297,
+    "process_anomaly_score": 0.37920963764190674,
+    "window_start_time": "2022-01-01T23:25:49.728",
+    "window_end_time": "2022-01-01T23:25:59.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.6544263362884521,
+    "network_anomaly_score": 1.561811089515686,
+    "process_anomaly_score": 0.6155129671096802,
+    "window_start_time": "2022-01-01T23:25:59.728",
+    "window_end_time": "2022-01-01T23:26:09.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.6174790859222412,
+    "network_anomaly_score": 1.9755162000656128,
+    "process_anomaly_score": 0.3868548572063446,
+    "window_start_time": "2022-01-01T23:26:59.728",
+    "window_end_time": "2022-01-01T23:27:09.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.8388063907623291,
+    "network_anomaly_score": 1.3188601732254028,
+    "process_anomaly_score": 2.9965696334838867,
+    "window_start_time": "2022-01-01T23:32:49.728",
+    "window_end_time": "2022-01-01T23:32:59.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.8774020075798035,
+    "network_anomaly_score": 1.992507815361023,
+    "process_anomaly_score": 3.786630868911743,
+    "window_start_time": "2022-01-01T23:32:59.728",
+    "window_end_time": "2022-01-01T23:33:09.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.7317996621131897,
+    "network_anomaly_score": 1.5769481658935547,
+    "process_anomaly_score": 2.1870625019073486,
+    "window_start_time": "2022-01-01T23:33:09.728",
+    "window_end_time": "2022-01-01T23:33:19.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.8995653390884399,
+    "network_anomaly_score": 1.4842171669006348,
+    "process_anomaly_score": 5.664290904998779,
+    "window_start_time": "2022-01-01T23:33:19.728",
+    "window_end_time": "2022-01-01T23:33:29.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.9065758585929871,
+    "network_anomaly_score": 1.6277883052825928,
+    "process_anomaly_score": 0.8634485006332397,
+    "window_start_time": "2022-01-01T23:33:29.728",
+    "window_end_time": "2022-01-01T23:33:39.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.9560092091560364,
+    "network_anomaly_score": 1.7627640962600708,
+    "process_anomaly_score": 0.40542078018188477,
+    "window_start_time": "2022-01-01T23:33:39.728",
+    "window_end_time": "2022-01-01T23:33:49.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.9545177221298218,
+    "network_anomaly_score": 1.5597532987594604,
+    "process_anomaly_score": 0.4044513404369354,
+    "window_start_time": "2022-01-01T23:39:29.728",
+    "window_end_time": "2022-01-01T23:39:39.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.9589486122131348,
+    "network_anomaly_score": 1.7485331296920776,
+    "process_anomaly_score": 0.36106064915657043,
+    "window_start_time": "2022-01-01T23:39:49.728",
+    "window_end_time": "2022-01-01T23:39:59.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.83892422914505,
+    "network_anomaly_score": 1.592794418334961,
+    "process_anomaly_score": 0.614495038986206,
+    "window_start_time": "2022-01-01T23:41:29.728",
+    "window_end_time": "2022-01-01T23:41:39.728",
+    "technique_id": "T0858"
+  },
+  {
+    "predicted_attack": "change_operating_mode",
+    "classifier_confidence": 0.950131356716156,
+    "network_anomaly_score": 1.7319072484970093,
+    "process_anomaly_score": 0.5799176096916199,
+    "window_start_time": "2022-01-01T23:43:19.728",
+    "window_end_time": "2022-01-01T23:43:29.728",
+    "technique_id": "T0858"
+  }
+]

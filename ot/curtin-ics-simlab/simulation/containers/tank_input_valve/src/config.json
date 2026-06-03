@@ -1,0 +1,24 @@
+{
+    "database": {
+        "table": "bottle_factory"
+    },
+    "inbound_connections": [
+        {
+            "type": "rtu",
+            "slave_id": 1,
+            "comm_port": "ttyS4"
+        }
+    ],
+    "registers": {
+        "coil": [
+            {
+                "address": 10,
+                "count": 1,
+                "physical_value": "tank_input_valve_state"
+            }
+        ],
+        "discrete_input": [],
+        "holding_register": [],
+        "input_register": []
+    }
+}

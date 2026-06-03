@@ -1,0 +1,1189 @@
+{
+    "ui": {
+        "network": {
+            "ip": "192.168.0.111",
+            "port": 8501,
+            "docker_network": "vlan1"
+        }
+    },
+    "hmis": [
+        {
+            "name": "hmi1",
+            "network": {
+                "ip": "192.168.0.31",
+                "docker_network": "vlan1"
+            },
+            "inbound_connections": [
+                {
+                    "type": "tcp",
+                    "ip": "192.168.0.31",
+                    "port": 502
+                }
+            ],
+            "outbound_connections": [
+                {
+                    "type": "tcp",
+                    "ip": "192.168.0.21",
+                    "port": 502,
+                    "id": "plc1_con"
+                },
+                {
+                    "type": "tcp",
+                    "ip": "192.168.0.22",
+                    "port": 502,
+                    "id": "plc2_con"
+                }
+            ],
+            "registers": {
+                "coil": [
+                    {
+                        "address": 102,
+                        "count": 1,
+                        "id": "tank_input_valve_state"
+                    },
+                    {
+                        "address": 104,
+                        "count": 1,
+                        "id": "tank_output_valve_state"
+                    },
+                    {
+                        "address": 106,
+                        "count": 1,
+                        "id": "conveyor_engine_state"
+                    }
+                ],
+                "discrete_input": [],
+                "input_register": [
+                    {
+                        "address": 101,
+                        "count": 1,
+                        "id": "tank_level"
+                    },
+                    {
+                        "address": 103,
+                        "count": 1,
+                        "id": "bottle_level"
+                    },
+                    {
+                        "address": 105,
+                        "count": 1,
+                        "id": "bottle_distance_to_filler"
+                    },
+                    {
+                        "address": 107,
+                        "count": 1,
+                        "id": "tank_output_flow_value"
+                    },
+                    {
+                        "address": 200,
+                        "count": 1,
+                        "id": "plc1_mode"
+                    },
+                    {
+                        "address": 100,
+                        "count": 1,
+                        "id": "plc2_mode"
+                    }
+                ],
+                "holding_register": []
+            },
+            "monitors": [
+                {
+                    "outbound_connection_id": "plc1_con",
+                    "id": "tank_level",
+                    "value_type": "input_register",
+                    "slave_id": 1,
+                    "address": 1,
+                    "count": 1,
+                    "interval": 0.5
+                },
+                {
+                    "outbound_connection_id": "plc1_con",
+                    "id": "tank_input_valve_state",
+                    "value_type": "coil",
+                    "slave_id": 1,
+                    "address": 2,
+                    "count": 1,
+                    "interval": 0.5
+                },
+                {
+                    "outbound_connection_id": "plc1_con",
+                    "id": "tank_output_valve_state",
+                    "value_type": "coil",
+                    "slave_id": 1,
+                    "address": 3,
+                    "count": 1,
+                    "interval": 0.5
+                },
+                {
+                    "outbound_connection_id": "plc1_con",
+                    "id": "tank_output_flow_value",
+                    "value_type": "input_register",
+                    "slave_id": 1,
+                    "address": 4,
+                    "count": 1,
+                    "interval": 0.5
+                },
+                {
+                    "outbound_connection_id": "plc2_con",
+                    "id": "bottle_level",
+                    "value_type": "input_register",
+                    "slave_id": 1,
+                    "address": 1,
+                    "count": 1,
+                    "interval": 0.5
+                },
+                {
+                    "outbound_connection_id": "plc2_con",
+                    "id": "bottle_distance_to_filler",
+                    "value_type": "input_register",
+                    "slave_id": 1,
+                    "address": 2,
+                    "count": 1,
+                    "interval": 0.5
+                },
+                {
+                    "outbound_connection_id": "plc2_con",
+                    "id": "conveyor_engine_state",
+                    "value_type": "coil",
+                    "slave_id": 1,
+                    "address": 3,
+                    "count": 1,
+                    "interval": 0.5
+                }
+            ],
+            "controllers": []
+        },
+        {
+            "name": "hmi2",
+            "network": {
+                "ip": "192.168.0.32",
+                "docker_network": "vlan1"
+            },
+            "inbound_connections": [
+                {
+                    "type": "tcp",
+                    "ip": "192.168.0.32",
+                    "port": 502
+                }
+            ],
+            "outbound_connections": [
+                {
+                    "type": "tcp",
+                    "ip": "192.168.0.22",
+                    "port": 502,
+                    "id": "plc2_con"
+                }
+            ],
+            "registers": {
+                "coil": [
+                    {
+                        "id": "remote_request",
+                        "address": 50,
+                        "count": 1,
+                        "value": 0
+                    },
+                    {
+                        "id": "resume_request",
+                        "address": 51,
+                        "count": 1,
+                        "value": 0
+                    }
+                ],
+                "discrete_input": [],
+                "input_register": [],
+                "holding_register": []
+            },
+            "monitors": [],
+            "controllers": [
+                {
+                    "outbound_connection_id": "plc1_con",
+                    "id": "remote_request",
+                    "value_type": "coil",
+                    "slave_id": 1,
+                    "address": 50,
+                    "count": 1
+                },
+                {
+                    "outbound_connection_id": "plc1_con",
+                    "id": "resume_request",
+                    "value_type": "coil",
+                    "slave_id": 1,
+                    "address": 51,
+                    "count": 1
+                },
+                {
+                    "outbound_connection_id": "plc2_con",
+                    "id": "remote_request",
+                    "value_type": "coil",
+                    "slave_id": 1,
+                    "address": 50,
+                    "count": 1
+                },
+                {
+                    "outbound_connection_id": "plc2_con",
+                    "id": "resume_request",
+                    "value_type": "coil",
+                    "slave_id": 1,
+                    "address": 51,
+                    "count": 1
+                }
+            ],
+            "hmi_type": "predefined"
+        },
+        {
+            "name": "hmi3",
+            "network": {
+                "ip": "192.168.0.33",
+                "docker_network": "vlan1"
+            },
+            "inbound_connections": [
+                {
+                    "type": "tcp",
+                    "ip": "192.168.0.33",
+                    "port": 502
+                }
+            ],
+            "outbound_connections": [
+                {
+                    "type": "tcp",
+                    "ip": "192.168.0.21",
+                    "port": 502,
+                    "id": "plc1_con"
+                },
+                {
+                    "type": "tcp",
+                    "ip": "192.168.0.22",
+                    "port": 502,
+                    "id": "plc2_con"
+                }
+            ],
+            "registers": {
+                "coil": [],
+                "discrete_input": [],
+                "input_register": [],
+                "holding_register": []
+            },
+            "monitors": [],
+            "controllers": [],
+            "hmi_type": "readonly"
+        }
+    ],
+    "plcs": [
+        {
+            "name": "plc1",
+            "logic": "plc1.py",
+            "network": {
+                "ip": "192.168.0.21",
+                "docker_network": "vlan1"
+            },
+            "inbound_connections": [
+                {
+                    "type": "tcp",
+                    "ip": "192.168.0.21",
+                    "port": 502
+                }
+            ],
+            "outbound_connections": [
+                {
+                    "type": "tcp",
+                    "ip": "192.168.0.21",
+                    "port": 502,
+                    "id": "plc1_con"
+                },
+                {
+                    "type": "rtu",
+                    "comm_port": "ttyS1",
+                    "id": "tank_level_sensor_con"
+                },
+                {
+                    "type": "rtu",
+                    "comm_port": "ttyS3",
+                    "id": "tank_input_valve_con"
+                },
+                {
+                    "type": "rtu",
+                    "comm_port": "ttyS5",
+                    "id": "tank_output_valve_con"
+                },
+                {
+                    "type": "rtu",
+                    "comm_port": "ttyS13",
+                    "id": "tank_output_flow_sensor_con"
+                },
+                {
+                    "type": "rtu",
+                    "comm_port": "ttyS15",
+                    "id": "tank_input_flow_sensor_con"
+                },
+                {
+                    "type": "rtu",
+                    "comm_port": "ttyS17",
+                    "id": "tank_pressure_sensor_con"
+                },
+                {
+                    "type": "rtu",
+                    "comm_port": "ttyS19",
+                    "id": "supply_pressure_sensor_con"
+                },
+                {
+                    "type": "rtu",
+                    "comm_port": "ttyS21",
+                    "id": "valve_positions_sensor_con"
+                },
+                {
+                    "type": "rtu",
+                    "comm_port": "ttyS25",
+                    "id": "plc1_mode_sensor_con"
+                }
+            ],
+            "registers": {
+                "coil": [
+                    {
+                        "address": 2,
+                        "count": 1,
+                        "io": "output",
+                        "id": "tank_input_valve_state"
+                    },
+                    {
+                        "address": 3,
+                        "count": 1,
+                        "io": "output",
+                        "id": "tank_output_valve_state"
+                    }
+                ],
+                "discrete_input": [],
+                "holding_register": [
+                    {
+                        "address": 200,
+                        "count": 1,
+                        "io": "output",
+                        "id": "plc1_mode"
+                    }
+                ],
+                "input_register": [
+                    {
+                        "address": 1,
+                        "count": 1,
+                        "io": "input",
+                        "id": "tank_level"
+                    },
+                    {
+                        "address": 2,
+                        "count": 1,
+                        "io": "input",
+                        "id": "tank_output_flow_value"
+                    },
+                    {
+                        "address": 3,
+                        "count": 1,
+                        "io": "input",
+                        "id": "tank_input_flow_value"
+                    },
+                    {
+                        "address": 101,
+                        "count": 1,
+                        "io": "input",
+                        "id": "remote_request"
+                    },
+                    {
+                        "address": 102,
+                        "count": 1,
+                        "io": "input",
+                        "id": "resume_request"
+                    },
+                    {
+                        "address": 50,
+                        "count": 1,
+                        "io": "input",
+                        "id": "tank_pressure"
+                    },
+                    {
+                        "address": 51,
+                        "count": 1,
+                        "io": "input",
+                        "id": "supply_pressure"
+                    },
+                    {
+                        "address": 60,
+                        "count": 2,
+                        "io": "input",
+                        "id": "valve_positions"
+                    }
+                ]
+            },
+            "monitors": [
+                {
+                    "outbound_connection_id": "tank_level_sensor_con",
+                    "id": "tank_level",
+                    "value_type": "input_register",
+                    "slave_id": 1,
+                    "address": 10,
+                    "count": 1,
+                    "interval": 0.2
+                },
+                {
+                    "outbound_connection_id": "tank_output_flow_sensor_con",
+                    "id": "tank_output_flow_value",
+                    "value_type": "input_register",
+                    "slave_id": 1,
+                    "address": 40,
+                    "count": 1,
+                    "interval": 0.2
+                },
+                {
+                    "outbound_connection_id": "tank_input_flow_sensor_con",
+                    "id": "tank_input_flow_value",
+                    "value_type": "input_register",
+                    "slave_id": 1,
+                    "address": 41,
+                    "count": 1,
+                    "interval": 0.2
+                },
+                {
+                    "outbound_connection_id": "tank_pressure_sensor_con",
+                    "id": "tank_pressure",
+                    "value_type": "input_register",
+                    "slave_id": 1,
+                    "address": 50,
+                    "count": 1,
+                    "interval": 0.5
+                },
+                {
+                    "outbound_connection_id": "supply_pressure_sensor_con",
+                    "id": "supply_pressure",
+                    "value_type": "input_register",
+                    "slave_id": 1,
+                    "address": 51,
+                    "count": 1,
+                    "interval": 0.5
+                },
+                {
+                    "outbound_connection_id": "valve_positions_sensor_con",
+                    "id": "valve_positions",
+                    "value_type": "input_register",
+                    "slave_id": 1,
+                    "address": 60,
+                    "count": 2,
+                    "interval": 0.5
+                },
+                {
+                    "outbound_connection_id": "plc1_mode_sensor_con",
+                    "id": "plc1_mode",
+                    "value_type": "output_register",
+                    "slave_id": 1,
+                    "address": 200,
+                    "count": 1,
+                    "interval": 0.5
+                }
+            ],
+            "controllers": [
+                {
+                    "outbound_connection_id": "tank_input_valve_con",
+                    "id": "tank_input_valve_state",
+                    "value_type": "coil",
+                    "slave_id": 1,
+                    "address": 10,
+                    "count": 1
+                },
+                {
+                    "outbound_connection_id": "tank_output_valve_con",
+                    "id": "tank_output_valve_state",
+                    "value_type": "coil",
+                    "slave_id": 1,
+                    "address": 20,
+                    "count": 1
+                },
+                {
+                    "outbound_connection_id": "plc1_con",
+                    "id": "plc1_mode",
+                    "value_type": "holding_register",
+                    "slave_id": 1,
+                    "address": 200,
+                    "count": 1
+                }
+            ]
+        },
+        {
+            "name": "plc2",
+            "logic": "plc2.py",
+            "network": {
+                "ip": "192.168.0.22",
+                "docker_network": "vlan1"
+            },
+            "inbound_connections": [
+                {
+                    "type": "tcp",
+                    "ip": "192.168.0.22",
+                    "port": 502
+                }
+            ],
+            "outbound_connections": [
+                {
+                    "type": "rtu",
+                    "comm_port": "ttyS7",
+                    "id": "bottle_level_sensor_con"
+                },
+                {
+                    "type": "rtu",
+                    "comm_port": "ttyS9",
+                    "id": "bottle_distance_con"
+                },
+                {
+                    "type": "rtu",
+                    "comm_port": "ttyS11",
+                    "id": "conveyor_belt_con"
+                },
+                {
+                    "type": "tcp",
+                    "ip": "192.168.0.21",
+                    "port": 502,
+                    "id": "plc1_con"
+                },
+                {
+                    "type": "rtu",
+                    "comm_port": "ttyS27",
+                    "id": "plc2_mode_sensor_con"
+                }
+            ],
+            "registers": {
+                "coil": [
+                    {
+                        "address": 3,
+                        "count": 1,
+                        "io": "output",
+                        "id": "conveyor_engine_state"
+                    },
+                    {
+                        "address": 11,
+                        "count": 1,
+                        "io": "output",
+                        "id": "plc1_tank_output_state"
+                    },
+                    {
+                        "address": 50,
+                        "count": 1,
+                        "io": "output",
+                        "id": "remote_request"
+                    },
+                    {
+                        "address": 51,
+                        "count": 1,
+                        "io": "output",
+                        "id": "resume_request"
+                    }
+                ],
+                "discrete_input": [],
+                "holding_register": [
+                    {
+                        "address": 100,
+                        "count": 1,
+                        "io": "output",
+                        "id": "plc2_mode"
+                    }
+                ],
+                "input_register": [
+                    {
+                        "address": 1,
+                        "count": 1,
+                        "io": "input",
+                        "id": "bottle_level"
+                    },
+                    {
+                        "address": 2,
+                        "count": 1,
+                        "io": "input",
+                        "id": "bottle_distance_to_filler"
+                    }
+                ]
+            },
+            "monitors": [
+                {
+                    "outbound_connection_id": "bottle_level_sensor_con",
+                    "id": "bottle_level",
+                    "value_type": "input_register",
+                    "slave_id": 1,
+                    "address": 20,
+                    "count": 1,
+                    "interval": 0.2
+                },
+                {
+                    "outbound_connection_id": "bottle_distance_con",
+                    "id": "bottle_distance_to_filler",
+                    "value_type": "input_register",
+                    "slave_id": 1,
+                    "address": 21,
+                    "count": 1,
+                    "interval": 0.2
+                },
+                {
+                    "outbound_connection_id": "plc2_mode_sensor_con",
+                    "id": "plc2_mode",
+                    "value_type": "output_register",
+                    "slave_id": 1,
+                    "address": 100,
+                    "count": 1,
+                    "interval": 0.5
+                }
+            ],
+            "controllers": [
+                {
+                    "outbound_connection_id": "conveyor_belt_con",
+                    "id": "conveyor_engine_state",
+                    "value_type": "coil",
+                    "slave_id": 1,
+                    "address": 30,
+                    "count": 1
+                },
+                {
+                    "outbound_connection_id": "plc1_con",
+                    "id": "plc1_tank_output_state",
+                    "value_type": "coil",
+                    "slave_id": 1,
+                    "address": 3,
+                    "count": 1
+                },
+                {
+                    "outbound_connection_id": "plc1_con",
+                    "id": "plc2_mode",
+                    "value_type": "holding_register",
+                    "slave_id": 1,
+                    "address": 100,
+                    "count": 1
+                },
+                {
+                    "outbound_connection_id": "plc1_con",
+                    "id": "emergency_threshold",
+                    "value_type": "holding_register",
+                    "slave_id": 1,
+                    "address": 130,
+                    "count": 1
+                }
+            ]
+        }
+    ],
+    "sensors": [
+        {
+            "name": "tank_level_sensor",
+            "hil": "bottle_factory",
+            "network": {
+                "ip": "192.168.0.11",
+                "docker_network": "vlan1"
+            },
+            "inbound_connections": [
+                {
+                    "type": "rtu",
+                    "slave_id": 1,
+                    "comm_port": "ttyS2"
+                }
+            ],
+            "registers": {
+                "coil": [],
+                "discrete_input": [],
+                "holding_register": [],
+                "input_register": [
+                    {
+                        "address": 10,
+                        "count": 1,
+                        "physical_value": "tank_level_value"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "bottle_level_sensor",
+            "hil": "bottle_factory",
+            "network": {
+                "ip": "192.168.0.12",
+                "docker_network": "vlan1"
+            },
+            "inbound_connections": [
+                {
+                    "type": "rtu",
+                    "slave_id": 1,
+                    "comm_port": "ttyS8"
+                }
+            ],
+            "registers": {
+                "coil": [],
+                "discrete_input": [],
+                "holding_register": [],
+                "input_register": [
+                    {
+                        "address": 20,
+                        "count": 1,
+                        "physical_value": "bottle_level_value"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "bottle_distance_to_filler_sensor",
+            "hil": "bottle_factory",
+            "network": {
+                "ip": "192.168.0.13",
+                "docker_network": "vlan1"
+            },
+            "inbound_connections": [
+                {
+                    "type": "rtu",
+                    "slave_id": 1,
+                    "comm_port": "ttyS10"
+                }
+            ],
+            "registers": {
+                "coil": [],
+                "discrete_input": [],
+                "holding_register": [],
+                "input_register": [
+                    {
+                        "address": 21,
+                        "count": 1,
+                        "physical_value": "bottle_distance_to_filler_value"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "tank_output_flow_sensor",
+            "hil": "bottle_factory",
+            "network": {
+                "ip": "192.168.0.17",
+                "docker_network": "vlan1"
+            },
+            "inbound_connections": [
+                {
+                    "type": "rtu",
+                    "slave_id": 1,
+                    "comm_port": "ttyS14"
+                }
+            ],
+            "registers": {
+                "coil": [],
+                "discrete_input": [],
+                "holding_register": [],
+                "input_register": [
+                    {
+                        "address": 40,
+                        "count": 1,
+                        "physical_value": "tank_output_flow_value"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "tank_input_flow_sensor",
+            "hil": "bottle_factory",
+            "network": {
+                "ip": "192.168.0.18",
+                "docker_network": "vlan1"
+            },
+            "inbound_connections": [
+                {
+                    "type": "rtu",
+                    "slave_id": 1,
+                    "comm_port": "ttyS16"
+                }
+            ],
+            "registers": {
+                "coil": [],
+                "discrete_input": [],
+                "holding_register": [],
+                "input_register": [
+                    {
+                        "address": 41,
+                        "count": 1,
+                        "physical_value": "tank_input_flow_value"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "tank_pressure_sensor",
+            "hil": "bottle_factory",
+            "network": {
+                "ip": "192.168.0.24",
+                "docker_network": "vlan1"
+            },
+            "inbound_connections": [
+                {
+                    "type": "rtu",
+                    "slave_id": 1,
+                    "comm_port": "ttyS18"
+                }
+            ],
+            "registers": {
+                "coil": [],
+                "discrete_input": [],
+                "holding_register": [],
+                "input_register": [
+                    {
+                        "address": 50,
+                        "count": 1,
+                        "physical_value": "tank_pressure"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "supply_pressure_sensor",
+            "hil": "bottle_factory",
+            "network": {
+                "ip": "192.168.0.25",
+                "docker_network": "vlan1"
+            },
+            "inbound_connections": [
+                {
+                    "type": "rtu",
+                    "slave_id": 1,
+                    "comm_port": "ttyS20"
+                }
+            ],
+            "registers": {
+                "coil": [],
+                "discrete_input": [],
+                "holding_register": [],
+                "input_register": [
+                    {
+                        "address": 51,
+                        "count": 1,
+                        "physical_value": "supply_pressure"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "input_valve_position_sensor",
+            "hil": "bottle_factory",
+            "network": {
+                "ip": "192.168.0.26",
+                "docker_network": "vlan1"
+            },
+            "inbound_connections": [
+                {
+                    "type": "rtu",
+                    "slave_id": 1,
+                    "comm_port": "ttyS22"
+                }
+            ],
+            "registers": {
+                "coil": [],
+                "discrete_input": [],
+                "holding_register": [],
+                "input_register": [
+                    {
+                        "address": 60,
+                        "count": 1,
+                        "physical_value": "tank_input_valve_position"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "output_valve_position_sensor",
+            "hil": "bottle_factory",
+            "network": {
+                "ip": "192.168.0.29",
+                "docker_network": "vlan1"
+            },
+            "inbound_connections": [
+                {
+                    "type": "rtu",
+                    "slave_id": 1,
+                    "comm_port": "ttyS24"
+                }
+            ],
+            "registers": {
+                "coil": [],
+                "discrete_input": [],
+                "holding_register": [],
+                "input_register": [
+                    {
+                        "address": 61,
+                        "count": 1,
+                        "physical_value": "tank_output_valve_position"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "plc1_mode_sensor",
+            "hil": "bottle_factory",
+            "network": {
+                "ip": "192.168.0.27",
+                "docker_network": "vlan1"
+            },
+            "inbound_connections": [
+                {
+                    "type": "rtu",
+                    "slave_id": 1,
+                    "comm_port": "ttyS26"
+                }
+            ],
+            "registers": {
+                "coil": [],
+                "discrete_input": [],
+                "holding_register": [],
+                "input_register": [
+                    {
+                        "address": 200,
+                        "count": 1,
+                        "physical_value": "plc1_mode"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "plc2_mode_sensor",
+            "hil": "bottle_factory",
+            "network": {
+                "ip": "192.168.0.28",
+                "docker_network": "vlan1"
+            },
+            "inbound_connections": [
+                {
+                    "type": "rtu",
+                    "slave_id": 1,
+                    "comm_port": "ttyS28"
+                }
+            ],
+            "registers": {
+                "coil": [],
+                "discrete_input": [],
+                "holding_register": [],
+                "input_register": [
+                    {
+                        "address": 100,
+                        "count": 1,
+                        "physical_value": "plc2_mode"
+                    }
+                ]
+            }
+        }
+    ],
+    "actuators": [
+        {
+            "name": "tank_input_valve",
+            "logic": "input_valve_logic.py",
+            "hil": "bottle_factory",
+            "network": {
+                "ip": "192.168.0.14",
+                "docker_network": "vlan1"
+            },
+            "inbound_connections": [
+                {
+                    "type": "rtu",
+                    "slave_id": 1,
+                    "comm_port": "ttyS4"
+                }
+            ],
+            "registers": {
+                "coil": [
+                    {
+                        "address": 10,
+                        "count": 1,
+                        "physical_value": "tank_input_valve_state"
+                    }
+                ],
+                "discrete_input": [],
+                "holding_register": [],
+                "input_register": []
+            },
+            "physical_values": [
+                {
+                    "name": "tank_input_valve_state"
+                }
+            ]
+        },
+        {
+            "name": "tank_output_valve",
+            "logic": "output_valve_logic.py",
+            "hil": "bottle_factory",
+            "network": {
+                "ip": "192.168.0.15",
+                "docker_network": "vlan1"
+            },
+            "inbound_connections": [
+                {
+                    "type": "rtu",
+                    "slave_id": 1,
+                    "comm_port": "ttyS6"
+                }
+            ],
+            "registers": {
+                "coil": [
+                    {
+                        "address": 20,
+                        "count": 1,
+                        "physical_value": "tank_output_valve_state"
+                    }
+                ],
+                "discrete_input": [],
+                "holding_register": [],
+                "input_register": []
+            }
+        },
+        {
+            "name": "conveyor_belt_engine",
+            "logic": "conveyor_belt_logic.py",
+            "hil": "bottle_factory",
+            "network": {
+                "ip": "192.168.0.16",
+                "docker_network": "vlan1"
+            },
+            "inbound_connections": [
+                {
+                    "type": "rtu",
+                    "slave_id": 1,
+                    "comm_port": "ttyS12"
+                }
+            ],
+            "registers": {
+                "coil": [
+                    {
+                        "address": 30,
+                        "count": 1,
+                        "physical_value": "conveyor_belt_engine_state"
+                    }
+                ],
+                "discrete_input": [],
+                "input_register": [],
+                "holding_register": []
+            },
+            "physical_values": [
+                {
+                    "name": "conveyor_belt_engine_state"
+                }
+            ]
+        }
+    ],
+    "hils": [
+        {
+            "name": "bottle_factory",
+            "logic": "bottle_factory_logic.py",
+            "physical_values": [
+                {
+                    "name": "tank_level_value",
+                    "io": "output"
+                },
+                {
+                    "name": "tank_input_valve_state",
+                    "io": "input"
+                },
+                {
+                    "name": "tank_output_valve_state",
+                    "io": "input"
+                },
+                {
+                    "name": "bottle_level_value",
+                    "io": "output"
+                },
+                {
+                    "name": "bottle_distance_to_filler_value",
+                    "io": "output"
+                },
+                {
+                    "name": "conveyor_belt_engine_state",
+                    "io": "input"
+                },
+                {
+                    "name": "tank_output_flow_value",
+                    "io": "output"
+                },
+                {
+                    "name": "tank_input_flow_value",
+                    "io": "output"
+                },
+                {
+                    "name": "plc1_mode",
+                    "io": "output"
+                },
+                {
+                    "name": "plc2_mode",
+                    "io": "output"
+                },
+                {
+                    "name": "tank_pressure",
+                    "io": "output"
+                },
+                {
+                    "name": "supply_pressure",
+                    "io": "output"
+                },
+                {
+                    "name": "tank_input_valve_position",
+                    "io": "output"
+                },
+                {
+                    "name": "tank_output_valve_position",
+                    "io": "output"
+                }
+            ]
+        }
+    ],
+    "serial_networks": [
+        {
+            "src": "ttyS1",
+            "dest": "ttyS2"
+        },
+        {
+            "src": "ttyS3",
+            "dest": "ttyS4"
+        },
+        {
+            "src": "ttyS5",
+            "dest": "ttyS6"
+        },
+        {
+            "src": "ttyS7",
+            "dest": "ttyS8"
+        },
+        {
+            "src": "ttyS9",
+            "dest": "ttyS10"
+        },
+        {
+            "src": "ttyS11",
+            "dest": "ttyS12"
+        },
+        {
+            "src": "ttyS13",
+            "dest": "ttyS14"
+        },
+        {
+            "src": "ttyS15",
+            "dest": "ttyS16"
+        },
+        {
+            "src": "ttyS17",
+            "dest": "ttyS18"
+        },
+        {
+            "src": "ttyS19",
+            "dest": "ttyS20"
+        },
+        {
+            "src": "ttyS21",
+            "dest": "ttyS22"
+        },
+        {
+            "src": "ttyS23",
+            "dest": "ttyS24"
+        },
+        {
+            "src": "ttyS25",
+            "dest": "ttyS26"
+        },
+        {
+            "src": "ttyS27",
+            "dest": "ttyS28"
+        }
+    ],
+    "ip_networks": [
+        {
+            "docker_name": "vlan1",
+            "name": "ics_simlab",
+            "subnet": "192.168.0.0/24"
+        }
+    ]
+}

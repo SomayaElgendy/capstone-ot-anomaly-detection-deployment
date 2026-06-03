@@ -1,0 +1,24 @@
+{
+    "database": {
+        "table": "bottle_factory"
+    },
+    "inbound_connections": [
+        {
+            "type": "rtu",
+            "slave_id": 1,
+            "comm_port": "ttyS12"
+        }
+    ],
+    "registers": {
+        "coil": [
+            {
+                "address": 30,
+                "count": 1,
+                "physical_value": "conveyor_belt_engine_state"
+            }
+        ],
+        "discrete_input": [],
+        "input_register": [],
+        "holding_register": []
+    }
+}

@@ -1,0 +1,43 @@
+{% extends "ui/base.html" %}
+{% block title %}OT Dashboard{% endblock %}
+
+{% block extra_css %}
+<style>
+  .app-container,
+  .container,
+  .container-fluid,
+  main {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .ot-fullscreen-wrap{
+    width: 100vw;
+    height: calc(100vh - 64px);
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: #0b1220;
+  }
+
+  .ot-frame{
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+    background: #0b1220;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="ot-fullscreen-wrap">
+  <iframe
+    class="ot-frame"
+    src="{{ streamlit_url }}"
+    title="OT Streamlit Dashboard">
+  </iframe>
+</div>
+{% endblock %}

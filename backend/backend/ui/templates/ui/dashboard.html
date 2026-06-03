@@ -1,0 +1,583 @@
+{% extends "ui/base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block extra_css %}
+<style>
+  :root{
+    --bg1:#060b18;
+    --bg2:#0a1430;
+    --glass: rgba(255,255,255,0.06);
+    --glass2: rgba(255,255,255,0.08);
+    --stroke: rgba(255,255,255,0.10);
+    --blue:#3b82f6;
+    --blue2:#2563eb;
+    --text:#e8eefc;
+  }
+
+  .dash-grid{
+    display:grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap:18px;
+  }
+  @media (max-width: 1100px){
+    .dash-grid{ grid-template-columns: 1fr; }
+  }
+
+  .kpi-grid{
+    display:grid;
+    grid-template-columns: repeat(4, minmax(180px, 1fr));
+    gap:14px;
+  }
+  @media (max-width: 1100px){
+    .kpi-grid{ grid-template-columns: repeat(2, minmax(180px, 1fr)); }
+  }
+  @media (max-width: 560px){
+    .kpi-grid{ grid-template-columns: 1fr; }
+  }
+
+  .card-float{
+    border:1px solid var(--stroke);
+    background: linear-gradient(135deg, rgba(59,130,246,0.20), rgba(255,255,255,0.04));
+    border-radius: 18px;
+    padding:18px 18px;
+    box-shadow: 0 14px 40px rgba(0,0,0,0.45);
+    transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+    position: relative;
+    overflow:hidden;
+  }
+  .card-float:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 24px 65px rgba(0,0,0,0.55);
+    border-color: rgba(59,130,246,0.35);
+  }
+  .card-float:before{
+    content:"";
+    position:absolute; inset:-60px;
+    background: radial-gradient(circle at 30% 30%, rgba(59,130,246,0.22), transparent 55%);
+    filter: blur(4px);
+  }
+  .card-float > *{ position:relative; }
+
+  .kpi-title{ opacity:.78; font-size:13px; letter-spacing: .2px; }
+  .kpi-value{ font-size:34px; font-weight:800; margin-top:6px; }
+  .kpi-sub{ opacity:.7; font-size:12px; }
+
+  .panel{
+    border:1px solid var(--stroke);
+    background: rgba(255,255,255,0.05);
+    border-radius: 18px;
+    padding: 16px;
+    box-shadow: 0 14px 40px rgba(0,0,0,0.45);
+  }
+  .panel-header{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:10px;
+  }
+  .panel-title{ font-size:16px; font-weight:700; }
+  .muted{ opacity:.75; font-size: 13px; }
+
+  .table-wrap{
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    overflow:hidden;
+    background: rgba(0,0,0,0.25);
+  }
+  table{
+    width:100%;
+    border-collapse: collapse;
+  }
+  thead th{
+    background: rgba(255,255,255,0.06);
+    font-weight:700;
+    font-size: 13px;
+    padding: 12px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    color: var(--text);
+  }
+  tbody td{
+    padding: 12px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    vertical-align: middle;
+    color: var(--text);
+  }
+  tbody tr:hover{
+    background: rgba(59,130,246,0.10);
+    cursor:pointer;
+  }
+
+  .new-alert{
+    animation: glow 1.6s ease-out 1;
+    box-shadow: inset 0 0 0 9999px rgba(59,130,246,0.08);
+  }
+  @keyframes glow{
+    0%{ box-shadow: inset 0 0 0 9999px rgba(59,130,246,0.28); }
+    100%{ box-shadow: inset 0 0 0 9999px rgba(59,130,246,0.00); }
+  }
+
+  .filters{
+    display:flex; gap:10px; flex-wrap:wrap;
+    margin-bottom: 10px;
+  }
+  .filters select, .filters input{
+    background: rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.12);
+    color: var(--text);
+    border-radius: 10px;
+    padding: 10px 10px;
+    outline: none;
+    min-width: 170px;
+  }
+  .filters option{ color:#000; }
+
+  .chart-box{
+    border:1px solid rgba(255,255,255,0.10);
+    border-radius: 14px;
+    padding: 12px;
+    background: rgba(0,0,0,0.20);
+  }
+
+  .pill{
+    display:inline-flex; align-items:center; gap:8px;
+    padding: 6px 10px; border-radius: 999px;
+    background: rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.10);
+    font-size: 12px;
+    opacity: .9;
+  }
+  .dot{
+    width:8px; height:8px; border-radius:50%;
+    background: #22c55e;
+    box-shadow: 0 0 18px rgba(34,197,94,0.5);
+  }
+
+  .panel.trends-panel{
+    max-height: 700px;
+    overflow: hidden;
+  }
+
+  .panel.trends-panel .chart-box{
+    height: 300px;
+    overflow: hidden;
+  }
+
+  .panel.trends-panel canvas{
+    max-height: 220px !important;
+  }
+  .chart-mode-btn {
+    color: #ffffff;
+    font-weight: 700;
+    border: 1px solid rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.08);
+    cursor: pointer;
+  }
+
+  .chart-mode-btn:hover {
+    background: rgba(59,130,246,0.25);
+    border-color: rgba(59,130,246,0.6);
+  }
+
+  .chart-mode-btn.active {
+    background: rgba(59,130,246,0.45);
+    border-color: rgba(59,130,246,0.9);
+  }
+
+  .badge-new {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.6px;
+    background: rgba(0, 255, 170, 0.14);
+    border: 1px solid rgba(0, 255, 170, 0.35);
+    color: #00ffaa;
+    animation: pulseNew 1.2s ease-in-out infinite;
+  }
+
+  @keyframes pulseNew {
+    0%   { box-shadow: 0 0 0 0 rgba(0,255,170,0.0); }
+    50%  { box-shadow: 0 0 0 10px rgba(0,255,170,0.08); }
+    100% { box-shadow: 0 0 0 0 rgba(0,255,170,0.0); }
+  }
+
+  tr.new-alert {
+    background: linear-gradient(90deg, rgba(0,255,170,0.13), rgba(255,255,255,0));
+    border-left: 4px solid rgba(0,255,170,0.65);
+  }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+  <h2 class="mb-1">Security Specialist Dashboard</h2>
+  <div class="muted">Real-time OT/ICS attack alerts, classifier confidence, anomaly scores, and Adversial Attacks tracking.</div>
+</div>
+
+<div class="kpi-grid mb-3">
+  <div class="card-float">
+    <div class="kpi-title">Active Alerts</div>
+    <div class="kpi-value" id="kpiActive">0</div>
+    <div class="kpi-sub">Pending alerts in selected window</div>
+  </div>
+
+  <div class="card-float">
+    <div class="kpi-title">Avg Confidence</div>
+    <div class="kpi-value" id="kpiAvgConfidence">0.000</div>
+    <div class="kpi-sub">Average classifier confidence</div>
+  </div>
+
+  <div class="card-float">
+    <div class="kpi-title">Acknowledged</div>
+    <div class="kpi-value" id="kpiAcknowledged">0</div>
+    <div class="kpi-sub">Handled by analyst</div>
+  </div>
+
+  <div class="card-float">
+    <div class="kpi-title">Pipeline Health</div>
+    <div class="kpi-value" style="font-size:22px; margin-top:12px;">
+      <span class="pill"><span class="dot"></span> UI: OK</span>
+    </div>
+    <div class="kpi-sub">Redis/AI services connected</div>
+  </div>
+</div>
+
+<div class="dash-grid">
+
+  <div class="panel">
+    <div class="panel-header">
+      <div>
+        <div class="panel-title">Live Alerts</div>
+        <div class="muted" id="lastUpdated">Last updated: -</div>
+      </div>
+      <div class="pill" title="Auto refresh enabled">
+        <span class="dot"></span> Live
+      </div>
+    </div>
+
+    <div class="filters">
+      <div class="filters" style="margin-top:10px; gap:10px;">
+        <div class="pill" style="cursor:pointer;" onclick="setWindow(60)">Last 1m</div>
+        <div class="pill" style="cursor:pointer;" onclick="setWindow(300)">Last 5m</div>
+        <div class="pill" style="cursor:pointer;" onclick="setWindow(900)">Last 15m</div>
+        <div class="muted" id="windowLabel" style="margin-left:auto;">Window: Last 5m</div>
+      </div>
+
+      <select id="filterStatus">
+        <option value="">Status: All</option>
+        <option value="Pending">Pending</option>
+        <option value="Acknowledged">Acknowledged</option>
+      </select>
+
+      <input id="searchText" placeholder="Search attack / technique / title..." />
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Attack</th>
+            <th>Confidence</th>
+            <th>Network Score</th>
+            <th>Process Score</th>
+            <th>Time Window</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="alertsBody">
+          <tr><td colspan="8" class="muted">Waiting for alerts...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="panel trends-panel">
+    <div class="panel-header">
+      <div>
+        <div class="panel-title">Trends</div>
+        <div class="muted">Quick situational awareness</div>
+      </div>
+    </div>
+
+    <div class="chart-box mb-3">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:8px;">
+        <div class="muted">Alerts over time</div>
+        <div style="display:flex; gap:6px;">
+          <button class="pill chart-mode-btn active" onclick="setChartMode('minute', this)">Min</button>
+          <button class="pill chart-mode-btn" onclick="setChartMode('hour', this)">Hour</button>
+          <button class="pill chart-mode-btn" onclick="setChartMode('day', this)">Day</button>
+        </div>
+      </div>
+      <canvas id="chartTimeline" height="180"></canvas>
+    </div>
+
+    <div class="chart-box">
+      <div class="muted mb-2">Attack type distribution</div>
+      <canvas id="chartAttackType" height="170"></canvas>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const seenAlertIds = new Set();
+let WINDOW_SECONDS = 300;
+let CHART_MODE = "minute";
+
+function setChartMode(mode, btn){
+  CHART_MODE = mode;
+
+  document.querySelectorAll(".chart-mode-btn").forEach(b => b.classList.remove("active"));
+  if(btn) btn.classList.add("active");
+
+  loadAlerts();
+}
+
+function setWindow(sec){
+  WINDOW_SECONDS = sec;
+  document.getElementById("windowLabel").innerText =
+    `Window: Last ${sec >= 60 ? (sec/60) + "m" : sec + "s"}`;
+  loadAlerts();
+}
+
+function getAlertTime(a){
+  return a.window_end_time || a.pipeline_time || a.created_at;
+}
+
+function withinWindow(alerts) {
+  const times = alerts
+    .map(a => Date.parse(getAlertTime(a)))
+    .filter(t => Number.isFinite(t));
+
+  if (times.length === 0) return alerts;
+
+  const newest = Math.max(...times);
+
+  return alerts.filter(a => {
+    const t = Date.parse(getAlertTime(a));
+    if (!Number.isFinite(t)) return true;
+    return (newest - t) <= (WINDOW_SECONDS * 1000);
+  });
+}
+
+function fmtTime(iso){
+  try { return new Date(iso).toLocaleString(); } catch(e){ return iso; }
+}
+
+function matchesFilters(a){
+  const st  = document.getElementById("filterStatus").value;
+  const q   = document.getElementById("searchText").value.trim().toLowerCase();
+
+  if(st && (a.status || "") !== st) return false;
+
+  if(q){
+    const hay = [
+      a.predicted_attack,
+      a.attack_label,
+      a.technique_id,
+      a.title
+    ].filter(Boolean).join(" ").toLowerCase();
+
+    if(!hay.includes(q)) return false;
+  }
+
+  return true;
+}
+
+let timelineChart = null;
+let attackTypeChart = null;
+
+function initCharts(){
+  const ctxT = document.getElementById("chartTimeline");
+  const ctxA = document.getElementById("chartAttackType");
+
+  timelineChart = new Chart(ctxT, {
+    type: "line",
+    data: { labels: [], datasets: [{ label: "Alerts", data: [] }] },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: {
+      duration: 900,
+      easing: "easeOutQuart"},  
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: "#cfe1ff" }, grid: { color: "rgba(255,255,255,0.06)" } },
+        y: { ticks: { color: "#cfe1ff", precision: 0 }, grid: { color: "rgba(255,255,255,0.06)" }, beginAtZero: true }
+      }
+    }
+  });
+
+  attackTypeChart = new Chart(ctxA, {
+    type: "doughnut",
+    data: {
+      labels: [],
+      datasets: [{
+        data: [],
+        backgroundColor: [
+          "#3b82f6",
+          "#ef4444",
+          "#f59e0b",
+          "#22c55e",
+          "#a855f7",
+          "#06b6d4",
+          "#ec4899",
+          "#eab308"
+        ],
+        borderColor: "rgba(255,255,255,0.85)",
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: {
+      animateRotate: true,
+      animateScale: true,
+      duration: 900,
+      easing: "easeOutQuart"},
+      plugins: {
+        legend: { labels: { color: "#cfe1ff" } }
+      }
+    }
+  });
+}
+
+function updateCharts(alerts){
+  const buckets = new Map();
+
+  alerts.forEach(a => {
+    const d = new Date(getAlertTime(a));
+    if (isNaN(d.getTime())) return;
+
+    let label = "";
+
+    if (CHART_MODE === "minute") {
+      label = d.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
+    } 
+    else if (CHART_MODE === "hour") {
+      label = d.toLocaleString([], { month:'short', day:'numeric', hour:'2-digit' });
+    } 
+    else if (CHART_MODE === "day") {
+      label = d.toLocaleDateString([], { month:'short', day:'numeric' });
+    }
+
+    buckets.set(label, (buckets.get(label) || 0) + 1);
+  });
+
+  const labels = Array.from(buckets.keys()).slice(-10);
+  const counts = labels.map(l => buckets.get(l));
+
+  timelineChart.data.labels = labels;
+  timelineChart.data.datasets[0].data = counts;
+  timelineChart.update();
+
+  const attackCounts = new Map();
+
+  alerts.forEach(a => {
+    const attack = a.predicted_attack || a.attack_label || "unknown";
+    attackCounts.set(attack, (attackCounts.get(attack) || 0) + 1);
+  });
+
+  attackTypeChart.data.labels = Array.from(attackCounts.keys());
+  attackTypeChart.data.datasets[0].data = Array.from(attackCounts.values());
+  attackTypeChart.update();
+}
+
+async function loadAlerts(){
+  const res = await fetch("{% url 'ui:ui_alerts_data' %}");
+  const data = await res.json();
+
+  const windowed = withinWindow(data);
+
+  document.getElementById("kpiActive").innerText =
+    windowed.filter(x => (x.status || "Pending") === "Pending").length;
+
+  const avgConfidence = windowed.length
+    ? windowed.reduce((sum, x) => sum + Number(x.classifier_confidence || 0), 0) / windowed.length
+    : 0;
+
+  document.getElementById("kpiAvgConfidence").innerText =
+    avgConfidence.toFixed(3);
+
+  document.getElementById("kpiAcknowledged").innerText =
+    windowed.filter(x => x.status === "Acknowledged").length;
+
+  document.getElementById("lastUpdated").innerText =
+    "Last updated: " + new Date().toLocaleTimeString();
+
+  updateCharts(windowed);
+
+  const filtered = windowed.filter(matchesFilters);
+
+  const body = document.getElementById("alertsBody");
+  body.innerHTML = "";
+
+  if(filtered.length === 0){
+    body.innerHTML = `<tr><td colspan="8" class="muted">No alerts match filters.</td></tr>`;
+    return;
+  }
+
+  filtered.forEach(a => {
+    const tr = document.createElement("tr");
+
+    const isNew = !seenAlertIds.has(a.id);
+
+    if(isNew){
+      tr.classList.add("new-alert");
+      seenAlertIds.add(a.id);
+    }
+
+    tr.innerHTML = `
+      <td>
+        #${a.id}
+        ${isNew ? `<span class="badge-new">NEW</span>` : ""}
+      </td>
+
+      <td style="font-weight:700;">
+        ${a.predicted_attack || "-"}
+      </td>
+
+      <td>${Number(a.classifier_confidence || 0).toFixed(3)}</td>
+
+      <td>${Number(a.network_anomaly_score || 0).toExponential(2)}</td>
+
+      <td>${Number(a.process_anomaly_score || 0).toExponential(2)}</td>
+
+      <td class="muted">
+        ${a.window_start_time ? fmtTime(a.window_start_time) : "-"}
+        →
+        ${a.window_end_time ? fmtTime(a.window_end_time) : "-"}
+      </td>
+
+      <td>${a.status || "-"}</td>
+
+      <td>
+        <a class="btn btn-sm btn-outline-light" href="/alerts/${a.id}/">View</a>
+      </td>
+    `;
+
+    tr.addEventListener("click", (e) => {
+      if(e.target.tagName.toLowerCase() === "a") return;
+      window.location.href = `/alerts/${a.id}/`;
+    });
+
+    body.appendChild(tr);
+  });
+}
+
+["filterStatus", "searchText"].forEach(id => {
+  document.getElementById(id).addEventListener("input", loadAlerts);
+});
+
+initCharts();
+loadAlerts();
+setInterval(loadAlerts, 3000);
+</script>
+{% endblock %}

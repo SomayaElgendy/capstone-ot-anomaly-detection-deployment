@@ -1,0 +1,49 @@
+{
+  "run_name": "itransformer_sdpa_amp_fp16_t0821_t2t2_lr8e5_ls001",
+  "model": "itransformer",
+  "attention_backend": "sdpa",
+  "amp": true,
+  "amp_dtype": "fp16",
+  "stage2_ready_dir": "C:\\Users\\Khadija\\Desktop\\Capstone2_Final_Pipeline\\outputs\\stage1_at\\fusion_deploy\\stage2_ready",
+  "num_net_features": 43,
+  "num_proc_features": 14,
+  "num_classes": 6,
+  "label_names": {
+    "0": "normal",
+    "1": "Detect_Operating_Mode_T0868",
+    "2": "Modify_Alarm_Settings_T0838",
+    "3": "Modify_Controller_Tasking_T0821",
+    "4": "Modify_Parameters_T0836",
+    "5": "Change_Operating_Mode_T0858"
+  },
+  "class_weights": [
+    0.058243490755558014,
+    0.13664819300174713,
+    0.22205331921577454,
+    3.5528531074523926,
+    1.7764265537261963,
+    0.2537752389907837
+  ],
+  "best_epoch": 60,
+  "total_train_time_s": 14.272221326828003,
+  "device": "cuda",
+  "batch_size": 16,
+  "lr": 8e-05,
+  "weight_decay": 0.001,
+  "dropout": 0.1,
+  "seed": 7,
+  "model_config": {
+    "net_win": 120,
+    "proc_win": 50,
+    "net_features": 43,
+    "proc_features": 14,
+    "num_classes": 6,
+    "d_model": 128,
+    "n_heads": 8,
+    "n_layers": 3,
+    "d_ff": 256,
+    "dropout": 0.1,
+    "attention_backend": "sdpa"
+  },
+  "trainable_parameters": 851590
+}

@@ -1,0 +1,74 @@
+services:
+  redis:
+    image: redis:7
+    container_name: capstone-ai-redis
+    restart: unless-stopped
+    networks:
+      - capstone-ai-net
+
+  stage3:
+    image: ghcr.io/somayaelgendy/capstone-ot-anomaly-detection-deployment-stage3-service:latest
+    container_name: capstone-stage3
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./stage3/outputs:/app/outputs
+    networks:
+      - capstone-ai-net
+
+  django-web:
+    image: ghcr.io/somayaelgendy/capstone-ot-anomaly-detection-deployment-django-backend:latest
+    container_name: capstone-django-web
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/backend/db.sqlite3:/app/backend/db.sqlite3
+    environment:
+      STAGE3_BASE_URL: http://stage3:8001
+      RAG_ENDPOINT: http://stage3:8001/generate-ir
+      RAG_CHAT_ENDPOINT: http://stage3:8001/chat
+    depends_on:
+      - redis
+      - stage3
+    networks:
+      - capstone-ai-net
+
+  django-consumer:
+    image: ghcr.io/somayaelgendy/capstone-ot-anomaly-detection-deployment-django-backend:latest
+    container_name: capstone-django-consumer
+    restart: unless-stopped
+    command: python manage.py consume_ai_alerts --host redis --port 6379 --stream ai_alerts
+    volumes:
+      - ./backend/backend/db.sqlite3:/app/backend/db.sqlite3
+    environment:
+      STAGE3_BASE_URL: http://stage3:8001
+      RAG_ENDPOINT: http://stage3:8001/generate-ir
+      RAG_CHAT_ENDPOINT: http://stage3:8001/chat
+    depends_on:
+      - redis
+      - django-web
+    networks:
+      - capstone-ai-net
+
+  stage12-producer:
+    image: ghcr.io/somayaelgendy/capstone-ot-anomaly-detection-deployment-stage12-producer:latest
+    container_name: capstone-stage12-producer
+    restart: "no"
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_STREAM: ai_alerts
+      PUBLISH_DELAY: 2
+    depends_on:
+      - redis
+      - django-consumer
+    networks:
+      - capstone-ai-net
+
+networks:
+  capstone-ai-net:
+    driver: bridge

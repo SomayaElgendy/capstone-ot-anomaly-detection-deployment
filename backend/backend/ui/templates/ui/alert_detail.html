@@ -1,0 +1,665 @@
+{% extends "ui/base.html" %}
+{% block title %}Alert #{{ alert_id }}{% endblock %}
+
+{% block extra_css %}
+<style>
+  :root{
+    --stroke: rgba(255,255,255,0.10);
+    --text:#e8eefc;
+    --muted: rgba(232,238,252,0.72);
+    --blue:#3b82f6;
+    --purple:#d946ef;
+    --green:#22c55e;
+    --red:#ef4444;
+  }
+
+  .case-wrap{
+    border:1px solid var(--stroke);
+    background: rgba(255,255,255,0.05);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 18px 55px rgba(0,0,0,0.50);
+  }
+
+  .case-header{
+    display:flex;
+    gap:18px;
+    justify-content:space-between;
+    align-items:flex-start;
+    flex-wrap:wrap;
+    margin-bottom: 18px;
+  }
+
+  .title-line{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+
+  .case-title{
+    font-size: 36px;
+    font-weight: 900;
+    margin: 0;
+  }
+
+  .attack-name{
+    margin-top:8px;
+    font-size:18px;
+    font-weight:750;
+    color:#dbeafe;
+  }
+
+  .pill{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.12);
+    font-size: 12px;
+    font-weight: 750;
+  }
+
+
+  .status-pending{ border-color: rgba(59,130,246,0.55); }
+  .status-ack{ border-color: rgba(34,197,94,0.55); }
+
+  .kv{
+    display:grid;
+    grid-template-columns: 120px 1fr;
+    gap: 8px 12px;
+    margin-top: 14px;
+    font-size: 14px;
+  }
+
+  .kv .k{ color:var(--muted); }
+  .kv .v{ font-weight:700; }
+
+  .score-box{
+    border:1px solid rgba(255,255,255,0.12);
+    background: radial-gradient(circle at top left, rgba(59,130,246,0.18), rgba(0,0,0,0.25));
+    border-radius: 16px;
+    padding: 16px;
+    min-width: 240px;
+  }
+
+  .score-label{
+    color:var(--muted);
+    font-size: 12px;
+    font-weight:700;
+  }
+
+  .score-value{
+    font-size: 34px;
+    font-weight: 950;
+    margin-top: 6px;
+  }
+
+  .mini-scores{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:10px;
+    margin-top:12px;
+  }
+
+  .mini-score{
+    border:1px solid rgba(255,255,255,0.10);
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px;
+    padding:10px;
+  }
+
+  .mini-score .label{
+    font-size:11px;
+    color:var(--muted);
+  }
+
+  .mini-score .value{
+    margin-top:4px;
+    font-weight:850;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+
+
+  .layout-grid{
+    display:grid;
+    grid-template-columns: 0.95fr 1.45fr;
+    gap:16px;
+  }
+
+  @media (max-width: 1100px){
+    .layout-grid{ grid-template-columns: 1fr; }
+  }
+
+  .panel{
+    border:1px solid rgba(255,255,255,0.10);
+    background: rgba(255,255,255,0.04);
+    border-radius: 18px;
+    padding: 16px;
+  }
+
+  .panel h3{
+    margin:0 0 8px 0;
+    font-size: 17px;
+    font-weight: 900;
+  }
+
+  .muted{
+    color:var(--muted);
+    font-size:13px;
+  }
+
+  .json-box{
+    border:1px solid rgba(255,255,255,0.10);
+    background: rgba(0,0,0,0.30);
+    border-radius: 14px;
+    padding: 12px;
+    height: 440px;
+    overflow:auto;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 12.5px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    max-width: 100%;
+  }
+
+  .report-box{
+    border:1px solid rgba(255,255,255,0.10);
+    background: linear-gradient(180deg, rgba(0,0,0,0.30), rgba(0,0,0,0.20));
+    border-radius: 16px;
+    padding: 18px;
+    min-height: 440px;
+    max-height: 640px;
+    overflow:auto;
+    font-size: 14px;
+    line-height: 1.75;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .empty-report{
+    color:var(--muted);
+    border:1px dashed rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.035);
+    border-radius:14px;
+    padding:18px;
+  }
+
+  .btn-row{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top: 12px;
+  }
+
+  .btn-soft{
+    border:1px solid rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.06);
+    color: var(--text);
+    border-radius: 12px;
+    padding: 11px 14px;
+    font-weight: 800;
+    transition: transform .2s ease, border-color .2s ease, background .2s ease;
+    text-decoration:none;
+    cursor:pointer;
+  }
+
+  .btn-soft:hover{
+    transform: translateY(-2px);
+    border-color: rgba(59,130,246,0.55);
+    background: rgba(59,130,246,0.14);
+  }
+
+  .btn-primaryish{
+    border-color: rgba(59,130,246,0.55);
+    background: rgba(59,130,246,0.18);
+  }
+
+  .btn-dangerish{
+    border-color: rgba(239,68,68,0.58);
+    background: rgba(239,68,68,0.13);
+  }
+
+  .btn-successish{
+    border-color: rgba(34,197,94,0.55);
+    background: rgba(34,197,94,0.14);
+  }
+
+  .drawer-backdrop{
+    position:fixed;
+    inset:0;
+    background: rgba(0,0,0,0.55);
+    display:none;
+    z-index: 50;
+  }
+
+  .drawer{
+    position:fixed;
+    right: 16px;
+    top: 16px;
+    bottom: 16px;
+    width: min(540px, calc(100vw - 32px));
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(10,20,40,0.95);
+    box-shadow: 0 24px 80px rgba(0,0,0,0.65);
+    display:none;
+    z-index: 60;
+    overflow:hidden;
+  }
+
+  .drawer-head{
+    padding: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.10);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+
+  .drawer-title{ font-weight: 900; }
+
+  .drawer-body{
+    height: calc(100% - 58px);
+    display:flex;
+    flex-direction:column;
+  }
+
+  .chat-log{
+    flex:1;
+    padding: 12px;
+    overflow:auto;
+  }
+
+  .msg{
+    max-width: 88%;
+    padding: 10px 12px;
+    border-radius: 14px;
+    margin: 8px 0;
+    border: 1px solid rgba(255,255,255,0.10);
+    background: rgba(255,255,255,0.06);
+    white-space: pre-wrap;
+  }
+
+  .msg.user{
+    margin-left:auto;
+    background: rgba(59,130,246,0.18);
+    border-color: rgba(59,130,246,0.35);
+  }
+
+  .msg.bot{ margin-right:auto; }
+
+  .chat-input{
+    border-top: 1px solid rgba(255,255,255,0.10);
+    padding: 12px;
+    display:flex;
+    gap:10px;
+  }
+
+  .chat-input input{
+    flex:1;
+    padding: 12px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: var(--text);
+    outline:none;
+  }
+
+  .chat-input button{
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(59,130,246,0.45);
+    background: rgba(59,130,246,0.18);
+    color: var(--text);
+    font-weight: 850;
+  }
+
+  .hint{
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.10);
+    margin: 10px 12px 0 12px;
+    color:var(--muted);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="case-wrap">
+
+  <div class="case-header">
+    <div>
+      <div class="title-line">
+        <h1 class="case-title">Alert #<span id="aId">{{ alert_id }}</span></h1>
+        <span id="statusPill" class="pill status-pending">Status: -</span>
+      </div>
+
+      <div class="attack-name" id="attackName">Loading...</div>
+
+      <div class="kv">
+        <div class="k">Technique</div><div class="v" id="techniqueKV">-</div>
+        <div class="k">Time Window</div><div class="v" id="windowKV">-</div>
+      </div>
+    </div>
+
+    <div class="score-box">
+      <div class="score-label">Classifier Confidence</div>
+      <div class="score-value" id="confidenceValue">-</div>
+      <div class="muted" style="font-size:12px; margin-top:2px;">Stage 2 attack classification confidence</div>
+
+      <div class="mini-scores">
+        <div class="mini-score">
+          <div class="label">Network Score</div>
+          <div class="value" id="networkScore">-</div>
+        </div>
+        <div class="mini-score">
+          <div class="label">Process Score</div>
+          <div class="value" id="processScore">-</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="layout-grid">
+    <div class="panel">
+      <h3>Stage 2 Alert JSON</h3>
+      <div class="muted">Exact alert payload produced by the detection/classification pipeline.</div>
+
+      <div class="btn-row">
+        <button class="btn-soft btn-primaryish" id="btnCopy">Copy JSON</button>
+        <a class="btn-soft" href="{% url 'ui:dashboard' %}">Back to Dashboard</a>
+      </div>
+
+      <div class="json-box" id="metaBox">{}</div>
+    </div>
+
+    <div class="panel">
+      <h3>Incident Response Report</h3>
+      <div class="muted">Generated response using the IR/RAG service for this alert context.</div>
+
+      <div class="report-box" id="irBox">
+        <div class="empty-report">No incident response generated yet. Click “Generate Incident Response”.</div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-soft btn-successish" id="genReportBtn">Generate Incident Response</button>
+        <button class="btn-soft btn-primaryish" id="openChatBtn">Ask LLM Assistant</button>
+        <button class="btn-soft btn-dangerish" id="ackBtn">Acknowledge Alert</button>
+        <button class="btn-soft" id="downloadMdBtn" disabled>Download MD</button>
+        <button class="btn-soft" id="downloadDocxBtn" disabled>Download Word</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="drawer-backdrop" id="backdrop"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <div>
+      <div class="drawer-title">LLM Assistant</div>
+      <div class="muted" style="font-size:12px;">Context: Alert #{{ alert_id }} — <span id="drawerContext">Loading…</span></div>
+    </div>
+    <button class="btn-soft" id="closeDrawer">Close</button>
+  </div>
+
+  <div class="drawer-body">
+    <div class="hint" id="hintBox">
+      Ask about the alert meaning, impact, evidence, or next response steps.
+    </div>
+
+    <div class="chat-log" id="chatLog">
+      <div class="msg bot">Hi. I can help explain this alert and support the incident investigation.</div>
+    </div>
+
+    <div class="chat-input">
+      <input id="chatInput" placeholder="Ask about severity, impact, technique, or next steps..." />
+      <button id="sendBtn">Send</button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const alertId = {{ alert_id }};
+const metaBox = document.getElementById("metaBox");
+const irBox = document.getElementById("irBox");
+
+let latestRunId = null;
+
+function fmtTime(iso){
+  try { return new Date(iso).toLocaleString(); } catch(e){ return iso || "-"; }
+}
+
+function fmtScore(x){
+  const n = Number(x);
+  if(!Number.isFinite(n)) return "-";
+  return n === 0 ? "0.00e+0" : n.toExponential(2);
+}
+
+function renderReport(text){
+  const clean = (text || "").trim();
+
+  if(!clean){
+    irBox.innerHTML = `<div class="empty-report">No incident response generated yet. Click “Generate Incident Response”.</div>`;
+    return;
+  }
+
+  irBox.textContent = clean;
+}
+
+function getCookie(name){
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if(parts.length === 2) return parts.pop().split(';').shift();
+  return "";
+}
+
+async function loadAlert() {
+  const url = `/ui-data/alerts/${alertId}/`;
+
+  try {
+    const res = await fetch(url);
+    if (!res.ok) {
+      const txt = await res.text();
+      console.error("Alert fetch failed:", res.status, txt);
+      return;
+    }
+
+    const a = await res.json();
+    console.log("Alert detail payload:", a);
+
+    const stage2Json = a.stage2_alert_json || {
+      predicted_attack: a.predicted_attack,
+      classifier_confidence: a.classifier_confidence,
+      network_anomaly_score: a.network_anomaly_score,
+      process_anomaly_score: a.process_anomaly_score,
+      window_start_time: a.window_start_time,
+      window_end_time: a.window_end_time,
+      technique_id: a.technique_id
+    };
+
+    document.getElementById("attackName").innerText = a.predicted_attack || "Unknown attack";
+    document.getElementById("techniqueKV").innerText = a.technique_id || "-";
+
+    document.getElementById("windowKV").innerText =
+      (a.window_start_time && a.window_end_time)
+      ? `${fmtTime(a.window_start_time)} → ${fmtTime(a.window_end_time)}`
+      : "-";
+
+    const confidence = Number(a.classifier_confidence ?? 0);
+    document.getElementById("confidenceValue").innerText = confidence.toFixed(3);
+    document.getElementById("networkScore").innerText = fmtScore(a.network_anomaly_score);
+    document.getElementById("processScore").innerText = fmtScore(a.process_anomaly_score);
+
+    const status = a.status || "Pending";
+    const isAck = status.toLowerCase().includes("ack");
+    const sp = document.getElementById("statusPill");
+    sp.className = `pill ${isAck ? "status-ack" : "status-pending"}`;
+    sp.innerText = `Status: ${status}`;
+
+    metaBox.textContent = JSON.stringify(stage2Json, null, 2);
+
+    renderReport(a.full_report || a.incident_response || "");
+    latestRunId = a.stage3_run_id || null;
+    setDownloadButtonsEnabled(!!latestRunId);
+
+    document.getElementById("drawerContext").innerText =
+      `${a.predicted_attack || "unknown"} • confidence ${confidence.toFixed(3)} • ${a.technique_id || "no technique"}`;
+
+    document.getElementById("openChatBtn").disabled = false;
+
+  } catch (e) {
+    console.error("loadAlert() crashed:", e);
+  }
+}
+
+document.getElementById("btnCopy").addEventListener("click", async () => {
+  try{
+    await navigator.clipboard.writeText(metaBox.textContent);
+    alert("Stage 2 alert JSON copied.");
+  }catch(e){
+    alert("Copy failed.");
+  }
+});
+
+const drawer = document.getElementById("drawer");
+const backdrop = document.getElementById("backdrop");
+
+function openDrawer(){
+  backdrop.style.display = "block";
+  drawer.style.display = "block";
+}
+
+function closeDrawer(){
+  backdrop.style.display = "none";
+  drawer.style.display = "none";
+}
+
+document.getElementById("openChatBtn").addEventListener("click", openDrawer);
+document.getElementById("closeDrawer").addEventListener("click", closeDrawer);
+backdrop.addEventListener("click", closeDrawer);
+
+const chatLog = document.getElementById("chatLog");
+
+function addMsg(text, who){
+  const div = document.createElement("div");
+  div.className = "msg " + who;
+  div.textContent = text;
+  chatLog.appendChild(div);
+  chatLog.scrollTop = chatLog.scrollHeight;
+}
+
+async function sendChat(){
+  const input = document.getElementById("chatInput");
+  const msg = input.value.trim();
+  if(!msg) return;
+
+  addMsg(msg, "user");
+  input.value = "";
+
+  const thinking = document.createElement("div");
+  thinking.className = "msg bot";
+  thinking.textContent = "Thinking...";
+  chatLog.appendChild(thinking);
+  chatLog.scrollTop = chatLog.scrollHeight;
+
+  const res = await fetch("/ui-data/chat/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken")
+    },
+    body: JSON.stringify({ alert_id: alertId, message: msg })
+  });
+
+  const out = await res.json().catch(() => ({}));
+  thinking.textContent = out.reply || out.error || "Chat failed.";
+}
+
+document.getElementById("sendBtn").addEventListener("click", sendChat);
+document.getElementById("chatInput").addEventListener("keydown", (e) => {
+  if(e.key === "Enter") sendChat();
+});
+
+document.getElementById("ackBtn").addEventListener("click", async () => {
+  if(!confirm("Acknowledge this alert?")) return;
+
+  const res = await fetch(`/ui-data/alerts/${alertId}/ack/`, {
+    method: "POST",
+    headers: { "X-CSRFToken": getCookie("csrftoken") }
+  });
+
+  const out = await res.json().catch(() => ({}));
+  if(!res.ok){
+    alert(out.error || "Failed to acknowledge.");
+    return;
+  }
+
+  loadAlert();
+});
+
+function setDownloadButtonsEnabled(enabled){
+  document.getElementById("downloadMdBtn").disabled = !enabled;
+  document.getElementById("downloadDocxBtn").disabled = !enabled;
+}
+
+function downloadReport(format){
+  if(!latestRunId){
+    alert("No generated incident response is available for download yet.");
+    return;
+  }
+
+  window.location.href = `/ui-data/report/${latestRunId}/download/${format}/`;
+}
+
+document.getElementById("downloadMdBtn").addEventListener("click", () => {
+  downloadReport("md");
+});
+
+document.getElementById("downloadDocxBtn").addEventListener("click", () => {
+  downloadReport("docx");
+});
+
+document.getElementById("genReportBtn").addEventListener("click", async () => {
+  const btn = document.getElementById("genReportBtn");
+  btn.disabled = true;
+  btn.innerText = "Generating...";
+
+  renderReport("Generating incident response report...");
+
+  const res = await fetch("/ui-data/report/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken")
+    },
+    body: JSON.stringify({ alert_id: alertId })
+  });
+
+  const out = await res.json().catch(() => ({}));
+
+  btn.disabled = false;
+  btn.innerText = "Generate Incident Response";
+
+  if(!res.ok){
+    latestRunId = null;
+    setDownloadButtonsEnabled(false);
+    renderReport(out.error || "Failed to generate incident response.");
+    return;
+  }
+
+  renderReport(out.report || "No report returned.");
+
+  latestRunId = out.run_id || null;
+  setDownloadButtonsEnabled(!!latestRunId);
+});
+
+loadAlert();
+</script>
+{% endblock %}

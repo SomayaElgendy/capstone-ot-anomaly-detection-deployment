@@ -1,0 +1,166 @@
+{
+  "time_policy": "clock-time seconds of day; date ignored",
+  "window_policy": "non-overlapping complete 10-second windows only; final partial tail dropped",
+  "label_policy": "attack-priority window labels; any positive row makes the whole window attack",
+  "window_seconds": 10,
+  "network_padded_window_size": 120,
+  "process_window_size": 50,
+  "min_process_rows_per_window": 40,
+  "dropped_sparse_process_windows": 21,
+  "dropped_sparse_process_window_file": "data\\processed\\ICS\\attacks\\Modify_Controller_Tasking_T0821\\step3_windows\\validation\\dropped_sparse_process_windows.csv",
+  "time_info": {
+    "network_start": 63394.06950306893,
+    "network_end": 67880.56415891647,
+    "process_start": 63234.88,
+    "process_end": 67878.394,
+    "common_start_raw": 63394.06950306893,
+    "common_end_raw": 67878.394,
+    "anchor_start": 63394.06950306893,
+    "anchor_end": 67874.06950306892,
+    "complete_windows": 448.0,
+    "dropped_tail_seconds": 4.324496931076283,
+    "net_trim_start": 0.0,
+    "proc_trim_start": 159.18950306893385,
+    "net_trim_end": 6.4946558475494385,
+    "proc_trim_end": 4.324496931076283
+  },
+  "time_info_hms": {
+    "network_start": "17:36:34.070",
+    "network_end": "18:51:20.564",
+    "process_start": "17:33:54.880",
+    "process_end": "18:51:18.394",
+    "common_start_raw": "17:36:34.070",
+    "common_end_raw": "18:51:18.394",
+    "anchor_start": "17:36:34.070",
+    "anchor_end": "18:51:14.070"
+  },
+  "network": {
+    "all_windows": 427,
+    "train_windows": 341,
+    "test_windows": 86,
+    "split_idx": 341,
+    "x_all_shape": [
+      427,
+      120,
+      43
+    ],
+    "x_train_shape": [
+      341,
+      120,
+      43
+    ],
+    "x_test_shape": [
+      86,
+      120,
+      43
+    ],
+    "label_distribution_all": {
+      "0": 407,
+      "3": 20
+    },
+    "label_distribution_train": {
+      "0": 325,
+      "3": 16
+    },
+    "label_distribution_test": {
+      "0": 82,
+      "3": 4
+    },
+    "row_count_summary_all": {
+      "min": 38,
+      "max": 48,
+      "mean": 42.613583138173304
+    },
+    "padded_windows_all": 427,
+    "truncated_windows_all": 0,
+    "mask_summary": {
+      "mask_all_shape": [
+        427,
+        120
+      ],
+      "real_entries_all": 18196,
+      "padded_entries_all": 33044
+    }
+  },
+  "process": {
+    "all_windows": 427,
+    "train_windows": 341,
+    "test_windows": 86,
+    "split_idx": 341,
+    "x_all_shape": [
+      427,
+      50,
+      14
+    ],
+    "x_train_shape": [
+      341,
+      50,
+      14
+    ],
+    "x_test_shape": [
+      86,
+      50,
+      14
+    ],
+    "label_distribution_all": {
+      "0": 426,
+      "3": 1
+    },
+    "label_distribution_train": {
+      "0": 340,
+      "3": 1
+    },
+    "label_distribution_test": {
+      "0": 86
+    },
+    "row_count_summary_all": {
+      "min": 40,
+      "max": 48,
+      "mean": 45.3536299765808
+    },
+    "padded_windows_all": 427,
+    "truncated_windows_all": 0,
+    "mask_summary": {
+      "mask_all_shape": [
+        427,
+        50
+      ],
+      "real_entries_all": 19366,
+      "padded_entries_all": 1984
+    }
+  },
+  "validation": {
+    "window_count": 427,
+    "window_starts_match": true,
+    "train_test_split_same_for_branches": true,
+    "label_rule": "attack-priority window labels; no first-row/last-row labeling",
+    "overlap_policy": "no overlap; windows advance by exactly 10 seconds",
+    "sample_window_ids_saved": [
+      0,
+      1,
+      2,
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "network_label_distribution": {
+      "0": 407,
+      "3": 20
+    },
+    "process_label_distribution": {
+      "0": 426,
+      "3": 1
+    },
+    "or_gate_label_distribution": {
+      "0": 406,
+      "3": 21
+    },
+    "max_network_rows_in_window": 48,
+    "max_process_rows_in_window": 48,
+    "network_windows_over_padded_size": 0,
+    "process_windows_over_padded_size": 0
+  },
+  "alignment_ok": true
+}

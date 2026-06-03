@@ -1,0 +1,6 @@
+metric,live,step3_dataset,interpretation
+window_duration_seconds,10,10,Both use 10-second windows.
+process_rows,51,47,Process side is similar and healthy.
+network_rows,2,45,Major mismatch. Live has too few network rows.
+network_protocol_counts,"{""IPV4-TCP"": 2}","{""IPV4-TCP"": 1, ""IPV4-ModbusTCP"": 44}",Dataset is mostly ModbusTCP; live is sparse or mostly TCP.
+network_top_pairs,"{""192.168.0.1 -> 192.168.0.200"": 2}","{""192.168.0.100 -> 192.168.0.21"": 20, ""192.168.0.100 -> 192.168.0.22"": 20, ""192.168.0.100 -> 192.168.0.200"": 1, ""192.168.0.31 -> 192.168.0.22"": 1, ""192.168.0.22 -> 192.168.0.21"": 1}",Dataset includes OT Modbus pairs; live often shows host/Redis traffic.

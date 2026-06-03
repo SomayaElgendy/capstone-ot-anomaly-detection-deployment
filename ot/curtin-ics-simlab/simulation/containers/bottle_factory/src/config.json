@@ -1,0 +1,63 @@
+{
+    "database": {
+        "table": "bottle_factory",
+        "physical_values": [
+            {
+                "name": "tank_level_value",
+                "io": "output"
+            },
+            {
+                "name": "tank_input_valve_state",
+                "io": "input"
+            },
+            {
+                "name": "tank_output_valve_state",
+                "io": "input"
+            },
+            {
+                "name": "bottle_level_value",
+                "io": "output"
+            },
+            {
+                "name": "bottle_distance_to_filler_value",
+                "io": "output"
+            },
+            {
+                "name": "conveyor_belt_engine_state",
+                "io": "input"
+            },
+            {
+                "name": "tank_output_flow_value",
+                "io": "output"
+            },
+            {
+                "name": "tank_input_flow_value",
+                "io": "output"
+            },
+            {
+                "name": "plc1_mode",
+                "io": "output"
+            },
+            {
+                "name": "plc2_mode",
+                "io": "output"
+            },
+            {
+                "name": "tank_pressure",
+                "io": "output"
+            },
+            {
+                "name": "supply_pressure",
+                "io": "output"
+            },
+            {
+                "name": "tank_input_valve_position",
+                "io": "output"
+            },
+            {
+                "name": "tank_output_valve_position",
+                "io": "output"
+            }
+        ]
+    }
+}

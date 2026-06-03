@@ -1,0 +1,72 @@
+{
+    "inbound_connections": [
+        {
+            "type": "tcp",
+            "ip": "192.168.0.32",
+            "port": 502
+        }
+    ],
+    "outbound_connections": [
+        {
+            "type": "tcp",
+            "ip": "192.168.0.22",
+            "port": 502,
+            "id": "plc2_con"
+        }
+    ],
+    "registers": {
+        "coil": [
+            {
+                "id": "remote_request",
+                "address": 50,
+                "count": 1,
+                "value": 0
+            },
+            {
+                "id": "resume_request",
+                "address": 51,
+                "count": 1,
+                "value": 0
+            }
+        ],
+        "discrete_input": [],
+        "input_register": [],
+        "holding_register": []
+    },
+    "monitors": [],
+    "controllers": [
+        {
+            "outbound_connection_id": "plc1_con",
+            "id": "remote_request",
+            "value_type": "coil",
+            "slave_id": 1,
+            "address": 50,
+            "count": 1
+        },
+        {
+            "outbound_connection_id": "plc1_con",
+            "id": "resume_request",
+            "value_type": "coil",
+            "slave_id": 1,
+            "address": 51,
+            "count": 1
+        },
+        {
+            "outbound_connection_id": "plc2_con",
+            "id": "remote_request",
+            "value_type": "coil",
+            "slave_id": 1,
+            "address": 50,
+            "count": 1
+        },
+        {
+            "outbound_connection_id": "plc2_con",
+            "id": "resume_request",
+            "value_type": "coil",
+            "slave_id": 1,
+            "address": 51,
+            "count": 1
+        }
+    ],
+    "hmi_type": "predefined"
+}
