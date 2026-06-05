@@ -35,10 +35,14 @@
   @media (max-width: 1100px){
     .dash-grid{ grid-template-columns: 1fr; }
   }
+  .dashboard-content {
+  max-width: 1400px;
+  margin: 0 auto;
+}
 
   .kpi-grid{
     display:grid;
-    grid-template-columns: repeat(4, minmax(170px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap:14px;
   }
   @media (max-width: 1100px){
@@ -157,8 +161,11 @@
   .table-wrap{
     border: 1px solid rgba(255,255,255,0.06);
     border-radius: var(--radius-md);
-    overflow: hidden;
     background: rgba(0,0,0,0.22);
+
+    max-height: 560px;   /* shows around 5 alerts */
+    overflow-y: auto;
+    overflow-x: auto;
   }
 
   table{
@@ -176,6 +183,10 @@
     border-bottom: 1px solid rgba(255,255,255,0.07);
     color: var(--text-secondary);
     white-space: nowrap;
+
+    position: sticky;
+    top: 0;
+    z-index: 3;
   }
 
   tbody td{
@@ -307,62 +318,110 @@
 }
 
 /* Doughnut chart inspired by compact finance cards */
+/* Doughnut chart inspired by compact finance cards */
 .attack-distribution-card{
   height: auto !important;
-  min-height: 390px;
+  min-height: 300px;
   overflow: visible !important;
   padding: 16px;
 }
 
+.attack-distribution-layout{
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  align-items: center;
+  gap: 28px;
+  min-height: 220px;
+}
+
 .attack-chart-wrap{
-  height: 210px;
-  width: 100%;
+  height: 220px;
+  width: 240px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .attack-chart-wrap canvas{
-  max-width: 220px !important;
-  max-height: 220px !important;
+  max-width: 210px !important;
+  max-height: 210px !important;
 }
 
 .attack-legend-list{
-  margin-top: 12px;
   display: flex;
   flex-direction: column;
-  gap: 9px;
+  gap: 14px;
   width: 100%;
 }
 
 .attack-legend-item{
   display: grid;
-  grid-template-columns: 14px 1fr auto;
+  grid-template-columns: 10px 1fr;
   align-items: center;
-  gap: 9px;
-  font-size: 0.78rem;
-  color: var(--text-secondary);
+  gap: 10px;
+  width: 100%;
 }
 
 .attack-legend-dot{
-  width: 9px;
-  height: 9px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  box-shadow: 0 0 10px rgba(255,255,255,0.12);
+}
+
+.attack-legend-main{
+  width: 100%;
+}
+
+.attack-legend-top{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 5px;
 }
 
 .attack-legend-name{
   color: #dbeafe;
-  font-weight: 650;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-align: left;
 }
 
 .attack-legend-count{
   color: var(--text-secondary);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.76rem;
+  font-size: 0.78rem;
+  text-align: right;
+}
+
+.attack-legend-track{
+  width: 100%;
+  height: 4px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.attack-legend-bar{
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+}
+
+@media (max-width: 900px){
+  .attack-distribution-layout{
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .attack-chart-wrap{
+    width: 100%;
+  }
+}
+
+.attack-chart-wrap canvas{
+  max-width: 220px !important;
+  max-height: 220px !important;
 }
   /* ===== CHART MODE BUTTONS ===== */
   .chart-mode-btn {
@@ -453,10 +512,12 @@
 
 {% block content %}
 
+<div class="dashboard-content"></div>
 <div class="dash-header animate-in">
   <h2>Security Specialist Dashboard</h2>
   <div class="muted">Real-time OT/ICS attack alerts, classifier confidence, anomaly scores, and Adversial Attacks tracking.</div>
 </div>
+
 
 <div class="kpi-grid mb-3">
   <div class="card-float animate-in delay-1">
@@ -491,6 +552,7 @@
 </div>
 
 <div class="dash-grid">
+</div>
 
   <div class="panel animate-in delay-2">
     <div class="panel-header">
@@ -564,11 +626,13 @@
 <div class="chart-box chart-box-tall attack-distribution-card">
   <div class="muted mb-2">Attack type distribution</div>
 
-  <div class="attack-chart-wrap">
-    <canvas id="chartAttackType"></canvas>
-  </div>
+  <div class="attack-distribution-layout">
+    <div class="attack-chart-wrap">
+      <canvas id="chartAttackType"></canvas>
+    </div>
 
-  <div id="attackLegendList" class="attack-legend-list"></div>
+    <div id="attackLegendList" class="attack-legend-list"></div>
+  </div>
 </div>
   </div>
 
@@ -716,17 +780,27 @@ function renderAttackLegend(labels, values, colors){
 
   legend.innerHTML = "";
 
+  const maxValue = Math.max(...values, 1);
+
   labels.forEach((label, index) => {
     const count = values[index] || 0;
     const color = colors[index % colors.length];
+    const width = Math.max((count / maxValue) * 100, 6);
 
     const row = document.createElement("div");
     row.className = "attack-legend-item";
 
     row.innerHTML = `
       <span class="attack-legend-dot" style="background:${color};"></span>
-      <span class="attack-legend-name" title="${label}">${label}</span>
-      <span class="attack-legend-count">${count}</span>
+      <div class="attack-legend-main">
+        <div class="attack-legend-top">
+          <span class="attack-legend-name" title="${label}">${label}</span>
+          <span class="attack-legend-count">${count}</span>
+        </div>
+        <div class="attack-legend-track">
+          <span class="attack-legend-bar" style="width:${width}%; background:${color};"></span>
+        </div>
+      </div>
     `;
 
     legend.appendChild(row);
