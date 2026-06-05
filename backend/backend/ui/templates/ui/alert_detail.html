@@ -4,333 +4,547 @@
 {% block extra_css %}
 <style>
   :root{
-    --stroke: rgba(255,255,255,0.10);
+    --stroke: rgba(255,255,255,0.08);
     --text:#e8eefc;
-    --muted: rgba(232,238,252,0.72);
+    --text-secondary: rgba(232,238,252,0.72);
     --blue:#3b82f6;
-    --purple:#d946ef;
+    --blue-bright:#60a5fa;
+    --purple:#a855f7;
     --green:#22c55e;
     --red:#ef4444;
+    --radius-lg: 18px;
+    --radius-md: 14px;
+    --shadow-card: 0 8px 32px rgba(0,0,0,0.35);
+    --shadow-card-hover: 0 16px 48px rgba(0,0,0,0.45);
+    --transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  /* ===== CASE WRAP ===== */
   .case-wrap{
-    border:1px solid var(--stroke);
-    background: rgba(255,255,255,0.05);
-    border-radius: 20px;
-    padding: 20px;
-    box-shadow: 0 18px 55px rgba(0,0,0,0.50);
+    border: 1px solid var(--stroke);
+    background: rgba(255,255,255,0.025);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-card);
+    position: relative;
+    overflow: hidden;
   }
 
+  .case-wrap::before {
+    content: "";
+    position: absolute;
+    top: -80px;
+    right: -40px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* ===== CASE HEADER ===== */
   .case-header{
-    display:flex;
-    gap:18px;
-    justify-content:space-between;
-    align-items:flex-start;
-    flex-wrap:wrap;
-    margin-bottom: 18px;
+    display: flex;
+    gap: 24px;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+    position: relative;
+    z-index: 1;
   }
 
   .title-line{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    flex-wrap:wrap;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
   }
 
   .case-title{
-    font-size: 36px;
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
     font-weight: 900;
     margin: 0;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #e8eefc, #93bbfc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .attack-name{
-    margin-top:8px;
-    font-size:18px;
-    font-weight:750;
-    color:#dbeafe;
+    margin-top: 8px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #dbeafe;
+    letter-spacing: -0.01em;
   }
 
+  /* ===== PILLS ===== */
   .pill{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    padding: 7px 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
     border-radius: 999px;
-    background: rgba(255,255,255,0.06);
-    border:1px solid rgba(255,255,255,0.12);
-    font-size: 12px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    font-size: 0.78rem;
     font-weight: 750;
   }
 
+  .status-pending{ border-color: rgba(59,130,246,0.4); color: var(--blue-bright); background: rgba(59,130,246,0.08); }
+  .status-ack{ border-color: rgba(34,197,94,0.4); color: var(--green); background: rgba(34,197,94,0.08); }
 
-  .status-pending{ border-color: rgba(59,130,246,0.55); }
-  .status-ack{ border-color: rgba(34,197,94,0.55); }
-
+  /* ===== KEY-VALUE GRID ===== */
   .kv{
-    display:grid;
+    display: grid;
     grid-template-columns: 120px 1fr;
-    gap: 8px 12px;
-    margin-top: 14px;
-    font-size: 14px;
+    gap: 8px 14px;
+    margin-top: 16px;
+    font-size: 0.88rem;
   }
 
-  .kv .k{ color:var(--muted); }
-  .kv .v{ font-weight:700; }
+  .kv .k{ color: var(--text-secondary); font-weight: 600; }
+  .kv .v{ font-weight: 700; }
 
+  /* ===== SCORE BOX ===== */
   .score-box{
-    border:1px solid rgba(255,255,255,0.12);
-    background: radial-gradient(circle at top left, rgba(59,130,246,0.18), rgba(0,0,0,0.25));
-    border-radius: 16px;
-    padding: 16px;
-    min-width: 240px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: linear-gradient(145deg, rgba(59,130,246,0.12), rgba(0,0,0,0.25));
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    min-width: 260px;
+    position: relative;
+    overflow: hidden;
   }
+
+  .score-box::before {
+    content: "";
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .score-box > * { position: relative; z-index: 1; }
 
   .score-label{
-    color:var(--muted);
-    font-size: 12px;
-    font-weight:700;
+    color: var(--text-secondary);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
   }
 
   .score-value{
-    font-size: 34px;
+    font-size: 2.4rem;
     font-weight: 950;
+    margin-top: 8px;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .score-box .muted{
+    color: var(--text-secondary);
+    font-size: 0.75rem;
     margin-top: 6px;
   }
 
+  /* ===== MINI SCORES ===== */
   .mini-scores{
-    display:grid;
+    display: grid;
     grid-template-columns: 1fr 1fr;
-    gap:10px;
-    margin-top:12px;
+    gap: 10px;
+    margin-top: 14px;
   }
 
   .mini-score{
-    border:1px solid rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.03);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    transition: var(--transition);
+  }
+
+  .mini-score:hover {
+    border-color: rgba(59,130,246,0.2);
     background: rgba(255,255,255,0.05);
-    border-radius: 12px;
-    padding:10px;
   }
 
   .mini-score .label{
-    font-size:11px;
-    color:var(--muted);
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
   .mini-score .value{
-    margin-top:4px;
-    font-weight:850;
+    margin-top: 6px;
+    font-weight: 850;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.95rem;
   }
 
-
+  /* ===== LAYOUT GRID ===== */
   .layout-grid{
-    display:grid;
+    display: grid;
     grid-template-columns: 0.95fr 1.45fr;
-    gap:16px;
+    gap: 18px;
+    position: relative;
+    z-index: 1;
   }
 
   @media (max-width: 1100px){
     .layout-grid{ grid-template-columns: 1fr; }
   }
 
+  /* ===== PANEL ===== */
   .panel{
-    border:1px solid rgba(255,255,255,0.10);
-    background: rgba(255,255,255,0.04);
-    border-radius: 18px;
-    padding: 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.025);
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    box-shadow: var(--shadow-card);
   }
 
   .panel h3{
-    margin:0 0 8px 0;
-    font-size: 17px;
+    margin: 0 0 8px 0;
+    font-size: 1rem;
     font-weight: 900;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 
-  .muted{
-    color:var(--muted);
-    font-size:13px;
+  .panel .muted{
+    color: var(--text-secondary);
+    font-size: 0.8rem;
   }
 
+  /* ===== JSON BOX ===== */
   .json-box{
-    border:1px solid rgba(255,255,255,0.10);
-    background: rgba(0,0,0,0.30);
-    border-radius: 14px;
-    padding: 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(0,0,0,0.28);
+    border-radius: var(--radius-md);
+    padding: 14px;
     height: 440px;
-    overflow:auto;
+    overflow: auto;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 12.5px;
-    line-height: 1.5;
+    font-size: 0.8rem;
+    line-height: 1.6;
     white-space: pre-wrap;
     word-break: break-word;
     overflow-wrap: anywhere;
     max-width: 100%;
   }
 
+  /* ===== REPORT BOX ===== */
   .report-box{
-    border:1px solid rgba(255,255,255,0.10);
-    background: linear-gradient(180deg, rgba(0,0,0,0.30), rgba(0,0,0,0.20));
-    border-radius: 16px;
-    padding: 18px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: linear-gradient(180deg, rgba(0,0,0,0.28), rgba(0,0,0,0.18));
+    border-radius: var(--radius-lg);
+    padding: 20px;
     min-height: 440px;
     max-height: 640px;
-    overflow:auto;
-    font-size: 14px;
+    overflow: auto;
+    font-size: 0.88rem;
     line-height: 1.75;
     white-space: pre-wrap;
     word-break: break-word;
   }
 
   .empty-report{
-    color:var(--muted);
-    border:1px dashed rgba(255,255,255,0.18);
-    background: rgba(255,255,255,0.035);
-    border-radius:14px;
-    padding:18px;
+    color: var(--text-secondary);
+    border: 1px dashed rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.02);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    text-align: center;
+    font-size: 0.88rem;
   }
 
+  /* ===== BUTTONS ===== */
   .btn-row{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    margin-top: 12px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 14px;
   }
 
   .btn-soft{
-    border:1px solid rgba(255,255,255,0.18);
-    background: rgba(255,255,255,0.06);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.04);
     color: var(--text);
-    border-radius: 12px;
-    padding: 11px 14px;
-    font-weight: 800;
-    transition: transform .2s ease, border-color .2s ease, background .2s ease;
-    text-decoration:none;
-    cursor:pointer;
+    border-radius: var(--radius-md);
+    padding: 10px 16px;
+    font-weight: 700;
+    font-size: 0.82rem;
+    transition: var(--transition);
+    text-decoration: none;
+    cursor: pointer;
   }
 
   .btn-soft:hover{
     transform: translateY(-2px);
-    border-color: rgba(59,130,246,0.55);
-    background: rgba(59,130,246,0.14);
+    border-color: rgba(59,130,246,0.4);
+    background: rgba(59,130,246,0.1);
   }
 
   .btn-primaryish{
-    border-color: rgba(59,130,246,0.55);
+    border-color: rgba(59,130,246,0.35);
+    background: rgba(59,130,246,0.1);
+    color: var(--blue-bright);
+  }
+
+  .btn-primaryish:hover{
     background: rgba(59,130,246,0.18);
+    border-color: rgba(59,130,246,0.5);
   }
 
   .btn-dangerish{
-    border-color: rgba(239,68,68,0.58);
-    background: rgba(239,68,68,0.13);
+    border-color: rgba(239,68,68,0.35);
+    background: rgba(239,68,68,0.08);
+    color: #fca5a5;
+  }
+
+  .btn-dangerish:hover{
+    background: rgba(239,68,68,0.14);
+    border-color: rgba(239,68,68,0.5);
   }
 
   .btn-successish{
-    border-color: rgba(34,197,94,0.55);
-    background: rgba(34,197,94,0.14);
+    border-color: rgba(34,197,94,0.35);
+    background: rgba(34,197,94,0.08);
+    color: #86efac;
   }
 
+  .btn-successish:hover{
+    background: rgba(34,197,94,0.15);
+    border-color: rgba(34,197,94,0.5);
+  }
+
+  .btn-soft:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none !important;
+  }
+
+  /* ===== DRAWER ===== */
   .drawer-backdrop{
-    position:fixed;
-    inset:0;
-    background: rgba(0,0,0,0.55);
-    display:none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: none;
     z-index: 50;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .drawer-backdrop.show {
+    opacity: 1;
   }
 
   .drawer{
-    position:fixed;
+    position: fixed;
     right: 16px;
     top: 16px;
     bottom: 16px;
     width: min(540px, calc(100vw - 32px));
-    border-radius: 18px;
-    border: 1px solid rgba(255,255,255,0.12);
-    background: rgba(10,20,40,0.95);
-    box-shadow: 0 24px 80px rgba(0,0,0,0.65);
-    display:none;
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255,255,255,0.1);
+    background: linear-gradient(180deg, rgba(10,20,40,0.98), rgba(8,16,32,0.97));
+    box-shadow: -8px 0 60px rgba(0,0,0,0.6);
+    display: none;
     z-index: 60;
-    overflow:hidden;
+    overflow: hidden;
+    transform: translateX(20px);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.25s ease;
+  }
+
+  .drawer.show {
+    transform: translateX(0);
+    opacity: 1;
   }
 
   .drawer-head{
-    padding: 14px;
-    border-bottom: 1px solid rgba(255,255,255,0.10);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
+    padding: 16px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255,255,255,0.02);
   }
 
-  .drawer-title{ font-weight: 900; }
+  .drawer-title{ font-weight: 900; font-size: 1.05rem; letter-spacing: -0.01em; }
 
   .drawer-body{
-    height: calc(100% - 58px);
-    display:flex;
-    flex-direction:column;
+    height: calc(100% - 62px);
+    display: flex;
+    flex-direction: column;
   }
 
   .chat-log{
-    flex:1;
-    padding: 12px;
-    overflow:auto;
+    flex: 1;
+    padding: 14px;
+    overflow: auto;
   }
 
   .msg{
     max-width: 88%;
-    padding: 10px 12px;
-    border-radius: 14px;
+    padding: 10px 14px;
+    border-radius: var(--radius-md);
     margin: 8px 0;
-    border: 1px solid rgba(255,255,255,0.10);
-    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.04);
     white-space: pre-wrap;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    animation: fadeInUp 0.25s ease-out;
   }
 
   .msg.user{
-    margin-left:auto;
-    background: rgba(59,130,246,0.18);
-    border-color: rgba(59,130,246,0.35);
+    margin-left: auto;
+    background: rgba(59,130,246,0.14);
+    border-color: rgba(59,130,246,0.3);
   }
 
-  .msg.bot{ margin-right:auto; }
+  .msg.bot{ margin-right: auto; }
 
   .chat-input{
-    border-top: 1px solid rgba(255,255,255,0.10);
-    padding: 12px;
-    display:flex;
-    gap:10px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 14px;
+    display: flex;
+    gap: 10px;
+    background: rgba(255,255,255,0.015);
   }
 
   .chat-input input{
-    flex:1;
-    padding: 12px;
-    border-radius: 12px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.12);
+    flex: 1;
+    padding: 12px 14px;
+    border-radius: var(--radius-md);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
     color: var(--text);
-    outline:none;
+    outline: none;
+    font-size: 0.88rem;
+    transition: var(--transition);
   }
 
+  .chat-input input:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+  }
+
+  .chat-input input::placeholder { color: var(--text-secondary); opacity: 0.7; }
+
   .chat-input button{
-    padding: 12px 14px;
-    border-radius: 12px;
-    border: 1px solid rgba(59,130,246,0.45);
-    background: rgba(59,130,246,0.18);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 18px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(59,130,246,0.35);
+    background: rgba(59,130,246,0.15);
     color: var(--text);
-    font-weight: 850;
+    font-weight: 800;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .chat-input button:hover {
+    background: rgba(59,130,246,0.25);
+    border-color: rgba(59,130,246,0.5);
   }
 
   .hint{
-    padding: 10px 12px;
-    border-radius: 14px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.10);
-    margin: 10px 12px 0 12px;
-    color:var(--muted);
+    padding: 12px 14px;
+    border-radius: var(--radius-md);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    margin: 12px 14px 0 14px;
+    color: var(--text-secondary);
+    font-size: 0.82rem;
   }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== ANIMATIONS ===== */
+  .animate-in {
+    animation: fadeInUp 0.5s ease-out both;
+  }
+
+  .delay-1 { animation-delay: 0.08s; }
+  .delay-2 { animation-delay: 0.16s; }
+
+  .app-toast {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    background: rgba(15, 23, 42, 0.96);
+    border: 1px solid rgba(59, 130, 246, 0.45);
+    color: #e5f0ff;
+    padding: 14px 18px;
+    border-radius: 14px;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+    z-index: 9999;
+    font-weight: 600;
+}
+
+.custom-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 6, 23, 0.75);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9998;
+}
+
+.custom-modal-card {
+    width: min(420px, 92vw);
+    background: linear-gradient(180deg, rgba(30, 41, 59, 0.98), rgba(15, 23, 42, 0.98));
+    border: 1px solid rgba(59, 130, 246, 0.35);
+    border-radius: 22px;
+    padding: 24px;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+}
+
+.custom-modal-card h3 {
+    margin: 0 0 10px;
+    color: #f8fafc;
+}
+
+.custom-modal-card p {
+    color: #cbd5e1;
+    margin-bottom: 20px;
+}
+
+.custom-modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="case-wrap">
+<div class="case-wrap animate-in">
 
   <div class="case-header">
     <div>
@@ -350,7 +564,7 @@
     <div class="score-box">
       <div class="score-label">Classifier Confidence</div>
       <div class="score-value" id="confidenceValue">-</div>
-      <div class="muted" style="font-size:12px; margin-top:2px;">Stage 2 attack classification confidence</div>
+      <div class="muted">Stage 2 attack classification confidence</div>
 
       <div class="mini-scores">
         <div class="mini-score">
@@ -366,32 +580,32 @@
   </div>
 
   <div class="layout-grid">
-    <div class="panel">
-      <h3>Stage 2 Alert JSON</h3>
+    <div class="panel delay-1 animate-in">
+      <h3><i class="bi bi-file-code" style="color: var(--blue-bright);"></i> Stage 2 Alert JSON</h3>
       <div class="muted">Exact alert payload produced by the detection/classification pipeline.</div>
 
       <div class="btn-row">
-        <button class="btn-soft btn-primaryish" id="btnCopy">Copy JSON</button>
-        <a class="btn-soft" href="{% url 'ui:dashboard' %}">Back to Dashboard</a>
+        <button class="btn-soft btn-primaryish" id="btnCopy"><i class="bi bi-clipboard"></i> Copy JSON</button>
+        <a class="btn-soft" href="{% url 'ui:dashboard' %}"><i class="bi bi-arrow-left"></i> Back to Dashboard</a>
       </div>
 
-      <div class="json-box" id="metaBox">{}</div>
+      <div class="json-box mt-3" id="metaBox">{}</div>
     </div>
 
-    <div class="panel">
-      <h3>Incident Response Report</h3>
+    <div class="panel delay-2 animate-in">
+      <h3><i class="bi bi-file-text" style="color: var(--green);"></i> Incident Response Report</h3>
       <div class="muted">Generated response using the IR/RAG service for this alert context.</div>
 
-      <div class="report-box" id="irBox">
-        <div class="empty-report">No incident response generated yet. Click “Generate Incident Response”.</div>
+      <div class="report-box mt-3" id="irBox">
+        <div class="empty-report"><i class="bi bi-file-earmark-text" style="font-size: 1.5rem; display: block; margin-bottom: 8px; opacity: 0.5;"></i>No incident response generated yet. Click "Generate Incident Response".</div>
       </div>
 
       <div class="btn-row">
-        <button class="btn-soft btn-successish" id="genReportBtn">Generate Incident Response</button>
-        <button class="btn-soft btn-primaryish" id="openChatBtn">Ask LLM Assistant</button>
-        <button class="btn-soft btn-dangerish" id="ackBtn">Acknowledge Alert</button>
-        <button class="btn-soft" id="downloadMdBtn" disabled>Download MD</button>
-        <button class="btn-soft" id="downloadDocxBtn" disabled>Download Word</button>
+        <button class="btn-soft btn-successish" id="genReportBtn"><i class="bi bi-magic"></i> Generate Incident Response</button>
+        <button class="btn-soft btn-primaryish" id="openChatBtn"><i class="bi bi-chat-dots"></i> Ask LLM Assistant</button>
+        <button class="btn-soft btn-dangerish" id="ackBtn"><i class="bi bi-check-circle"></i> Acknowledge Alert</button>
+        <button class="btn-soft" id="downloadMdBtn" disabled><i class="bi bi-download"></i> Download MD</button>
+        <button class="btn-soft" id="downloadDocxBtn" disabled><i class="bi bi-download"></i> Download Word</button>
       </div>
     </div>
   </div>
@@ -401,26 +615,45 @@
 <div class="drawer" id="drawer">
   <div class="drawer-head">
     <div>
-      <div class="drawer-title">LLM Assistant</div>
-      <div class="muted" style="font-size:12px;">Context: Alert #{{ alert_id }} — <span id="drawerContext">Loading…</span></div>
+      <div class="drawer-title"><i class="bi bi-robot" style="color: var(--blue-bright);"></i> LLM Assistant</div>
+      <div class="muted" style="font-size:0.75rem; margin-top:2px;">Context: Alert #{{ alert_id }} — <span id="drawerContext">Loading…</span></div>
     </div>
-    <button class="btn-soft" id="closeDrawer">Close</button>
+    <button class="btn-soft" id="closeDrawer" style="padding: 8px 12px; font-size: 0.8rem;"><i class="bi bi-x-lg"></i> Close</button>
   </div>
 
   <div class="drawer-body">
     <div class="hint" id="hintBox">
-      Ask about the alert meaning, impact, evidence, or next response steps.
+      <i class="bi bi-lightbulb" style="color: var(--amber);"></i> Ask about the alert meaning, impact, evidence, or next response steps.
     </div>
 
     <div class="chat-log" id="chatLog">
-      <div class="msg bot">Hi. I can help explain this alert and support the incident investigation.</div>
+      <div class="msg bot"><i class="bi bi-robot" style="margin-right: 6px; opacity: 0.6;"></i>Hi. I can help explain this alert and support the incident investigation.</div>
     </div>
 
     <div class="chat-input">
       <input id="chatInput" placeholder="Ask about severity, impact, technique, or next steps..." />
-      <button id="sendBtn">Send</button>
+      <button id="sendBtn"><i class="bi bi-send"></i> Send</button>
     </div>
   </div>
+</div>
+
+<div id="appToast" class="app-toast" style="display:none;">
+    <span id="appToastText"></span>
+</div>
+
+<div id="confirmModal" class="custom-modal-backdrop" style="display:none;">
+    <div class="custom-modal-card">
+        <h3>Acknowledge Alert</h3>
+        <p>Are you sure you want to acknowledge this alert?</p>
+      <div class="custom-modal-actions">
+          <button type="button" class="btn-soft" onclick="closeConfirmModal()">
+              <i class="bi bi-x-circle"></i> Cancel
+          </button>
+          <button type="button" class="btn-soft btn-dangerish" onclick="confirmAcknowledge()">
+              <i class="bi bi-check-circle"></i> Acknowledge
+          </button>
+      </div>
+    </div>
 </div>
 {% endblock %}
 
@@ -446,7 +679,7 @@ function renderReport(text){
   const clean = (text || "").trim();
 
   if(!clean){
-    irBox.innerHTML = `<div class="empty-report">No incident response generated yet. Click “Generate Incident Response”.</div>`;
+    irBox.innerHTML = `<div class="empty-report"><i class="bi bi-file-earmark-text" style="font-size: 1.5rem; display: block; margin-bottom: 8px; opacity: 0.5;"></i>No incident response generated yet. Click "Generate Incident Response".</div>`;
     return;
   }
 
@@ -522,9 +755,9 @@ async function loadAlert() {
 document.getElementById("btnCopy").addEventListener("click", async () => {
   try{
     await navigator.clipboard.writeText(metaBox.textContent);
-    alert("Stage 2 alert JSON copied.");
+    showToast("Stage 2 alert JSON copied.");
   }catch(e){
-    alert("Copy failed.");
+    showToast("Copy failed. Please try again.");
   }
 });
 
@@ -534,11 +767,19 @@ const backdrop = document.getElementById("backdrop");
 function openDrawer(){
   backdrop.style.display = "block";
   drawer.style.display = "block";
+  requestAnimationFrame(() => {
+    backdrop.classList.add("show");
+    drawer.classList.add("show");
+  });
 }
 
 function closeDrawer(){
-  backdrop.style.display = "none";
-  drawer.style.display = "none";
+  backdrop.classList.remove("show");
+  drawer.classList.remove("show");
+  setTimeout(() => {
+    backdrop.style.display = "none";
+    drawer.style.display = "none";
+  }, 250);
 }
 
 document.getElementById("openChatBtn").addEventListener("click", openDrawer);
@@ -565,7 +806,7 @@ async function sendChat(){
 
   const thinking = document.createElement("div");
   thinking.className = "msg bot";
-  thinking.textContent = "Thinking...";
+  thinking.innerHTML = '<i class="bi bi-circle-dots" style="margin-right: 6px; opacity: 0.6;"></i>Thinking...';
   chatLog.appendChild(thinking);
   chatLog.scrollTop = chatLog.scrollHeight;
 
@@ -587,21 +828,8 @@ document.getElementById("chatInput").addEventListener("keydown", (e) => {
   if(e.key === "Enter") sendChat();
 });
 
-document.getElementById("ackBtn").addEventListener("click", async () => {
-  if(!confirm("Acknowledge this alert?")) return;
-
-  const res = await fetch(`/ui-data/alerts/${alertId}/ack/`, {
-    method: "POST",
-    headers: { "X-CSRFToken": getCookie("csrftoken") }
-  });
-
-  const out = await res.json().catch(() => ({}));
-  if(!res.ok){
-    alert(out.error || "Failed to acknowledge.");
-    return;
-  }
-
-  loadAlert();
+document.getElementById("ackBtn").addEventListener("click", () => {
+  openConfirmModal();
 });
 
 function setDownloadButtonsEnabled(enabled){
@@ -611,7 +839,7 @@ function setDownloadButtonsEnabled(enabled){
 
 function downloadReport(format){
   if(!latestRunId){
-    alert("No generated incident response is available for download yet.");
+    showToast("Generate an incident response before downloading.");
     return;
   }
 
@@ -629,7 +857,7 @@ document.getElementById("downloadDocxBtn").addEventListener("click", () => {
 document.getElementById("genReportBtn").addEventListener("click", async () => {
   const btn = document.getElementById("genReportBtn");
   btn.disabled = true;
-  btn.innerText = "Generating...";
+  btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Generating...';
 
   renderReport("Generating incident response report...");
 
@@ -645,7 +873,7 @@ document.getElementById("genReportBtn").addEventListener("click", async () => {
   const out = await res.json().catch(() => ({}));
 
   btn.disabled = false;
-  btn.innerText = "Generate Incident Response";
+  btn.innerHTML = '<i class="bi bi-magic"></i> Generate Incident Response';
 
   if(!res.ok){
     latestRunId = null;
@@ -659,6 +887,61 @@ document.getElementById("genReportBtn").addEventListener("click", async () => {
   latestRunId = out.run_id || null;
   setDownloadButtonsEnabled(!!latestRunId);
 });
+
+function showToast(message) {
+    const toast = document.getElementById("appToast");
+    const text = document.getElementById("appToastText");
+
+    if (!toast || !text) return;
+
+    text.textContent = message;
+    toast.style.display = "block";
+
+    setTimeout(() => {
+        toast.style.display = "none";
+    }, 2500);
+}
+
+function openConfirmModal() {
+    const modal = document.getElementById("confirmModal");
+    if (modal) modal.style.display = "flex";
+}
+
+function closeConfirmModal() {
+    const modal = document.getElementById("confirmModal");
+    if (modal) modal.style.display = "none";
+}
+
+async function confirmAcknowledge() {
+    closeConfirmModal();
+
+    const ackBtn = document.getElementById("ackBtn");
+    ackBtn.disabled = true;
+    ackBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Acknowledging...';
+
+    try {
+        const res = await fetch(`/ui-data/alerts/${alertId}/ack/`, {
+            method: "POST",
+            headers: { "X-CSRFToken": getCookie("csrftoken") }
+        });
+
+        const out = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+            showToast(out.error || "Failed to acknowledge alert.");
+            return;
+        }
+
+        showToast("Alert acknowledged successfully.");
+        await loadAlert();
+
+    } catch (e) {
+        showToast("Failed to acknowledge alert.");
+    } finally {
+        ackBtn.disabled = false;
+        ackBtn.innerHTML = '<i class="bi bi-check-circle"></i> Acknowledge Alert';
+    }
+}
 
 loadAlert();
 </script>

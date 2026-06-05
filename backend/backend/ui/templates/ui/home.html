@@ -4,129 +4,310 @@
 {% block content %}
 
 <style>
+/* ===== HERO SECTION ===== */
+.hero-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-wrap::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-wrap::after {
+  content: "";
+  position: absolute;
+  bottom: -30%;
+  left: -5%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(168,85,247,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
 /* ===== HERO BADGE ===== */
 .badge-hero {
-  display:inline-flex;
-  align-items:center;
-  gap:10px;
-  padding:8px 14px;
-  border-radius:999px;
-  background:rgba(255,255,255,0.04);
-  border:1px solid rgba(255,255,255,0.12);
-  font-size:13px;
-  color:#cfe1ff;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.1);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--blue-bright);
+  letter-spacing: 0.02em;
 }
-.badge-hero .dot{
-  width:8px;height:8px;border-radius:50%;
-  background:#3b82f6;
-  box-shadow:0 0 0 6px rgba(59,130,246,.15);
+
+.badge-hero .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--blue);
+  box-shadow: 0 0 0 5px rgba(59,130,246,.18);
 }
 
 /* ===== HERO TITLE ===== */
-.hero-title{
-  font-size:44px;
-  font-weight:800;
-  letter-spacing:-0.02em;
-  line-height:1.1;
+.hero-title {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0;
+  background: linear-gradient(135deg, #e8eefc 0%, #93bbfc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
-.hero-sub{
-  font-size:18px;
-  opacity:.85;
-  max-width:900px;
+
+.hero-sub {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  max-width: 700px;
+  line-height: 1.65;
+  margin-top: 1rem;
 }
 
 /* ===== BUTTONS ===== */
-.btn-primary-custom{
-  background:linear-gradient(135deg,#3b82f6,#2563eb);
-  border:none;
-  padding:10px 18px;
-  border-radius:10px;
-  font-weight:600;
+.btn-primary-custom {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  border: 1px solid rgba(59,130,246,0.35);
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #fff;
+  box-shadow: 0 4px 18px rgba(59,130,246,0.28);
+  transition: var(--transition);
 }
-.btn-primary-custom:hover{
-  transform:translateY(-2px);
-  box-shadow:0 10px 25px rgba(0,0,0,.4);
+
+.btn-primary-custom:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 32px rgba(59,130,246,0.4);
+  filter: brightness(1.08);
 }
-.btn-ghost{
-  border:1px solid rgba(255,255,255,.2);
-  background:rgba(255,255,255,.05);
-  padding:10px 18px;
-  border-radius:10px;
-  font-weight:600;
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid rgba(255,255,255,.15);
+  background: rgba(255,255,255,.04);
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  transition: var(--transition);
 }
-.btn-ghost:hover{
-  background:rgba(255,255,255,.08);
+
+.btn-ghost:hover {
+  background: rgba(255,255,255,.08);
+  border-color: rgba(255,255,255,.25);
+  transform: translateY(-1px);
 }
 
 /* ===== FEATURE CARDS ===== */
-.feature-card{
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:16px;
-  padding:20px;
-  transition:.3s ease;
+.feature-card {
+  background: rgba(255,255,255,.035);
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  height: 100%;
 }
-.feature-card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 20px 50px rgba(0,0,0,.5);
+
+.feature-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--blue), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--stroke-hover);
+  box-shadow: var(--shadow-card-hover), var(--shadow-glow-blue);
+}
+
+.feature-card:hover::before {
+  opacity: 0.5;
+}
+
+.feature-card .card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: rgba(59,130,246,0.1);
+  border: 1px solid rgba(59,130,246,0.15);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.feature-card h5 {
+  font-size: 1rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+.feature-card p {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin: 0;
 }
 
 /* ===== SECTION TITLES ===== */
-.section-title{
-  font-size:20px;
-  font-weight:700;
-  margin-top:40px;
-  margin-bottom:20px;
+.section-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin-top: 2.5rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.section-title::before {
+  content: "";
+  width: 4px;
+  height: 20px;
+  background: linear-gradient(180deg, var(--blue), var(--blue-bright));
+  border-radius: 2px;
 }
 
 /* ===== PIPELINE STEPS ===== */
-.step-box{
-  background:rgba(255,255,255,.03);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:14px;
-  padding:16px;
+.step-box {
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius-md);
+  padding: 1.15rem;
+  transition: var(--transition);
+  height: 100%;
+  position: relative;
+  overflow: hidden;
 }
-.step-number{
-  width:30px;height:30px;
-  display:flex;align-items:center;justify-content:center;
-  border-radius:8px;
-  background:rgba(59,130,246,.2);
-  color:#cfe1ff;
-  font-weight:800;
-  margin-bottom:8px;
+
+.step-box:hover {
+  border-color: var(--stroke-hover);
+  background: rgba(255,255,255,.045);
+}
+
+.step-number {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(59,130,246,.25), rgba(59,130,246,.1));
+  color: var(--blue-bright);
+  font-weight: 900;
+  font-size: 0.85rem;
+  margin-bottom: 0.6rem;
+  border: 1px solid rgba(59,130,246,0.15);
+}
+
+.step-box strong {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.step-box .step-desc {
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  margin-top: 0.35rem;
+  line-height: 1.5;
 }
 
 /* ===== ROLE CARDS ===== */
-.role-card{
-  background:rgba(255,255,255,.03);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:14px;
-  padding:16px;
+.role-card {
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius-md);
+  padding: 1.15rem;
+  transition: var(--transition);
+  height: 100%;
+  border-left: 3px solid transparent;
+}
+
+.role-card:hover {
+  border-color: var(--stroke-hover);
+  border-left-color: var(--blue);
+  background: rgba(255,255,255,.045);
+}
+
+.role-card strong {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.role-card .role-desc {
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  margin-top: 0.35rem;
+  line-height: 1.5;
 }
 
 /* ===== FOOTER ===== */
-.home-footer{
-  margin-top:40px;
-  padding-top:20px;
-  border-top:1px solid rgba(255,255,255,.1);
-  font-size:12px;
-  opacity:.6;
+.home-footer {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--stroke);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* ===== DIVIDER ===== */
+.hero-divider {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+  margin: 2.5rem 0;
 }
 </style>
 
 
-<div class="glass p-5 shadow">
+<div class="glass-card p-4 p-md-5 hero-wrap animate-in">
 
   <!-- HERO BADGE -->
   <div class="badge-hero mb-3">
     <span class="dot"></span>
-    Water-Sector OT SOC • Real-time anomaly detection + LLM incident response
+    Water-Sector OT SOC &middot; Real-time anomaly detection + LLM incident response
   </div>
 
   <!-- HERO TITLE -->
   <h1 class="hero-title">Water-Sector OT Threat Detection</h1>
 
-  <p class="hero-sub mt-3">
+  <p class="hero-sub">
     We monitor OT telemetry in water infrastructure and detect anomalies and adversial attacks in real-time,
     then generate contextual incident response guidance using an LLM + knowledge base.
   </p>
@@ -134,41 +315,38 @@
   <!-- BUTTONS -->
   <div class="d-flex gap-3 mt-4 flex-wrap">
     <a class="btn btn-primary-custom" href="{% url 'ui:request_service' %}">
-      Request Service
+      <i class="bi bi-envelope-paper-fill"></i> Request Service
     </a>
     <a class="btn btn-ghost text-light" href="{% url 'ui:login' %}">
-      Security Specialist Login
+      <i class="bi bi-shield-lock"></i> Security Specialist Login
     </a>
   </div>
 
-  <hr class="my-5" style="opacity:.15">
+  <hr class="hero-divider">
 
   <!-- FEATURE CARDS -->
   <div class="row g-4">
     <div class="col-md-4">
-      <div class="feature-card">
-        <h5>📡 OT Telemetry</h5>
-        <p style="opacity:.8">
-          Continuous readings from water-sector OT devices (simulated ICS environment).
-        </p>
+      <div class="feature-card animate-in delay-1">
+        <div class="card-icon">📡</div>
+        <h5>OT Telemetry</h5>
+        <p>Continuous readings from water-sector OT devices (simulated ICS environment).</p>
       </div>
     </div>
 
     <div class="col-md-4">
-      <div class="feature-card">
-        <h5>🧠 AI Detection</h5>
-        <p style="opacity:.8">
-          Preprocessing → anomaly detection → classifying & labeling via streaming services.
-        </p>
+      <div class="feature-card animate-in delay-2">
+        <div class="card-icon">🧠</div>
+        <h5>AI Detection</h5>
+        <p>Preprocessing → anomaly detection → classifying & labeling via streaming services.</p>
       </div>
     </div>
 
     <div class="col-md-4">
-      <div class="feature-card">
-        <h5>🤖 LLM Response</h5>
-        <p style="opacity:.8">
-          Context-aware incident response suggestions with explanation per alert.
-        </p>
+      <div class="feature-card animate-in delay-3">
+        <div class="card-icon">🤖</div>
+        <h5>LLM Response</h5>
+        <p>Context-aware incident response suggestions with explanation per alert.</p>
       </div>
     </div>
   </div>
@@ -179,42 +357,34 @@
 
   <div class="row g-3">
     <div class="col-md-3">
-      <div class="step-box">
+      <div class="step-box animate-in delay-1">
         <div class="step-number">1</div>
         <strong>Telemetry Stream</strong>
-        <div style="opacity:.75;margin-top:5px">
-          ICS simulation publishes water-system signals.
-        </div>
+        <div class="step-desc">ICS simulation publishes water-system signals.</div>
       </div>
     </div>
 
     <div class="col-md-3">
-      <div class="step-box">
+      <div class="step-box animate-in delay-2">
         <div class="step-number">2</div>
         <strong>Preprocessing</strong>
-        <div style="opacity:.75;margin-top:5px">
-          Feature extraction & normalization.
-        </div>
+        <div class="step-desc">Feature extraction & normalization.</div>
       </div>
     </div>
 
     <div class="col-md-3">
-      <div class="step-box">
+      <div class="step-box animate-in delay-3">
         <div class="step-number">3</div>
         <strong>Detection + Labeling</strong>
-        <div style="opacity:.75;margin-top:5px">
-          Transformer-based anomaly scoring + classifying & labeling.
-        </div>
+        <div class="step-desc">Transformer-based anomaly scoring + classifying & labeling.</div>
       </div>
     </div>
 
     <div class="col-md-3">
-      <div class="step-box">
+      <div class="step-box animate-in delay-4">
         <div class="step-number">4</div>
         <strong>Incident Response</strong>
-        <div style="opacity:.75;margin-top:5px">
-          RAG-powered LLM generates response guidance.
-        </div>
+        <div class="step-desc">RAG-powered LLM generates response guidance.</div>
       </div>
     </div>
   </div>
@@ -225,36 +395,31 @@
 
   <div class="row g-3">
     <div class="col-md-4">
-      <div class="role-card">
-        <strong>Security Specialist</strong>
-        <div style="opacity:.75;margin-top:5px">
-          Monitors alerts, acknowledges incidents, consults LLM per alert.
-        </div>
+      <div class="role-card animate-in delay-1">
+        <strong><i class="bi bi-shield-check" style="color: var(--green);"></i> Security Specialist</strong>
+        <div class="role-desc">Monitors alerts, acknowledges incidents, consults LLM per alert.</div>
       </div>
     </div>
 
     <div class="col-md-4">
-      <div class="role-card">
-        <strong>AI Engineer</strong>
-        <div style="opacity:.75;margin-top:5px">
-          Observes model health, embeddings, vector DB and pipeline metrics.
-        </div>
+      <div class="role-card animate-in delay-2">
+        <strong><i class="bi bi-cpu" style="color: var(--purple);"></i> AI Engineer</strong>
+        <div class="role-desc">Observes model health, embeddings, vector DB and pipeline metrics.</div>
       </div>
     </div>
 
     <div class="col-md-4">
-      <div class="role-card">
-        <strong>Admin</strong>
-        <div style="opacity:.75;margin-top:5px">
-          Manages internal accounts and role-based access control.
-        </div>
+      <div class="role-card animate-in delay-3">
+        <strong><i class="bi bi-gear" style="color: var(--amber);"></i> Admin</strong>
+        <div class="role-desc">Manages internal accounts and role-based access control.</div>
       </div>
     </div>
   </div>
 
   <!-- FOOTER -->
   <div class="home-footer">
-    © Water OT SOC — Capstone Project • Internal Demo UI
+    <span><i class="bi bi-shield-lock"></i> Water OT SOC — Capstone Project &middot; Internal Demo UI</span>
+    <span>Real-time Threat Detection & Response</span>
   </div>
 
 </div>

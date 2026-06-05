@@ -14,6 +14,9 @@ from django.contrib import messages
 from .forms import ServiceRequestForm
 from django.core.mail import send_mail
 from functools import wraps
+from django.contrib import messages
+from django.contrib.auth import get_user_model
+from users.models import PasswordResetRequest
 
 ROLE_SECURITY = "security_specialist"
 
@@ -461,45 +464,28 @@ def ui_download_report(request, run_id: str, file_format: str):
     response["Content-Disposition"] = f'attachment; filename="{filename}"'
     return response
 
-# @login_required
-# @require_security
-# def ui_ot_state_data(request):
-#     r = redis.Redis(
-#         host=getattr(settings, "OT_REDIS_HOST", "127.0.0.1"),
-#         port=getattr(settings, "OT_REDIS_PORT", 6379),
-#         decode_responses=True,
-#     )
+def forgot_password(request):
+    if request.method == "POST":
+        username_or_email = request.POST.get("username_or_email", "").strip()
+        message = request.POST.get("message", "").strip()
 
-#     entry = r.xrevrange("hil:telemetry", count=1)
+        User = get_user_model()
+        matched_user = (
+            User.objects.filter(username__iexact=username_or_email).first()
+            or User.objects.filter(email__iexact=username_or_email).first()
+        )
 
-#     if not entry:
-#         return JsonResponse({"error": "No OT state found."}, status=404)
+        if username_or_email:
+            PasswordResetRequest.objects.create(
+                username_or_email=username_or_email,
+                message=message,
+                matched_user=matched_user,
+            )
 
-#     _, data = entry[0]
+        messages.success(
+            request,
+            "Your password reset request was sent to the admin. Please wait for the admin to update your account."
+        )
+        return redirect("ui:login")
 
-#     # Parse validation
-#     validation = {}
-#     if data.get("_validation"):
-#         try:
-#             validation = json.loads(data["_validation"])
-#         except Exception:
-#             validation = {"raw": data["_validation"]}
-
-#     response_data = {
-#         "timestamp": data.get("timestamp"),
-#         "timestamp_iso": data.get("timestamp_iso"),
-#         "timestamp_unix_ms": data.get("timestamp_unix_ms"),
-
-#         "tank_level": int(float(data.get("tank_level_value", 0))),
-#         "tank_input_valve": int(data.get("tank_input_valve_state", 0)),
-#         "tank_output_valve": int(data.get("tank_output_valve_state", 0)),
-#         "bottle_level": int(float(data.get("bottle_level_value", 0))),
-#         "bottle_distance_to_filler": int(float(data.get("bottle_distance_to_filler_value", 0))),
-#         "conveyor_belt_engine": int(data.get("conveyor_belt_engine_state", 0)),
-#         "tank_output_flow": float(data.get("tank_output_flow_value", 0.0)),
-
-#         "validation": validation,
-#     }
-
-#     return JsonResponse(response_data)
-
+    return render(request, "ui/forgot_password.html")

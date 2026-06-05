@@ -62,3 +62,24 @@ class User(AbstractUser):
         
     def __str__(self):
         return f"{self.username} ({self.get_role_display()})"
+
+class PasswordResetRequest(models.Model):
+    STATUS_CHOICES = [
+        ("Pending", "Pending"),
+        ("Resolved", "Resolved"), 
+        ]
+
+    username_or_email = models.CharField(max_length=255)
+    message = models.TextField(blank=True)
+    matched_user = models.ForeignKey(
+        "users.User",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="password_reset_requests",
+    )
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="Pending")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Password reset request: {self.username_or_email} ({self.status})"

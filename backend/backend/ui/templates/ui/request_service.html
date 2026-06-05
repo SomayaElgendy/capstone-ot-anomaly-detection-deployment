@@ -2,43 +2,165 @@
 {% block title %}Request Service{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-  <div class="col-md-7">
-    <div class="glass p-4 shadow">
-      <h3>Request Service</h3>
 
-      {% if messages %}
-        {% for message in messages %}
-          <div class="alert alert-success mt-3">{{ message }}</div>
-        {% endfor %}
-      {% endif %}
+<style>
+.service-page {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: calc(100vh - 140px);
+}
 
-      <form method="post" class="mt-3">
-        {% csrf_token %}
+.service-card {
+  width: 100%;
+  max-width: 640px;
+  position: relative;
+  overflow: hidden;
+}
 
-        <div class="mb-3">
-          <label class="form-label">Name</label>
-          {{ form.name }}
-        </div>
+.service-card::before {
+  content: "";
+  position: absolute;
+  top: -80px;
+  right: -60px;
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
 
-        <div class="mb-3">
-          <label class="form-label">Email</label>
-          {{ form.email }}
-        </div>
+.service-card::after {
+  content: "";
+  position: absolute;
+  bottom: -60px;
+  left: -40px;
+  width: 160px;
+  height: 160px;
+  background: radial-gradient(circle, rgba(168,85,247,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
 
-        <div class="mb-3">
-          <label class="form-label">Organization</label>
-          {{ form.organization }}
-        </div>
+.service-header {
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
 
-        <div class="mb-3">
-          <label class="form-label">Message</label>
-          {{ form.message }}
-        </div>
+.service-header h3 {
+  font-weight: 900;
+  font-size: 1.4rem;
+  letter-spacing: -0.02em;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-        <button class="btn btn-primary">Submit</button>
-      </form>
+.service-header p {
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  margin-top: 6px;
+  margin-bottom: 0;
+}
+
+.service-icon {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(59,130,246,0.08));
+  border: 1px solid rgba(59,130,246,0.2);
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: var(--blue-bright);
+  box-shadow: 0 0 20px rgba(59,130,246,0.12);
+  margin-bottom: 1rem;
+}
+
+.service-form {
+  position: relative;
+  z-index: 1;
+}
+
+.service-form .form-control {
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+}
+
+.service-form textarea.form-control {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.submit-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.submit-note {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+</style>
+
+<div class="service-page">
+  <div class="glass-card service-card p-4 p-md-5 animate-in">
+
+    <div class="service-icon">
+      <i class="bi bi-envelope-paper-fill"></i>
     </div>
+
+    <div class="service-header">
+      <h3>Request Service</h3>
+      <p>Submit a service request for your organization. Our security team will review and respond shortly.</p>
+    </div>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert-soc alert-soc-success mb-3">
+          <i class="bi bi-check-circle-fill"></i>
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="post" class="service-form mt-3">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label class="form-label">Name</label>
+        {{ form.name }}
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        {{ form.email }}
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Organization <span style="color: var(--text-muted); font-weight: 400;">(optional)</span></label>
+        {{ form.organization }}
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label">Message</label>
+        {{ form.message }}
+      </div>
+
+      <div class="submit-row">
+        <button class="btn-soc btn-soc-primary" type="submit">
+          <i class="bi bi-send-fill"></i> Submit Request
+        </button>
+        <span class="submit-note"><i class="bi bi-shield-check"></i> All requests are reviewed by our security team.</span>
+      </div>
+    </form>
+
   </div>
 </div>
+
 {% endblock %}

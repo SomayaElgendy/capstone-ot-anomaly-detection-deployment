@@ -19,4 +19,5 @@ urlpatterns = [
     path("ui-data/alerts/<int:alert_id>/ack/", views.ui_ack_alert, name="ui_ack_alert"),
     path("ui-data/report/", views.ui_generate_report, name="ui_generate_report"),
     path("ui-data/report/<str:run_id>/download/<str:file_format>/", views.ui_download_report, name="ui_download_report"),
+    path("forgot-password/", views.forgot_password, name="forgot_password"),
 ]

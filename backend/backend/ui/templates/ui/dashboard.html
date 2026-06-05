@@ -6,17 +6,30 @@
   :root{
     --bg1:#060b18;
     --bg2:#0a1430;
-    --glass: rgba(255,255,255,0.06);
-    --glass2: rgba(255,255,255,0.08);
-    --stroke: rgba(255,255,255,0.10);
+    --glass: rgba(255,255,255,0.04);
+    --glass2: rgba(255,255,255,0.07);
+    --stroke: rgba(255,255,255,0.08);
+    --stroke-hover: rgba(59,130,246,0.25);
     --blue:#3b82f6;
-    --blue2:#2563eb;
+    --blue-bright:#60a5fa;
+    --blue-glow: rgba(59,130,246,0.2);
     --text:#e8eefc;
+    --text-secondary: rgba(232,238,252,0.72);
+    --green:#22c55e;
+    --red:#ef4444;
+    --amber:#f59e0b;
+    --shadow-card: 0 8px 32px rgba(0,0,0,0.35);
+    --shadow-card-hover: 0 16px 48px rgba(0,0,0,0.45);
+    --shadow-glow: 0 0 30px rgba(59,130,246,0.12);
+    --radius-lg: 16px;
+    --radius-md: 12px;
+    --transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  /* ===== LAYOUT ===== */
   .dash-grid{
     display:grid;
-    grid-template-columns: 1.6fr 1fr;
+    grid-template-columns: 1.55fr 1fr;
     gap:18px;
   }
   @media (max-width: 1100px){
@@ -25,242 +38,477 @@
 
   .kpi-grid{
     display:grid;
-    grid-template-columns: repeat(4, minmax(180px, 1fr));
+    grid-template-columns: repeat(4, minmax(170px, 1fr));
     gap:14px;
   }
   @media (max-width: 1100px){
-    .kpi-grid{ grid-template-columns: repeat(2, minmax(180px, 1fr)); }
+    .kpi-grid{ grid-template-columns: repeat(2, minmax(170px, 1fr)); }
   }
   @media (max-width: 560px){
     .kpi-grid{ grid-template-columns: 1fr; }
   }
 
+  /* ===== KPI CARDS ===== */
   .card-float{
-    border:1px solid var(--stroke);
-    background: linear-gradient(135deg, rgba(59,130,246,0.20), rgba(255,255,255,0.04));
-    border-radius: 18px;
-    padding:18px 18px;
-    box-shadow: 0 14px 40px rgba(0,0,0,0.45);
-    transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+    border: 1px solid var(--stroke);
+    background: linear-gradient(145deg, rgba(59,130,246,0.12), rgba(255,255,255,0.03));
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    box-shadow: var(--shadow-card);
+    transition: var(--transition);
     position: relative;
-    overflow:hidden;
+    overflow: hidden;
   }
+
+  .card-float::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--blue), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
   .card-float:hover{
-    transform: translateY(-6px);
-    box-shadow: 0 24px 65px rgba(0,0,0,0.55);
-    border-color: rgba(59,130,246,0.35);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-card-hover), var(--shadow-glow);
+    border-color: var(--stroke-hover);
   }
-  .card-float:before{
-    content:"";
-    position:absolute; inset:-60px;
-    background: radial-gradient(circle at 30% 30%, rgba(59,130,246,0.22), transparent 55%);
-    filter: blur(4px);
+
+  .card-float:hover::before{
+    opacity: 0.6;
   }
-  .card-float > *{ position:relative; }
 
-  .kpi-title{ opacity:.78; font-size:13px; letter-spacing: .2px; }
-  .kpi-value{ font-size:34px; font-weight:800; margin-top:6px; }
-  .kpi-sub{ opacity:.7; font-size:12px; }
+  .card-float > * { position: relative; z-index: 1; }
 
+  .kpi-title{
+    color: var(--text-secondary);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .kpi-value{
+    font-size: 2rem;
+    font-weight: 900;
+    margin-top: 8px;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .kpi-sub{
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    margin-top: 8px;
+    opacity: 0.85;
+  }
+
+  .kpi-icon {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(59,130,246,0.1);
+    border: 1px solid rgba(59,130,246,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    color: var(--blue-bright);
+  }
+
+  /* ===== PANEL ===== */
   .panel{
-    border:1px solid var(--stroke);
-    background: rgba(255,255,255,0.05);
-    border-radius: 18px;
-    padding: 16px;
-    box-shadow: 0 14px 40px rgba(0,0,0,0.45);
+    border: 1px solid var(--stroke);
+    background: rgba(255,255,255,0.03);
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    box-shadow: var(--shadow-card);
   }
-  .panel-header{
-    display:flex; align-items:center; justify-content:space-between;
-    margin-bottom:10px;
-  }
-  .panel-title{ font-size:16px; font-weight:700; }
-  .muted{ opacity:.75; font-size: 13px; }
 
-  .table-wrap{
-    border:1px solid rgba(255,255,255,0.08);
-    border-radius: 14px;
-    overflow:hidden;
-    background: rgba(0,0,0,0.25);
+  .panel-header{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 8px;
   }
+
+  .panel-title{
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  .panel-header .muted{
+    color: var(--text-secondary);
+    font-size: 0.78rem;
+    margin-top: 2px;
+  }
+
+  /* ===== TABLE ===== */
+  .table-wrap{
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: rgba(0,0,0,0.22);
+  }
+
   table{
-    width:100%;
+    width: 100%;
     border-collapse: collapse;
   }
+
   thead th{
-    background: rgba(255,255,255,0.06);
-    font-weight:700;
-    font-size: 13px;
-    padding: 12px 12px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    color: var(--text);
+    background: rgba(255,255,255,0.04);
+    font-weight: 700;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    color: var(--text-secondary);
+    white-space: nowrap;
   }
+
   tbody td{
-    padding: 12px 12px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 11px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
     vertical-align: middle;
     color: var(--text);
+    font-size: 0.84rem;
   }
+
+  tbody tr{
+    transition: background 0.15s ease;
+  }
+
   tbody tr:hover{
-    background: rgba(59,130,246,0.10);
-    cursor:pointer;
-  }
-
-  .new-alert{
-    animation: glow 1.6s ease-out 1;
-    box-shadow: inset 0 0 0 9999px rgba(59,130,246,0.08);
-  }
-  @keyframes glow{
-    0%{ box-shadow: inset 0 0 0 9999px rgba(59,130,246,0.28); }
-    100%{ box-shadow: inset 0 0 0 9999px rgba(59,130,246,0.00); }
-  }
-
-  .filters{
-    display:flex; gap:10px; flex-wrap:wrap;
-    margin-bottom: 10px;
-  }
-  .filters select, .filters input{
-    background: rgba(255,255,255,0.06);
-    border:1px solid rgba(255,255,255,0.12);
-    color: var(--text);
-    border-radius: 10px;
-    padding: 10px 10px;
-    outline: none;
-    min-width: 170px;
-  }
-  .filters option{ color:#000; }
-
-  .chart-box{
-    border:1px solid rgba(255,255,255,0.10);
-    border-radius: 14px;
-    padding: 12px;
-    background: rgba(0,0,0,0.20);
-  }
-
-  .pill{
-    display:inline-flex; align-items:center; gap:8px;
-    padding: 6px 10px; border-radius: 999px;
-    background: rgba(255,255,255,0.06);
-    border:1px solid rgba(255,255,255,0.10);
-    font-size: 12px;
-    opacity: .9;
-  }
-  .dot{
-    width:8px; height:8px; border-radius:50%;
-    background: #22c55e;
-    box-shadow: 0 0 18px rgba(34,197,94,0.5);
-  }
-
-  .panel.trends-panel{
-    max-height: 700px;
-    overflow: hidden;
-  }
-
-  .panel.trends-panel .chart-box{
-    height: 300px;
-    overflow: hidden;
-  }
-
-  .panel.trends-panel canvas{
-    max-height: 220px !important;
-  }
-  .chart-mode-btn {
-    color: #ffffff;
-    font-weight: 700;
-    border: 1px solid rgba(255,255,255,0.25);
-    background: rgba(255,255,255,0.08);
+    background: rgba(59,130,246,0.07);
     cursor: pointer;
   }
 
+  /* ===== NEW ALERT ANIMATION ===== */
+  .new-alert{
+    animation: glow 1.6s ease-out 1;
+    box-shadow: inset 0 0 0 9999px rgba(59,130,246,0.06);
+  }
+
+  @keyframes glow{
+    0%{ box-shadow: inset 0 0 0 9999px rgba(59,130,246,0.22); }
+    100%{ box-shadow: inset 0 0 0 9999px rgba(59,130,246,0.00); }
+  }
+
+  tr.new-alert {
+    background: linear-gradient(90deg, rgba(0,255,170,0.1), rgba(255,255,255,0));
+    border-left: 3px solid rgba(0,255,170,0.5);
+  }
+
+  /* ===== FILTERS ===== */
+  .filters{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+    align-items: center;
+  }
+
+  .filters select, .filters input{
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text);
+    border-radius: 10px;
+    padding: 9px 12px;
+    outline: none;
+    min-width: 170px;
+    font-size: 0.85rem;
+    transition: var(--transition);
+  }
+
+  .filters select:focus, .filters input:focus{
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+  }
+
+  .filters option{ color: #000; }
+
+  /* ===== CHART BOXES ===== */
+  .chart-box{
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    background: rgba(0,0,0,0.18);
+    min-height: 360px;
+    position: relative;
+    overflow: visible;
+  }
+
+  .chart-box canvas{
+    max-height: 300px;
+  }
+
+  /* ===== PILLS ===== */
+  .pill{
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 11px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    font-size: 0.78rem;
+    font-weight: 700;
+    opacity: 0.95;
+  }
+
+  .pill-window {
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .pill-window:hover {
+    background: rgba(59,130,246,0.12);
+    border-color: rgba(59,130,246,0.25);
+  }
+
+  .dot{
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 12px rgba(34,197,94,0.4);
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  /* ===== TRENDS PANEL ===== */
+.panel.trends-panel{
+  overflow: visible;
+}
+
+.panel.trends-panel .chart-box{
+  height: 300px;
+  overflow: hidden;
+}
+
+.panel.trends-panel .chart-box canvas{
+  max-height: 230px !important;
+}
+
+/* Doughnut chart inspired by compact finance cards */
+.attack-distribution-card{
+  height: auto !important;
+  min-height: 390px;
+  overflow: visible !important;
+  padding: 16px;
+}
+
+.attack-chart-wrap{
+  height: 210px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.attack-chart-wrap canvas{
+  max-width: 220px !important;
+  max-height: 220px !important;
+}
+
+.attack-legend-list{
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  width: 100%;
+}
+
+.attack-legend-item{
+  display: grid;
+  grid-template-columns: 14px 1fr auto;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.attack-legend-dot{
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(255,255,255,0.12);
+}
+
+.attack-legend-name{
+  color: #dbeafe;
+  font-weight: 650;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.attack-legend-count{
+  color: var(--text-secondary);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.76rem;
+}
+  /* ===== CHART MODE BUTTONS ===== */
+  .chart-mode-btn {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.75rem;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.04);
+    cursor: pointer;
+    border-radius: 999px;
+    padding: 5px 12px;
+    transition: var(--transition);
+  }
+
   .chart-mode-btn:hover {
-    background: rgba(59,130,246,0.25);
-    border-color: rgba(59,130,246,0.6);
+    background: rgba(59,130,246,0.18);
+    border-color: rgba(59,130,246,0.4);
   }
 
   .chart-mode-btn.active {
-    background: rgba(59,130,246,0.45);
-    border-color: rgba(59,130,246,0.9);
+    background: rgba(59,130,246,0.35);
+    border-color: rgba(59,130,246,0.7);
+    box-shadow: 0 0 12px rgba(59,130,246,0.2);
   }
 
+  /* ===== BADGE NEW ===== */
   .badge-new {
     display: inline-block;
-    padding: 4px 10px;
+    padding: 3px 8px;
     border-radius: 999px;
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: 0.6px;
-    background: rgba(0, 255, 170, 0.14);
-    border: 1px solid rgba(0, 255, 170, 0.35);
+    font-weight: 800;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    background: rgba(0, 255, 170, 0.1);
+    border: 1px solid rgba(0, 255, 170, 0.25);
     color: #00ffaa;
-    animation: pulseNew 1.2s ease-in-out infinite;
+    animation: pulseNew 1.5s ease-in-out infinite;
+    margin-left: 6px;
+    vertical-align: middle;
   }
 
   @keyframes pulseNew {
     0%   { box-shadow: 0 0 0 0 rgba(0,255,170,0.0); }
-    50%  { box-shadow: 0 0 0 10px rgba(0,255,170,0.08); }
+    50%  { box-shadow: 0 0 0 8px rgba(0,255,170,0.06); }
     100% { box-shadow: 0 0 0 0 rgba(0,255,170,0.0); }
   }
 
-  tr.new-alert {
-    background: linear-gradient(90deg, rgba(0,255,170,0.13), rgba(255,255,255,0));
-    border-left: 4px solid rgba(0,255,170,0.65);
+  /* ===== PAGE HEADER ===== */
+  .dash-header {
+    margin-bottom: 1.25rem;
   }
 
+  .dash-header h2 {
+    font-weight: 900;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  .dash-header .muted {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    margin-top: 4px;
+  }
+
+  /* ===== MISC ===== */
+  .muted { color: var(--text-secondary); }
+
+  .filters-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+    align-items: center;
+  }
+
+  #windowLabel {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    margin-left: auto;
+  }
+
+  @media (max-width: 768px) {
+    #windowLabel { margin-left: 0; width: 100%; margin-top: 4px; }
+  }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="mb-3">
-  <h2 class="mb-1">Security Specialist Dashboard</h2>
+
+<div class="dash-header animate-in">
+  <h2>Security Specialist Dashboard</h2>
   <div class="muted">Real-time OT/ICS attack alerts, classifier confidence, anomaly scores, and Adversial Attacks tracking.</div>
 </div>
 
 <div class="kpi-grid mb-3">
-  <div class="card-float">
+  <div class="card-float animate-in delay-1">
     <div class="kpi-title">Active Alerts</div>
     <div class="kpi-value" id="kpiActive">0</div>
     <div class="kpi-sub">Pending alerts in selected window</div>
+    <div class="kpi-icon"><i class="bi bi-exclamation-triangle"></i></div>
   </div>
 
-  <div class="card-float">
+  <div class="card-float animate-in delay-2">
     <div class="kpi-title">Avg Confidence</div>
     <div class="kpi-value" id="kpiAvgConfidence">0.000</div>
     <div class="kpi-sub">Average classifier confidence</div>
+    <div class="kpi-icon"><i class="bi bi-activity"></i></div>
   </div>
 
-  <div class="card-float">
+  <div class="card-float animate-in delay-3">
     <div class="kpi-title">Acknowledged</div>
     <div class="kpi-value" id="kpiAcknowledged">0</div>
     <div class="kpi-sub">Handled by analyst</div>
+    <div class="kpi-icon"><i class="bi bi-check-circle"></i></div>
   </div>
 
-  <div class="card-float">
+  <div class="card-float animate-in delay-4">
     <div class="kpi-title">Pipeline Health</div>
-    <div class="kpi-value" style="font-size:22px; margin-top:12px;">
-      <span class="pill"><span class="dot"></span> UI: OK</span>
+    <div class="kpi-value" style="font-size: 1.3rem; margin-top: 14px;">
+      <span class="pill pill-live"><span class="dot"></span> UI: OK</span>
     </div>
     <div class="kpi-sub">Redis/AI services connected</div>
+    <div class="kpi-icon"><i class="bi bi-hdd-network"></i></div>
   </div>
 </div>
 
 <div class="dash-grid">
 
-  <div class="panel">
+  <div class="panel animate-in delay-2">
     <div class="panel-header">
       <div>
-        <div class="panel-title">Live Alerts</div>
+        <div class="panel-title"><i class="bi bi-lightning-charge" style="color: var(--amber);"></i> Live Alerts</div>
         <div class="muted" id="lastUpdated">Last updated: -</div>
       </div>
-      <div class="pill" title="Auto refresh enabled">
+      <div class="pill pill-live" title="Auto refresh enabled">
         <span class="dot"></span> Live
       </div>
     </div>
 
     <div class="filters">
-      <div class="filters" style="margin-top:10px; gap:10px;">
-        <div class="pill" style="cursor:pointer;" onclick="setWindow(60)">Last 1m</div>
-        <div class="pill" style="cursor:pointer;" onclick="setWindow(300)">Last 5m</div>
-        <div class="pill" style="cursor:pointer;" onclick="setWindow(900)">Last 15m</div>
-        <div class="muted" id="windowLabel" style="margin-left:auto;">Window: Last 5m</div>
+      <div class="filters-row">
+        <div class="pill pill-window" onclick="setWindow(60)">Last 1m</div>
+        <div class="pill pill-window" onclick="setWindow(300)">Last 5m</div>
+        <div class="pill pill-window" onclick="setWindow(900)">Last 15m</div>
+        <div class="muted" id="windowLabel">Window: Last 5m</div>
       </div>
 
       <select id="filterStatus">
@@ -287,24 +535,24 @@
           </tr>
         </thead>
         <tbody id="alertsBody">
-          <tr><td colspan="8" class="muted">Waiting for alerts...</td></tr>
+          <tr><td colspan="8" class="muted" style="text-align: center; padding: 24px;">Waiting for alerts...</td></tr>
         </tbody>
       </table>
     </div>
   </div>
 
-  <div class="panel trends-panel">
+  <div class="panel trends-panel animate-in delay-3">
     <div class="panel-header">
       <div>
-        <div class="panel-title">Trends</div>
+        <div class="panel-title"><i class="bi bi-graph-up" style="color: var(--blue-bright);"></i> Trends</div>
         <div class="muted">Quick situational awareness</div>
       </div>
     </div>
 
     <div class="chart-box mb-3">
-      <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:8px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 10px;">
         <div class="muted">Alerts over time</div>
-        <div style="display:flex; gap:6px;">
+        <div style="display: flex; gap: 5px;">
           <button class="pill chart-mode-btn active" onclick="setChartMode('minute', this)">Min</button>
           <button class="pill chart-mode-btn" onclick="setChartMode('hour', this)">Hour</button>
           <button class="pill chart-mode-btn" onclick="setChartMode('day', this)">Day</button>
@@ -313,10 +561,15 @@
       <canvas id="chartTimeline" height="180"></canvas>
     </div>
 
-    <div class="chart-box">
-      <div class="muted mb-2">Attack type distribution</div>
-      <canvas id="chartAttackType" height="170"></canvas>
-    </div>
+<div class="chart-box chart-box-tall attack-distribution-card">
+  <div class="muted mb-2">Attack type distribution</div>
+
+  <div class="attack-chart-wrap">
+    <canvas id="chartAttackType"></canvas>
+  </div>
+
+  <div id="attackLegendList" class="attack-legend-list"></div>
+</div>
   </div>
 
 </div>
@@ -405,7 +658,7 @@ function initCharts(){
       maintainAspectRatio: false,
       animation: {
       duration: 900,
-      easing: "easeOutQuart"},  
+      easing: "easeOutQuart"},
       plugins: { legend: { display: false } },
       scales: {
         x: { ticks: { color: "#cfe1ff" }, grid: { color: "rgba(255,255,255,0.06)" } },
@@ -434,18 +687,49 @@ function initCharts(){
         borderWidth: 2
       }]
     },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      animation: {
-      animateRotate: true,
-      animateScale: true,
-      duration: 900,
-      easing: "easeOutQuart"},
-      plugins: {
-        legend: { labels: { color: "#cfe1ff" } }
-      }
+options: {
+  responsive: true,
+  maintainAspectRatio: false,
+  cutout: "68%",
+  radius: "78%",
+  animation: {
+    animateRotate: true,
+    animateScale: true,
+    duration: 900,
+    easing: "easeOutQuart"
+  },
+  plugins: {
+    legend: {
+      display: false
     }
+  },
+  layout: {
+    padding: 4
+  }
+}
+  });
+}
+
+function renderAttackLegend(labels, values, colors){
+  const legend = document.getElementById("attackLegendList");
+  if(!legend) return;
+
+  legend.innerHTML = "";
+
+  labels.forEach((label, index) => {
+    const count = values[index] || 0;
+    const color = colors[index % colors.length];
+
+    const row = document.createElement("div");
+    row.className = "attack-legend-item";
+
+    row.innerHTML = `
+      <span class="attack-legend-dot" style="background:${color};"></span>
+      <span class="attack-legend-name" title="${label}">${label}</span>
+      <span class="attack-legend-count">${count}</span>
+    `;
+
+    legend.appendChild(row);
   });
 }
 
@@ -460,10 +744,10 @@ function updateCharts(alerts){
 
     if (CHART_MODE === "minute") {
       label = d.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
-    } 
+    }
     else if (CHART_MODE === "hour") {
       label = d.toLocaleString([], { month:'short', day:'numeric', hour:'2-digit' });
-    } 
+    }
     else if (CHART_MODE === "day") {
       label = d.toLocaleDateString([], { month:'short', day:'numeric' });
     }
@@ -485,9 +769,15 @@ function updateCharts(alerts){
     attackCounts.set(attack, (attackCounts.get(attack) || 0) + 1);
   });
 
-  attackTypeChart.data.labels = Array.from(attackCounts.keys());
-  attackTypeChart.data.datasets[0].data = Array.from(attackCounts.values());
+  const attackLabels = Array.from(attackCounts.keys());
+  const attackValues = Array.from(attackCounts.values());
+  const attackColors = attackTypeChart.data.datasets[0].backgroundColor;
+
+  attackTypeChart.data.labels = attackLabels;
+  attackTypeChart.data.datasets[0].data = attackValues;
   attackTypeChart.update();
+
+  renderAttackLegend(attackLabels, attackValues, attackColors);
 }
 
 async function loadAlerts(){
@@ -520,7 +810,7 @@ async function loadAlerts(){
   body.innerHTML = "";
 
   if(filtered.length === 0){
-    body.innerHTML = `<tr><td colspan="8" class="muted">No alerts match filters.</td></tr>`;
+    body.innerHTML = `<tr><td colspan="8" class="muted" style="text-align: center; padding: 24px;">No alerts match filters.</td></tr>`;
     return;
   }
 

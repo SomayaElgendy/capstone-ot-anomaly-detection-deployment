@@ -6,27 +6,482 @@
   <title>{% block title %}Water OT SOC{% endblock %}</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
 
   <style>
-    body { background: linear-gradient(135deg,#0f172a,#1e293b); color:white; }
-    .nav-dark { background: rgba(0,0,0,.35); backdrop-filter: blur(10px); }
-    .glass { background: rgba(255,255,255,0.06); backdrop-filter: blur(10px); border-radius: 18px; }
-    a { text-decoration: none; }
+    /* ==============================================
+       BASE DESIGN SYSTEM — Water OT SOC
+       ============================================== */
+
+    :root {
+      --bg-deep: #060b14;
+      --bg-base: #0a111a;
+      --bg-elevated: #0f1824;
+      --bg-card: rgba(255, 255, 255, 0.035);
+      --bg-card-hover: rgba(255, 255, 255, 0.05);
+      --glass: rgba(255, 255, 255, 0.04);
+      --glass-strong: rgba(255, 255, 255, 0.07);
+      --stroke: rgba(255, 255, 255, 0.08);
+      --stroke-hover: rgba(59, 130, 246, 0.3);
+      --blue: #3b82f6;
+      --blue-bright: #60a5fa;
+      --blue-glow: rgba(59, 130, 246, 0.35);
+      --text-primary: #e8eefc;
+      --text-secondary: rgba(232, 238, 252, 0.72);
+      --text-muted: rgba(232, 238, 252, 0.5);
+      --green: #22c55e;
+      --red: #ef4444;
+      --amber: #f59e0b;
+      --purple: #a855f7;
+      --radius-sm: 10px;
+      --radius-md: 14px;
+      --radius-lg: 18px;
+      --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.35);
+      --shadow-card-hover: 0 16px 48px rgba(0, 0, 0, 0.45);
+      --shadow-glow-blue: 0 0 30px rgba(59, 130, 246, 0.15);
+      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    body {
+      background: radial-gradient(ellipse at 20% 0%, #0f172a 0%, #060b14 50%, #0a111a 100%);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ==============================================
+       NAVBAR
+       ============================================== */
+    .navbar-main {
+      background: linear-gradient(180deg, rgba(6, 11, 20, 0.95) 0%, rgba(10, 17, 26, 0.9) 100%);
+      backdrop-filter: blur(20px) saturate(1.2);
+      -webkit-backdrop-filter: blur(20px) saturate(1.2);
+      border-bottom: 1px solid var(--stroke);
+      padding: 0.75rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar-main .navbar-brand {
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--text-primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    .navbar-main .navbar-brand .brand-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--blue), var(--blue-bright));
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      box-shadow: 0 0 16px var(--blue-glow);
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-secondary);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-primary);
+      border-color: var(--stroke);
+    }
+
+    .nav-btn.active {
+      background: rgba(59, 130, 246, 0.12);
+      color: var(--blue-bright);
+      border-color: rgba(59, 130, 246, 0.25);
+    }
+
+    .nav-btn.nav-btn-danger {
+      color: rgba(239, 68, 68, 0.8);
+      border-color: rgba(239, 68, 68, 0.15);
+    }
+
+    .nav-btn.nav-btn-danger:hover {
+      background: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+
+    /* ==============================================
+       GLASS CARD (shared)
+       ============================================== */
+    .glass-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      transition: var(--transition);
+    }
+
+    .glass-card:hover {
+      border-color: var(--stroke-hover);
+      box-shadow: var(--shadow-card-hover), var(--shadow-glow-blue);
+    }
+
+    /* ==============================================
+       FORMS
+       ============================================== */
+    .form-control, .form-select {
+      background: rgba(255, 255, 255, 0.04) !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      border-radius: var(--radius-sm) !important;
+      color: var(--text-primary) !important;
+      padding: 0.65rem 0.85rem;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+
+    .form-control:focus, .form-select:focus {
+      background: rgba(255, 255, 255, 0.06) !important;
+      border-color: var(--blue) !important;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15) !important;
+      outline: none;
+    }
+
+    .form-control::placeholder { color: var(--text-muted); }
+
+    .form-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 0.4rem;
+    }
+
+    textarea.form-control { resize: vertical; min-height: 100px; }
+
+    /* ==============================================
+       BUTTONS
+       ============================================== */
+    .btn-soc {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.65rem 1.25rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      font-weight: 700;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: var(--transition);
+      letter-spacing: 0.01em;
+    }
+
+    .btn-soc-primary {
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      color: #fff;
+      border-color: rgba(59, 130, 246, 0.4);
+      box-shadow: 0 4px 16px rgba(59, 130, 246, 0.25);
+    }
+
+    .btn-soc-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(59, 130, 246, 0.4);
+      filter: brightness(1.1);
+    }
+
+    .btn-soc-secondary {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-primary);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .btn-soc-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .btn-soc-success {
+      background: rgba(34, 197, 94, 0.12);
+      color: var(--green);
+      border-color: rgba(34, 197, 94, 0.3);
+    }
+
+    .btn-soc-success:hover {
+      background: rgba(34, 197, 94, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .btn-soc-danger {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--red);
+      border-color: rgba(239, 68, 68, 0.25);
+    }
+
+    .btn-soc-danger:hover {
+      background: rgba(239, 68, 68, 0.18);
+      transform: translateY(-1px);
+    }
+
+    .btn-soc:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    /* ==============================================
+       ALERTS / MESSAGES
+       ============================================== */
+    .alert-soc {
+      border-radius: var(--radius-md);
+      padding: 1rem 1.25rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border: 1px solid;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .alert-soc-success {
+      background: rgba(34, 197, 94, 0.08);
+      color: #4ade80;
+      border-color: rgba(34, 197, 94, 0.2);
+    }
+
+    .alert-soc-error {
+      background: rgba(239, 68, 68, 0.08);
+      color: #f87171;
+      border-color: rgba(239, 68, 68, 0.2);
+    }
+
+    .alert-soc-warning {
+      background: rgba(245, 158, 11, 0.08);
+      color: #fbbf24;
+      border-color: rgba(245, 158, 11, 0.2);
+    }
+
+    /* ==============================================
+       PILLS / BADGES
+       ============================================== */
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .pill .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .pill-live .dot {
+      background: var(--green);
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* ==============================================
+       PAGE HEADER
+       ============================================== */
+    .page-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .page-header h1, .page-header h2 {
+      font-weight: 800;
+      font-size: 1.6rem;
+      letter-spacing: -0.02em;
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    .page-header .subtitle {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      margin-top: 0.35rem;
+    }
+
+    /* ==============================================
+       TABLE BASE
+       ============================================== */
+    .soc-table-wrap {
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .soc-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .soc-table thead th {
+      background: rgba(255, 255, 255, 0.045);
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    .soc-table tbody td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      vertical-align: middle;
+      color: var(--text-primary);
+    }
+
+    .soc-table tbody tr {
+      transition: background 0.15s ease;
+    }
+
+    .soc-table tbody tr:hover {
+      background: rgba(59, 130, 246, 0.06);
+      cursor: pointer;
+    }
+
+    .soc-table tbody tr:last-child td { border-bottom: none; }
+
+    /* ==============================================
+       PANEL / CARD
+       ============================================== */
+    .soc-panel {
+      border: 1px solid var(--stroke);
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      box-shadow: var(--shadow-card);
+    }
+
+    .soc-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .soc-panel-title {
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    .soc-panel .muted {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+    }
+
+    /* ==============================================
+       ANIMATIONS
+       ============================================== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-in {
+      animation: fadeInUp 0.5s ease-out both;
+    }
+
+    .delay-1 { animation-delay: 0.08s; }
+    .delay-2 { animation-delay: 0.16s; }
+    .delay-3 { animation-delay: 0.24s; }
+    .delay-4 { animation-delay: 0.32s; }
+    .delay-5 { animation-delay: 0.40s; }
+
+    /* ==============================================
+       RESPONSIVE
+       ============================================== */
+    @media (max-width: 768px) {
+      .navbar-main { padding: 0.6rem 1rem; }
+      .navbar-main .navbar-brand { font-size: 1rem; }
+      .nav-btn { padding: 0.4rem 0.75rem; font-size: 0.8rem; }
+      .page-header h1, .page-header h2 { font-size: 1.3rem; }
+    }
   </style>
 
   {% block extra_css %}{% endblock %}
 </head>
 <body>
-<nav class="navbar nav-dark px-3">
-  <a class="navbar-brand text-white fw-bold" href="{% url 'ui:home' %}">💧 Water OT SOC</a>
-  <div class="ms-auto d-flex gap-2">
-    {% if user.is_authenticated %}
-      <a class="btn btn-outline-light btn-sm" href="{% url 'ui:dashboard' %}">Dashboard</a>
-      <a class="btn btn-outline-light btn-sm" href="{% url 'ui:ot_overview' %}">OT Overview</a>
-      <a class="btn btn-danger btn-sm" href="{% url 'ui:logout' %}">Logout</a>
-    {% else %}
-      <a class="btn btn-outline-light btn-sm" href="{% url 'ui:login' %}">Login</a>
-    {% endif %}
+
+<nav class="navbar-main">
+  <div class="d-flex align-items-center w-100">
+    <a class="navbar-brand" href="{% url 'ui:home' %}">
+      <span class="brand-icon"><i class="bi bi-shield-lock-fill"></i></span>
+      Water OT SOC
+    </a>
+    <div class="ms-auto d-flex gap-2 align-items-center">
+      {% if user.is_authenticated %}
+        <a class="nav-btn {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'ui:dashboard' %}">
+          <i class="bi bi-speedometer2"></i> Dashboard
+        </a>
+        <a class="nav-btn {% if request.resolver_match.url_name == 'ot_overview' %}active{% endif %}" href="{% url 'ui:ot_overview' %}">
+          <i class="bi bi-cpu"></i> OT Overview
+        </a>
+        <a class="nav-btn nav-btn-danger" href="{% url 'ui:logout' %}">
+          <i class="bi bi-box-arrow-right"></i> Logout
+        </a>
+      {% else %}
+        <a class="nav-btn {% if request.resolver_match.url_name == 'login' %}active{% endif %}" href="{% url 'ui:login' %}">
+          <i class="bi bi-shield-lock"></i> Login
+        </a>
+      {% endif %}
+    </div>
   </div>
 </nav>
 

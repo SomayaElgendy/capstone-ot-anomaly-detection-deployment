@@ -138,6 +138,9 @@ echo ""
 echo "Starting AI/Django/Stage3 services..."
 cd "$ROOT_DIR"
 docker compose -f docker-compose.ghcr.yml up -d
+echo ""
+echo "Running Django database migrations..."
+docker exec capstone-django-web python manage.py migrate --noinput
 
 echo ""
 echo "Waiting for services to initialize..."

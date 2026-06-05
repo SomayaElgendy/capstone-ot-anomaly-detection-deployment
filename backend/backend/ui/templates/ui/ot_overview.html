@@ -4,147 +4,296 @@
 {% block extra_css %}
 <style>
   :root{
-    --stroke: rgba(201, 111, 111, 0);
+    --stroke: rgba(255,255,255,0.08);
+    --stroke-hover: rgba(59,130,246,0.25);
     --text:#e8eefc;
+    --text-secondary: rgba(232,238,252,0.72);
+    --blue:#3b82f6;
+    --blue-bright:#60a5fa;
+    --green:#22c55e;
+    --red:#ef4444;
+    --amber:#f59e0b;
+    --radius-lg: 16px;
+    --radius-md: 12px;
+    --shadow-card: 0 8px 32px rgba(0,0,0,0.35);
+    --shadow-card-hover: 0 16px 48px rgba(0,0,0,0.45);
+    --shadow-glow: 0 0 30px rgba(59,130,246,0.1);
+    --transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   }
+
   .wrap{
-    border:1px solid var(--stroke);
-    background: rgba(255,255,255,0.05);
-    border-radius: 18px;
-    padding: 18px;
-    box-shadow: 0 14px 40px rgba(0,0,0,0.45);
+    border: 1px solid var(--stroke);
+    background: rgba(255,255,255,0.025);
+    border-radius: var(--radius-lg);
+    padding: 22px;
+    box-shadow: var(--shadow-card);
+    position: relative;
+    overflow: hidden;
   }
+
+  .wrap::before {
+    content: "";
+    position: absolute;
+    top: -60px;
+    right: -20px;
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .wrap > * { position: relative; z-index: 1; }
+
+  /* ===== PAGE HEADER ===== */
+  .page-header {
+    margin-bottom: 1.25rem;
+  }
+
+  .page-header h2 {
+    font-weight: 900;
+    font-size: 1.4rem;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  .page-header .subtitle {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    margin-top: 4px;
+  }
+
+  /* ===== KPI GRID ===== */
   .kpi-grid{
-    display:grid;
-    grid-template-columns: repeat(4, minmax(180px, 1fr));
-    gap:14px;
-    margin-bottom: 14px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(170px, 1fr));
+    gap: 14px;
+    margin-bottom: 16px;
   }
-  @media (max-width: 1100px){ .kpi-grid{ grid-template-columns: repeat(2, minmax(180px, 1fr)); } }
+
+  @media (max-width: 1100px){ .kpi-grid{ grid-template-columns: repeat(2, minmax(170px, 1fr)); } }
   @media (max-width: 560px){ .kpi-grid{ grid-template-columns: 1fr; } }
 
   .card{
-  border:1px solid var(--stroke);
-  background: linear-gradient(135deg, rgba(59,130,246,0.22), rgba(255,255,255,0.05));
-  border-radius: 18px;
-  padding:16px;
-  box-shadow: 0 14px 40px rgba(0,0,0,0.45);
-  transition: transform .25s ease;
-  color: #f5f9ff;   /* ← ADD THIS */
+    border: 1px solid var(--stroke);
+    background: linear-gradient(145deg, rgba(59,130,246,0.14), rgba(255,255,255,0.03));
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    box-shadow: var(--shadow-card);
+    transition: var(--transition);
+    color: var(--text);
+    position: relative;
+    overflow: hidden;
   }
-  .card:hover{ transform: translateY(-4px); }
-.k-title{
-  font-size:13px;
-  color: #cfe1ff;
-  opacity:.9;
-}
 
-.k-val{
-  font-size:34px;
-  font-weight:900;
-  margin-top:6px;
-  color: #ffffff;
-}
+  .card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--blue), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
 
-.k-sub{
-  font-size:12px;
-  color: #9fb6d9;
-}
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover), var(--shadow-glow);
+    border-color: var(--stroke-hover);
+  }
 
+  .card:hover::before { opacity: 0.5; }
 
+  .k-title{
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .k-val{
+    font-size: 2rem;
+    font-weight: 900;
+    margin-top: 8px;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .k-sub{
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 8px;
+  }
+
+  .kpi-icon {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: rgba(59,130,246,0.1);
+    border: 1px solid rgba(59,130,246,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    color: var(--blue-bright);
+  }
+
+  /* ===== MAIN GRID ===== */
   .grid{
-    display:grid;
+    display: grid;
     grid-template-columns: 1.25fr 1fr;
-    gap: 14px;
+    gap: 16px;
   }
+
   @media (max-width: 1100px){ .grid{ grid-template-columns: 1fr; } }
 
+  /* ===== PANEL ===== */
   .panel{
-    border:1px solid var(--stroke);
-    background: rgba(255,255,255,0.04);
-    border-radius: 16px;
-    padding: 14px;
+    border: 1px solid var(--stroke);
+    background: rgba(255,255,255,0.025);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    box-shadow: var(--shadow-card);
   }
-  .panel h3{ margin:0 0 8px 0; font-size:16px; font-weight:850; }
-  .muted{ opacity:.75; font-size:13px; }
 
+  .panel h3 {
+    margin: 0 0 8px 0;
+    font-size: 1rem;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .panel .muted {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+  }
+
+  /* ===== TABLE ===== */
   .table-wrap{
-    border:1px solid rgba(255,255,255,0.08);
-    border-radius: 14px;
-    overflow:hidden;
-    background: rgba(0,0,0,0.22);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: rgba(0,0,0,0.2);
   }
-  table{ width:100%; border-collapse:collapse; }
-  thead th{
-    background: rgba(255,255,255,0.06);
-    padding: 12px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    font-size:13px;
-  }
-  tbody td{
-    padding: 12px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    font-size:13px;
-  }
-  .pill{
-    display:inline-block;
-    padding:4px 10px;
-    border-radius:999px;
-    border:1px solid rgba(255,255,255,0.12);
-    background: rgba(255,255,255,0.06);
-    font-weight:750;
-    font-size:12px;
-  }
-  .ok{ border-color: rgba(34,197,94,0.55); }
-  .warn{ border-color: rgba(245,158,11,0.55); }
-  .bad{ border-color: rgba(239,68,68,0.55); }
 
+  table { width: 100%; border-collapse: collapse; }
+
+  thead th{
+    background: rgba(255,255,255,0.04);
+    font-weight: 700;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    color: var(--text-secondary);
+  }
+
+  tbody td{
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 0.84rem;
+    color: var(--text);
+  }
+
+  tbody tr {
+    transition: background 0.15s ease;
+  }
+
+  tbody tr:hover {
+    background: rgba(59,130,246,0.06);
+  }
+
+  /* ===== STATUS PILLS ===== */
+  .pill{
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.04);
+    font-weight: 750;
+    font-size: 0.75rem;
+    letter-spacing: 0.02em;
+  }
+
+  .ok{ border-color: rgba(34,197,94,0.4); color: #86efac; background: rgba(34,197,94,0.08); }
+  .warn{ border-color: rgba(245,158,11,0.4); color: #fcd34d; background: rgba(245,158,11,0.08); }
+  .bad{ border-color: rgba(239,68,68,0.4); color: #fca5a5; background: rgba(239,68,68,0.08); }
+
+  /* ===== CHART BOXES ===== */
   .chart-box{
-    border:1px solid rgba(255,255,255,0.10);
-    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-md);
     padding: 12px;
-    background: rgba(0,0,0,0.20);
-    margin-top: 10px;
+    background: rgba(0,0,0,0.18);
+    margin-top: 12px;
+  }
+
+  /* ===== ANIMATIONS ===== */
+  .animate-in {
+    animation: fadeInUp 0.5s ease-out both;
+  }
+
+  .delay-1 { animation-delay: 0.08s; }
+  .delay-2 { animation-delay: 0.16s; }
+  .delay-3 { animation-delay: 0.24s; }
+  .delay-4 { animation-delay: 0.32s; }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="wrap">
-  <div class="mb-2">
-    <h2 class="mb-1">OT Environment Overview</h2>
-    <div class="muted">Water sector telemetry & asset snapshot.</div>
+  <div class="page-header">
+    <h2><i class="bi bi-cpu" style="color: var(--blue-bright);"></i> OT Environment Overview</h2>
+    <div class="subtitle">Water sector telemetry & asset snapshot.</div>
   </div>
 
   <div class="kpi-grid">
-    <div class="card">
+    <div class="card animate-in delay-1">
       <div class="k-title">Total Assets</div>
       <div class="k-val" id="kTotal">-</div>
       <div class="k-sub" id="kBreakdown">PLCs - | HMIs - | Sensors -</div>
+      <div class="kpi-icon"><i class="bi bi-hdd-rack"></i></div>
     </div>
-    <div class="card">
+    <div class="card animate-in delay-2">
       <div class="k-title">Active Processes</div>
       <div class="k-val" id="kProc">-</div>
       <div class="k-sub">Treatment / Distribution / Storage</div>
+      <div class="kpi-icon"><i class="bi bi-gear-wide-connected"></i></div>
     </div>
-    <div class="card">
+    <div class="card animate-in delay-3">
       <div class="k-title">Current Risk</div>
       <div class="k-val" id="kRisk">-</div>
       <div class="k-sub">Based on latest stream</div>
+      <div class="kpi-icon"><i class="bi bi-shield-exclamation"></i></div>
     </div>
-    <div class="card">
+    <div class="card animate-in delay-4">
       <div class="k-title">Last Update</div>
-      <div class="k-val" style="font-size:18px; margin-top:12px;" id="kTime">-</div>
+      <div class="k-val" style="font-size: 1.1rem; margin-top: 14px;" id="kTime">-</div>
       <div class="k-sub">Auto-refresh every 5s</div>
+      <div class="kpi-icon"><i class="bi bi-clock"></i></div>
     </div>
   </div>
 
   <div class="grid">
-    <div class="panel">
-      <h3>Live Telemetry</h3>
+    <div class="panel animate-in delay-2">
+      <h3><i class="bi bi-activity" style="color: var(--green);"></i> Live Telemetry</h3>
       <div class="muted">Key water-system tags (mock for now; wired to stream later).</div>
 
-      <div class="table-wrap mt-2">
+      <div class="table-wrap mt-3">
         <table>
           <thead>
             <tr>
@@ -155,14 +304,14 @@
             </tr>
           </thead>
           <tbody id="telemetryBody">
-            <tr><td colspan="4" class="muted">Loading…</td></tr>
+            <tr><td colspan="4" class="muted" style="text-align: center; padding: 20px;">Loading...</td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <div class="panel">
-      <h3>Trends</h3>
+    <div class="panel animate-in delay-3">
+      <h3><i class="bi bi-graph-up" style="color: var(--blue-bright);"></i> Trends</h3>
       <div class="muted">Short window signals for operators.</div>
 
       <div class="chart-box">
@@ -194,13 +343,13 @@ function pillClass(status){
 function initCharts(){
   flowChart = new Chart(document.getElementById("cFlow"), {
     type:"line",
-    data:{ labels:[], datasets:[{ label:"Flow", data:[] }]},
+    data:{ labels:[], datasets:[{ label:"Flow", data:[], borderColor: "#3b82f6", backgroundColor: "rgba(59,130,246,0.1)", fill: true, tension: 0.4, pointRadius: 0, pointHoverRadius: 4 }] },
     options:{ plugins:{legend:{display:false}}, scales:{ x:{ticks:{color:"#cfe1ff"}, grid:{color:"rgba(255,255,255,0.06)"}}, y:{ticks:{color:"#cfe1ff"}, grid:{color:"rgba(255,255,255,0.06)"}, beginAtZero:true } } }
   });
 
   tankChart = new Chart(document.getElementById("cTank"), {
     type:"line",
-    data:{ labels:[], datasets:[{ label:"Tank", data:[] }]},
+    data:{ labels:[], datasets:[{ label:"Tank", data:[], borderColor: "#22c55e", backgroundColor: "rgba(34,197,94,0.1)", fill: true, tension: 0.4, pointRadius: 0, pointHoverRadius: 4 }] },
     options:{ plugins:{legend:{display:false}}, scales:{ x:{ticks:{color:"#cfe1ff"}, grid:{color:"rgba(255,255,255,0.06)"}}, y:{ticks:{color:"#cfe1ff"}, grid:{color:"rgba(255,255,255,0.06)"}, beginAtZero:true } } }
   });
 }
@@ -240,9 +389,6 @@ async function loadOT(){
   document.getElementById("kProc").innerText = active;
 
   // --- Risk logic ---
-  // HIGH   = physically inconsistent process behavior
-  // MEDIUM = schema/data validation warning
-  // LOW    = no obvious issue from current snapshot
   let risk = "LOW";
 
   if (flowWhileClosed) {
@@ -251,8 +397,8 @@ async function loadOT(){
     risk = "MEDIUM";
   }
 
-  document.getElementById("kRisk").innerText = risk;
   const riskEl = document.getElementById("kRisk");
+  riskEl.innerText = risk;
   riskEl.style.color =
     risk === "HIGH" ? "#ff6b6b" :
     risk === "MEDIUM" ? "#fbbf24" :
@@ -265,13 +411,9 @@ async function loadOT(){
   const body = document.getElementById("telemetryBody");
   body.innerHTML = "";
 
-  // More honest statuses:
-  // - Only flag true inconsistency
-  // - Otherwise use OK for informational/normal states
   const tankStatus = "OK";
   const bottleStatus = "OK";
   const distanceStatus = "OK";
-
   const inputValveStatus = "OK";
 
   const outputValveStatus =
@@ -303,7 +445,7 @@ async function loadOT(){
   rows.forEach(t => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${t.tag}</td>
+      <td><strong>${t.tag}</strong></td>
       <td>${t.value} ${t.unit}</td>
       <td><span class="${pillClass(t.status)}">${t.status}</span></td>
       <td class="muted">${new Date(d.timestamp_iso).toLocaleTimeString()}</td>
