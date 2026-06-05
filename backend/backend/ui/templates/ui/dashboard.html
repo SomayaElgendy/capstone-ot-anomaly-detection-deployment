@@ -687,6 +687,12 @@ function fmtTime(iso){
   try { return new Date(iso).toLocaleString(); } catch(e){ return iso; }
 }
 
+function fmtReadableScore(x){
+  const n = Number(x);
+  if(!Number.isFinite(n)) return "-";
+  return n.toFixed(3);
+}
+
 function matchesFilters(a){
   const st  = document.getElementById("filterStatus").value;
   const q   = document.getElementById("searchText").value.trim().toLowerCase();
@@ -910,9 +916,9 @@ async function loadAlerts(){
 
       <td>${Number(a.classifier_confidence || 0).toFixed(3)}</td>
 
-      <td>${Number(a.network_anomaly_score || 0).toExponential(2)}</td>
+      <td>${fmtReadableScore(a.network_anomaly_score)}</td>
 
-      <td>${Number(a.process_anomaly_score || 0).toExponential(2)}</td>
+      <td>${fmtReadableScore(a.process_anomaly_score)}</td>
 
       <td class="muted">
         ${a.window_start_time ? fmtTime(a.window_start_time) : "-"}
