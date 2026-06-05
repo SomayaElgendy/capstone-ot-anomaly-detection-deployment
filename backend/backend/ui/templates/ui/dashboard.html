@@ -693,6 +693,12 @@ function fmtReadableScore(x){
   return n.toFixed(3);
 }
 
+function fmtPercent(x){
+  const n = Number(x);
+  if(!Number.isFinite(n)) return "-";
+  return `${(n * 100).toFixed(1)}%`;
+}
+
 function matchesFilters(a){
   const st  = document.getElementById("filterStatus").value;
   const q   = document.getElementById("searchText").value.trim().toLowerCase();
@@ -872,9 +878,9 @@ async function loadAlerts(){
   const avgConfidence = windowed.length
     ? windowed.reduce((sum, x) => sum + Number(x.classifier_confidence || 0), 0) / windowed.length
     : 0;
-
-  document.getElementById("kpiAvgConfidence").innerText =
-    avgConfidence.toFixed(3);
+    
+document.getElementById("kpiAvgConfidence").innerText =
+  fmtPercent(avgConfidence);
 
   document.getElementById("kpiAcknowledged").innerText =
     windowed.filter(x => x.status === "Acknowledged").length;
@@ -914,7 +920,7 @@ async function loadAlerts(){
         ${a.predicted_attack || "-"}
       </td>
 
-      <td>${Number(a.classifier_confidence || 0).toFixed(3)}</td>
+      <td>${fmtPercent(a.classifier_confidence)}</td>
 
       <td>${fmtReadableScore(a.network_anomaly_score)}</td>
 

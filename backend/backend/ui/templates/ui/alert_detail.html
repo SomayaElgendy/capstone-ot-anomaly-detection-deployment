@@ -678,6 +678,12 @@ function fmtScore(x){
   return n.toFixed(3);
 }
 
+function fmtPercent(x){
+  const n = Number(x);
+  if(!Number.isFinite(n)) return "-";
+  return `${(n * 100).toFixed(1)}%`;
+}
+
 function renderReport(text){
   const clean = (text || "").trim();
 
@@ -729,7 +735,7 @@ async function loadAlert() {
       : "-";
 
     const confidence = Number(a.classifier_confidence ?? 0);
-    document.getElementById("confidenceValue").innerText = confidence.toFixed(3);
+    document.getElementById("confidenceValue").innerText = fmtPercent(confidence);
     document.getElementById("networkScore").innerText = fmtScore(a.network_anomaly_score);
     document.getElementById("processScore").innerText = fmtScore(a.process_anomaly_score);
 
@@ -746,7 +752,7 @@ async function loadAlert() {
     setDownloadButtonsEnabled(!!latestRunId);
 
     document.getElementById("drawerContext").innerText =
-      `${a.predicted_attack || "unknown"} • confidence ${confidence.toFixed(3)} • ${a.technique_id || "no technique"}`;
+      `${a.predicted_attack || "unknown"} • confidence ${fmtPercent(confidence)} • ${a.technique_id || "no technique"}`;
 
     document.getElementById("openChatBtn").disabled = false;
 
