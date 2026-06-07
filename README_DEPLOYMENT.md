@@ -83,6 +83,34 @@ The OT simulator still runs and is shown through the OT dashboard.
 
 Install the following before running the system.
 
+Important notes before starting: 
+
+### Network Requirement
+
+Before pulling Docker images or running the deployment, connect the laptop to a stable normal router/Wi-Fi network.
+
+Avoid using:
+
+- Mobile hotspot
+- VPN
+- Restricted university/company firewall
+- Proxy-based networks
+
+During acceptance testing, image pulling from GitHub Container Registry sometimes failed on hotspot/VPN/firewall networks with errors such as:
+
+failed to copy: httpReadSeeker: failed open: failed to do request ... EOF
+
+### Windows Requirement
+
+The deployment requires a Windows version that supports Docker Desktop with WSL 2 and Ubuntu 24.04 LTS.
+
+Recommended:
+
+Windows 11, 64-bit
+Updated Windows 10, 64-bit, version 2004 or later, build 19041 or later
+
+Older Windows versions may not support Ubuntu 24.04 through WSL or may fail to run Docker Desktop correctly.
+
 ### 3.1 Docker Desktop
 
 Download Docker Desktop for Windows:
@@ -106,8 +134,6 @@ Use **Ubuntu 24.04 LTS**.
 Do **not** use Ubuntu 26.04 for this deployment. Ubuntu 26.04 uses Python 3.14, which is too new for some OT simulator dependencies.
 
 The AI/Django/Stage 3 services already use Python 3.13 inside Docker images, so the tester does **not** need to install Python 3.13 manually.
-
-The local Ubuntu Python is only used for the OT simulator setup.
 
 #### Option A: Install Ubuntu 24.04 using PowerShell
 
@@ -226,8 +252,6 @@ Create or copy an API key.
 Screenshot reference:
 
 ![Groq API keys interface](docs/screenshots/groq-api-keys.png)
-
-Do not upload the real API key to GitHub.
 
 ---
 
